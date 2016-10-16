@@ -10,6 +10,7 @@ import java.awt.Color;
 public class Table extends Actor
 {
     int beer = 0;
+    Seat[] seats;
     
     /**
      * Act - do whatever the Table wants to do. This method is called whenever

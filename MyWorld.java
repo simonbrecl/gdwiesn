@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.*;
 
 /**
  * Write a description of class MyWorld here.
@@ -8,15 +9,16 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class MyWorld extends World
 {
-
+    public List<Table> tables = new ArrayList<Table>();
+    
     /**
      * Constructor for objects of class MyWorld.
      * 
      */
     public MyWorld()
     {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1); 
+        // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
+        super(800, 600, 1); 
         prepare();
     }
 
@@ -29,26 +31,56 @@ public class MyWorld extends World
         Bar bar = new Bar();
         addObject(bar,307,20);
         
-        Table table1 = new Table();
-        addObject(table1,100,150);
-        Table table2 = new Table();
-        addObject(table2,500,150);
-        Table table3 = new Table();
-        addObject(table3,300,150);
-        Table table4 = new Table();
-        addObject(table4,100,245);
-        Table table5 = new Table();
-        addObject(table5,300,245);
-        Table table6 = new Table();
-        addObject(table6,500,245);
-        Table table7 = new Table();
-        addObject(table7,100,340);
-        Table table8 = new Table();
-        addObject(table8,300,340);
-        Table table9 = new Table();
-        addObject(table9,500,340);
- 
+        
+        
+        //Top row
+        createTable(150, 175);
+        createTable(400, 175);
+        createTable(650, 175);
+        
+        //Middle row
+        createTable(150, 325);
+        createTable(400, 325);
+        createTable(650, 325);
+        
+        //Bottom row
+        createTable(150, 475);
+        createTable(400, 475);
+        createTable(650, 475);
+        
         Waitress waitress = new Waitress();
         addObject(waitress,85,47);
    }
+   
+   /* Create a table with 4 seats on each side */
+   public void createTable(int centerX, int centerY) {
+       Table table = new Table();
+       tables.add(table);
+       
+       
+       table.seats = new Seat[8];
+       
+       int seatOffset = -55;
+       
+       for(int i = 0; i < 4; i++) {
+           Seat seat = new Seat();
+           table.seats[i] = seat;
+           addObject(table.seats[i], centerX + seatOffset, centerY - 50);
+           seatOffset+= 37;
+       }
+       
+       //Draw the table between the two layers of seats
+       addObject(table, centerX, centerY);
+       
+       seatOffset = -55;
+       
+       for(int i=4; i<8; i++) {
+           Seat seat = new Seat();
+           table.seats[i] = seat;
+           
+           addObject(table.seats[i], centerX + seatOffset, centerY + 40);
+           seatOffset+= 37;
+       }
+       
+    }
 }
