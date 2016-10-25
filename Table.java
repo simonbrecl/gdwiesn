@@ -10,11 +10,12 @@ import java.awt.Color;
 public class Table extends Actor {
     private static final int BEER_MAX = 8;
     
-    int beer = 0;
-    int wantBeer = 0;
-    Seat[] seats;
+    private int beer = 0;
+    private int wantBeer = 0;
     
     private GreenfootImage originalImage;
+    
+    Seat[] seats;
     
     public Table() {
         originalImage = getImage();
@@ -25,10 +26,14 @@ public class Table extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        if (beer > 0 && Greenfoot.getRandomNumber(1000) < 1) {
+            beer--;
+        }
+        
         if ((beer + wantBeer) < BEER_MAX && Greenfoot.getRandomNumber(1000) < 1) {
             wantBeer++;
         }
-
+        
         updateBeerCount();
         updateWantBeerCount();
     }    
