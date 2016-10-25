@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Sun Oct 16 18:18:42 CEST 2016
+#Mon Oct 24 19:07:34 CEST 2016
 target4.type=ClassTarget
 class.Table.image=table-object.png
 dependency3.from=MyWorld
@@ -71,11 +71,11 @@ target4.width=90
 dependency2.from=MyWorld
 dependency2.type=UsesDependency
 world.lastInstantiated=MyWorld
-mainWindow.height=1053
 target2.showInterface=false
+mainWindow.height=1053
 editor.swing.0.height=0
 target3.name=MyWorld
-class.MyWorld.image=wood-floor2.png
-target3.width=90
 project.charset=UTF-8
+target3.width=90
+class.MyWorld.image=wood-floor2.png
 target4.showInterface=false

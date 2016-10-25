@@ -7,8 +7,9 @@ import java.awt.Color;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Waitress extends Actor
-{
+public class Waitress extends Actor {
+    private static final int MOVE_DELTA = 5;
+    
     private static final int BEER_MAX = 5;
     private static final int BEER_TIME = 50;
     
@@ -19,8 +20,7 @@ public class Waitress extends Actor
      * Act - do whatever the Waitress wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act() 
-    {
+    public void act() {
         move();
         
         loadBeer();
@@ -33,10 +33,10 @@ public class Waitress extends Actor
         int x = getX();
         int y = getY();
         
-        if (Greenfoot.isKeyDown("up")) y--;
-        if (Greenfoot.isKeyDown("left")) x--;
-        if (Greenfoot.isKeyDown("right")) x++;
-        if (Greenfoot.isKeyDown("down")) y++;
+        if (Greenfoot.isKeyDown("up")) y -= MOVE_DELTA;
+        if (Greenfoot.isKeyDown("left")) x -= MOVE_DELTA;
+        if (Greenfoot.isKeyDown("right")) x += MOVE_DELTA;
+        if (Greenfoot.isKeyDown("down")) y += MOVE_DELTA;
         
         setLocation(x, y);
     }

@@ -7,16 +7,14 @@ import java.util.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class MyWorld extends World
-{
+public class MyWorld extends World {
     public List<Table> tables = new ArrayList<Table>();
     
     /**
      * Constructor for objects of class MyWorld.
      * 
      */
-    public MyWorld()
-    {    
+    public MyWorld() {    
         // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
         super(800, 600, 1); 
         prepare();
@@ -26,8 +24,7 @@ public class MyWorld extends World
      * Prepare the world for the start of the program.
      * That is: create the initial objects and add them to the world.
      */
-    private void prepare()
-    {
+    private void prepare() {
         Bar bar = new Bar();
         addObject(bar,307,20);
         
