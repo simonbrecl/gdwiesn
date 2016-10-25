@@ -28,6 +28,8 @@ public class Table extends Actor {
     public void act() {
         if (beer > 0 && Greenfoot.getRandomNumber(1000) < 1) {
             beer--;
+            
+            Greenfoot.playSound("drunk-up.wav");
         }
         
         if ((beer + wantBeer) < BEER_MAX && Greenfoot.getRandomNumber(1000) < 1) {

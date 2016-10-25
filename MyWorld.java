@@ -8,6 +8,8 @@ import java.util.*;
  * @version (a version number or a date)
  */
 public class MyWorld extends World {
+    private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
+    
     public List<Table> tables = new ArrayList<Table>();
     
     /**
@@ -16,8 +18,19 @@ public class MyWorld extends World {
      */
     public MyWorld() {    
         // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
-        super(800, 600, 1); 
+        super(800, 600, 1);
+        
         prepare();
+    }
+    
+    public void started() {
+        ambientSound.playLoop();
+    }
+    
+    public void stopped() {
+        GreenfootSound sound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
+        
+        ambientSound.stop();
     }
 
     /**
@@ -50,7 +63,7 @@ public class MyWorld extends World {
    }
    
    /* Create a table with 4 seats on each side */
-   public void createTable(int centerX, int centerY) {
+   private void createTable(int centerX, int centerY) {
        Table table = new Table();
        tables.add(table);
        

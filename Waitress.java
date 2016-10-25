@@ -54,6 +54,8 @@ public class Waitress extends Actor {
         } else if (beer < BEER_MAX && isTouching(Bar.class)) {
             beer++;
             beerTimer = BEER_TIME;
+            
+            Greenfoot.playSound("zischen-sprudelwasser.mp3");
         }
     }
     
@@ -65,6 +67,8 @@ public class Waitress extends Actor {
             
             if (table.incrementBeer()) {
                 beer--;
+                
+                Greenfoot.playSound("put-on-table.wav");
             }
             
             beerTimer = BEER_TIME;
