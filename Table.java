@@ -14,6 +14,12 @@ public class Table extends Actor {
     int wantBeer = 0;
     Seat[] seats;
     
+    private GreenfootImage originalImage;
+    
+    public Table() {
+        originalImage = getImage();
+    }
+    
     /**
      * Act - do whatever the Table wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -27,18 +33,22 @@ public class Table extends Actor {
         updateWantBeerCount();
     }    
     
-    public void incrementBeer() {
+    public boolean incrementBeer() {
         if (beer >= BEER_MAX || wantBeer == 0) {
-            return;
+            return false;
         }
         
         beer++;
         wantBeer--;
+        
+        return true;
     }
     
     private void updateBeerCount() {
-        int x = 13;
+        int x = 12;
         int y = 0;
+        
+        setImage(new GreenfootImage(originalImage));
         
         for (int i = 0; i < beer; i++) {
             y = (i % 2 != 0) ? 30 : 0;
@@ -52,6 +62,6 @@ public class Table extends Actor {
     }
     
     private void updateWantBeerCount() {
-        getImage().drawImage(new GreenfootImage(String.valueOf(wantBeer), 20, Color.WHITE, Color.BLACK), 0, 20);
+        getImage().drawImage(new GreenfootImage(String.valueOf(wantBeer), 20, Color.WHITE, Color.BLACK), 70, 20);
     }
 }

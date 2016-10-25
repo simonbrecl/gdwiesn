@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.Color;
+import java.lang.Math;
 
 /**
  * Write a description of class Waitress here.
@@ -15,6 +16,12 @@ public class Waitress extends Actor {
     
     private int beer = 0;
     private int beerTimer = 0;
+    
+    private GreenfootImage originalImage;
+    
+    public Waitress() {
+        originalImage = getImage();
+    }
     
     /**
      * Act - do whatever the Waitress wants to do. This method is called whenever
@@ -56,14 +63,28 @@ public class Waitress extends Actor {
         } else if (beer > 0 && isTouching(Table.class)) {
             Table table = (Table) getOneIntersectingObject(Table.class);
             
-            table.incrementBeer();
+            if (table.incrementBeer()) {
+                beer--;
+            }
             
-            beer--;
             beerTimer = BEER_TIME;
         }
     }
     
     private void updateBeerCount() {
-        getImage().drawImage(new GreenfootImage(String.valueOf(beer), 20, Color.WHITE, Color.BLACK), 0, 0);
+        int x = 0;
+        int y = 0;
+        
+        int offset = (int) Math.floor(BEER_MAX / 2);
+        
+        setImage(new GreenfootImage(originalImage));
+        
+        for (int i = 0; i < beer; i++) {
+            y = 45 - (int) Math.pow(i - offset, 2);
+            
+            getImage().drawImage(new GreenfootImage("beer.png"), x, y);
+        
+            x += 5;
+        }
     }
 }
