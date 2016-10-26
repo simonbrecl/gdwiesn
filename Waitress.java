@@ -70,9 +70,15 @@ public class Waitress extends Actor {
                 
                 Greenfoot.playSound("put-on-table.wav");
             }
-            
             beerTimer = BEER_TIME;
         }
+        
+        else if (beer > 0 && isTouching(Obstacle.class)) {
+                Obstacle obstacle = (Obstacle) getOneIntersectingObject(Obstacle.class);
+                Greenfoot.playSound("drop.mp3");
+                beer--;
+                beerTimer = BEER_TIME;
+            }
     }
     
     private void updateBeerCount() {
