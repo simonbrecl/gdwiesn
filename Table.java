@@ -60,7 +60,7 @@ public class Table extends Actor {
         for (int i = 0; i < beer; i++) {
             y = (i % 2 != 0) ? 30 : 0;
             
-            getImage().drawImage(new GreenfootImage("beer.png"), x, y);
+            getImage().drawImage(new GreenfootImage("new-beer.png"), x, y);
         
             if (i % 2 != 0) {
                 x += 37;

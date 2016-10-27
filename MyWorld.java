@@ -43,7 +43,7 @@ public class MyWorld extends World {
      */
     private void prepare() {
         Bar bar = new Bar();
-        addObject(bar,307,20);
+        addObject(bar,307,40);
         
         
         

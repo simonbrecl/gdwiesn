@@ -11,7 +11,7 @@ public class Bar extends Actor {
         int x = 25;
         
         for (int i = 0; i < 5; i++) {
-            getImage().drawImage(new GreenfootImage("beer.png"), x, 10);
+            getImage().drawImage(new GreenfootImage("new-beer.png"), x, 10);
         
             x += 45;
         }

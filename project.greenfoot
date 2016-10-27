@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Tue Oct 25 22:05:06 CEST 2016
+#Thu Oct 27 11:58:24 CEST 2016
 target4.type=ClassTarget
 class.Table.image=table-object.png
 dependency3.from=MyWorld
@@ -38,8 +38,8 @@ target6.name=Waitress
 dependency4.to=Table
 dependency5.to=Bar
 target1.showInterface=false
-target5.showInterface=false
 dependency6.to=Seat
+target5.showInterface=false
 target6.width=90
 target6.height=50
 dependency6.from=MyWorld
@@ -54,10 +54,10 @@ target6.y=70
 target1.typeParameters=
 editor.swing.0.x=0
 target6.x=70
-class.Bar.image=bar.png
+class.Bar.image=new-bar.png
 target2.height=50
-target5.y=10
 target4.height=50
+target5.y=10
 target5.x=70
 target1.name=Bar
 target4.y=10
