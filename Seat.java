@@ -16,4 +16,12 @@ public class Seat extends Actor {
     public void act() {
         // Add your action code here.
     }
+  
+    public boolean isTaken(){
+        return isTaken;
+    }
+    
+    public void setTaken(boolean flag) {
+        this.isTaken = flag;
+    }
 }
