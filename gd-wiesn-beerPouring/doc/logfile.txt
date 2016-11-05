@@ -1,0 +1,29 @@
+Class documentation
+<---- javadoc command: ---->
+/usr/lib/jvm/java-8-jdk/bin/javadoc
+-author
+-version
+-nodeprecated
+-protected
+-noindex
+-notree
+-nohelp
+-nonavbar
+-source
+1.8
+-classpath
+/usr/share/greenfoot/lib/extensions/greenfoot.jar:/usr/share/greenfoot/lib/bluejcore.jar:/usr/share/greenfoot/lib/bluejeditor.jar:/usr/share/greenfoot/lib/bluejext.jar:/usr/share/greenfoot/lib/AppleJavaExtensions.jar:/usr/share/greenfoot/lib/junit-4.11.jar:/usr/share/greenfoot/lib/hamcrest-core-1.3.jar:/usr/share/greenfoot/lib/bluej.jar:/usr/share/greenfoot/lib/diffutils-1.2.1.jar:/usr/share/greenfoot/lib/commons-httpclient-3.1.jar:/usr/share/greenfoot/lib/commons-logging-api-1.1.2.jar:/usr/share/greenfoot/lib/commons-codec-1.3.jar:/usr/share/greenfoot/lib/jl1.0.1.jar:/usr/share/greenfoot/lib/opencsv-2.3.jar:/usr/share/greenfoot/lib/xom-1.2.9.jar:/usr/share/greenfoot/lib/guava-17.0.jar:/usr/share/greenfoot/lib/javassist-3.18.0.jar:/usr/share/greenfoot/lib/commons-vfs2-2.0.jar:/usr/share/greenfoot/lib/httpclient-4.1.1.jar:/usr/share/greenfoot/lib/httpcore-4.1.jar:/usr/share/greenfoot/lib/httpmime-4.1.1.jar:/home/berni/Documents/Study/GameDesign/wiesn
+-d
+/home/berni/Documents/Study/GameDesign/wiesn/doc
+-encoding
+UTF-8
+-charset
+UTF-8
+-docletpath
+/usr/share/greenfoot/lib/bjdoclet.jar
+-doclet
+bluej.doclet.doclets.formats.html.HtmlDoclet
+/home/berni/Documents/Study/GameDesign/wiesn/Waitress.java
+<---- end of javadoc command ---->
+javadoc: error - fatal error
+1 error
