@@ -15,6 +15,8 @@ public class MyWorld extends World {
     Long beginTime = System.currentTimeMillis();
     
     public List<Table> tables = new ArrayList<Table>();
+
+    private Waitress waitress;
     
     /**
      * Constructor for objects of class MyWorld.
@@ -62,7 +64,7 @@ public class MyWorld extends World {
         createTable(400, 475);
         createTable(650, 475);
         
-        Waitress waitress = new Waitress();
+        waitress = new Waitress();
         addObject(waitress,85,47);
    }
    
@@ -104,6 +106,14 @@ public class MyWorld extends World {
         {
             addRandomPeople();
             beginTime = System.currentTimeMillis();
+        }
+
+        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
+
+        if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
+            if (mouseInfo.getActor() instanceof Bar || mouseInfo.getActor() instanceof Table) {
+                waitress.moveTo(Pathmap.findPath(waitress.getX(), waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
+            }
         }
     }
      
