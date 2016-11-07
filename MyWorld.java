@@ -13,8 +13,12 @@ public class MyWorld extends World {
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL= 15;
     Long beginTime = System.currentTimeMillis();
+    Message messagebox = new Message("");
+    Money money;
     
     public List<Table> tables = new ArrayList<Table>();
+    
+    public Waitress waitress;
     
     /**
      * Constructor for objects of class MyWorld.
@@ -45,7 +49,8 @@ public class MyWorld extends World {
         Bar bar = new Bar();
         addObject(bar,307,40);
         
-        
+        BeerButton beerButton = new BeerButton();
+        addObject(beerButton, 500, 40);
         
         //Top row
         createTable(150, 175);
@@ -62,8 +67,11 @@ public class MyWorld extends World {
         createTable(400, 475);
         createTable(650, 475);
         
-        Waitress waitress = new Waitress();
+        waitress = new Waitress();
         addObject(waitress,85,47);
+        
+        money = new Money();
+        addObject(money, 700, 27);
    }
    
    /* Create a table with 4 seats on each side */
@@ -105,6 +113,26 @@ public class MyWorld extends World {
             addRandomPeople();
             beginTime = System.currentTimeMillis();
         }
+        
+        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
+
+        /*if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
+            if (mouseInfo.getActor() instanceof Bar || mouseInfo.getActor() instanceof Table) {
+                waitress.moveTo(Pathmap.findPath(waitress.getX(), waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
+            }
+        }*/
+        if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) 
+        {
+            if (mouseInfo.getActor() instanceof Bar || mouseInfo.getActor() instanceof Table)
+            {
+               
+               waitress.moveTo(Pathmap.findPath(waitress.getX(), waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
+            }
+        }
+    }
+    
+    public Money getMoney() {
+        return money;
     }
      
     private void addRandomPeople()
