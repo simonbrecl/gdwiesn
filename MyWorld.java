@@ -21,6 +21,7 @@ public class MyWorld extends World {
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
     Long beginTime = System.currentTimeMillis();
+    private int stupidTimer = 0;
     
     public List<Table> tables = new ArrayList<Table>();
     
@@ -38,7 +39,7 @@ public class MyWorld extends World {
     public void started() {
         ambientSound.playLoop();
         
-        taskPerformer = new ActionListener() {
+        /*taskPerformer = new ActionListener() {
           public void actionPerformed(ActionEvent evt) {
               System.out.println("Stop da clock!");
               clock.stopClock();
@@ -52,8 +53,9 @@ public class MyWorld extends World {
         
         levelTimer = new Timer(MIN_PER_LEVEL * 60 * 1000, taskPerformer);
         levelTimer.start();
+        */
         clock.startClock();
-        timerGoing = true;
+        
         
     }
     
@@ -61,8 +63,9 @@ public class MyWorld extends World {
         GreenfootSound sound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
         
         ambientSound.stop();
-        clock.stopClock();
-        levelTimer.stop();
+        //clock.stopClock();
+        //levelTimer.stop();
+        stupidTimer = 0;
     }
 
     /**
@@ -137,7 +140,11 @@ public class MyWorld extends World {
             beginTime = System.currentTimeMillis();
         }
         
+        stupidTimer++;
         
+        if (stupidTimer >= 7200) {
+            Greenfoot.stop();
+        }
     }
      
     private void addRandomPeople()
