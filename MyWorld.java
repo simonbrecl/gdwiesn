@@ -9,9 +9,10 @@ import java.util.*;
  */
 public class MyWorld extends World {
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
-    static final int MAX_PEOPLE = 5;
+    static final int MAX_PEOPLE = 20;
     static final int MIN_PEOPLE = 1;
-    static final int INTERVAL= 15;
+    static final int INTERVAL= 1;
+    int obsID = 0;
     Long beginTime = System.currentTimeMillis();
     
     public List<Table> tables = new ArrayList<Table>();
@@ -110,7 +111,7 @@ public class MyWorld extends World {
     private void addRandomPeople()
     {
         for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++)
-            addObject(new Obstacle(), Greenfoot.getRandomNumber(250), 550 );
+            addObject(new Obstacle(obsID++), Greenfoot.getRandomNumber(250), 550 );
     }
 
 }
