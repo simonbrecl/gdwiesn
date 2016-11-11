@@ -92,19 +92,24 @@ public class Clock extends Actor
     public void updateFace() {
         
         if(degrees > 230.0) {
-            face.setColor(Color.RED);
+            face.setColor(Color.ORANGE);
             face.fillOval(2, 2, 96, 96);      
         }
-        else if (degrees > 300.0) {
+        
+        if (degrees > 300.0) {
             
-            face.setColor(Color.ORANGE);
+            face.setColor(Color.RED);
             face.fillOval(2, 2, 96, 96);  
         }
         
         face.setColor(Color.LIGHT_GRAY);
         face.fillShape(new Arc2D.Double(2.0, 2.0, 96.0, 96.0, 90.0, -degrees, Arc2D.PIE));
         
-        face.setColor(Color.GRAY);
+        drawClockMarks();
+    }
+    
+    private void drawClockMarks() {
+        face.setColor(Color.DARK_GRAY);
         //Draw top lines
         face.drawLine(50, 0, 50, 10);
         face.drawLine(49, 0, 49, 10);
@@ -124,6 +129,18 @@ public class Clock extends Actor
         face.drawLine(0, 50, 10, 50);
         face.drawLine(0, 49, 10, 49);
         face.drawLine(0, 51, 10, 51);
+        
+        face.setColor(Color.DARK_GRAY);
+        for(double i = 0; i < 360; i+= 30) {
+            double x1 = 50 + 50.0*Math.cos((i* Math.PI)/180.0);
+            double y1 = 50 + 50.0*Math.sin((i* Math.PI)/180.0);
+            
+            double x2 = 50 + 45.0*Math.cos((i* Math.PI)/180.0);
+            double y2 = 50 + 45.0*Math.sin((i* Math.PI)/180.0);
+            
+            face.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
+        }
+        
     }
     
     public void decreaseClock() {
