@@ -47,32 +47,33 @@ public class MyWorld extends World {
      */
     private void prepare() {
         Bar bar = new Bar();
-        addObject(bar,307,40);
-        
+        addObject(bar,307,60);
+
         BeerButton beerButton = new BeerButton();
         addObject(beerButton, 500, 40);
-        
+
         //Top row
         createTable(150, 175);
         createTable(400, 175);
         createTable(650, 175);
-        
+
         //Middle row
         createTable(150, 325);
         createTable(400, 325);
         createTable(650, 325);
-        
+
         //Bottom row
         createTable(150, 475);
         createTable(400, 475);
         createTable(650, 475);
-        
+
         waitress = new Waitress();
         addObject(waitress,85,47);
-        
+
         money = new Money();
         addObject(money, 700, 27);
-   }
+        beerButton.setLocation(413,23);
+    }
    
    /* Create a table with 4 seats on each side */
    private void createTable(int centerX, int centerY) {
