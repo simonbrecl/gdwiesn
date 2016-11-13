@@ -35,3 +35,7 @@ hs_err_pid*
 
 # IntelliJ
 /out/
+
+#Greenfoot
+*.ctxt
+project.greenfoot

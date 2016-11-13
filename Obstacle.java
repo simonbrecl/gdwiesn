@@ -1,113 +1,112 @@
-import greenfoot.*;  
+import greenfoot.*;
+
 import java.awt.Color;
 
-public class Obstacle extends Actor
-{
+public class Obstacle extends Actor {
     private final int id;
     private int beer = 0;
+    private final int DRUNKTIME;
     private int drinkingTime = 0;
     private boolean sitting = false;
     private Seat seat = null;
+    private boolean walkedVertical = false;
+    private boolean positiveDirection = false;
+    CustomerSmiley cs;
 
-    public Obstacle(int id){
+    public Obstacle(int id) {
         this.id = id;
-        drinkingTime = Greenfoot.getRandomNumber(2000)+1000;
+        drinkingTime = Greenfoot.getRandomNumber(500) + 500;
+        DRUNKTIME = drinkingTime;
     }
 
-    public void act() 
-    {
+    public void act() {
         moveAround();
-    }    
+    }
 
     public boolean atWorldEdge() {
-        if (getX() <= 5 || getX() >= getWorld() . getWidth() -5)
+        if (getX() <= 5 || getX() >= getWorld().getWidth() - 5)
             return true;
-        if (getY() <= 5 || getY() >= getWorld() . getHeight() -5) 
+        if (getY() <= 5 || getY() >= getWorld().getHeight() - 5)
             return true;
         else
             return false;
     }
 
-    private void moveAround()  
-    {    
-        if(isSitting()){
+    private void moveAround() {
+        int posX = getX();
+        int posY = getY();
+
+        if (isSitting()) {
             drinkingTime--;
-            if(drinkingTime == 0){
+            if(drinkingTime < DRUNKTIME/2){
+                cs.setImage("smiley4.png");
+            }
+            if(drinkingTime < DRUNKTIME/4){
+                cs.setImage("smiley3.png");
+            }
+            if (drinkingTime == 0) {
                 seat.setTaken(false);
                 World world = getWorld();
                 world.removeObject(this);
+                world.removeObject(cs);
             }
             return;
         }
 
-       System.out.println(id + " is moving");
-        int x = getX();
-        int y = getY();
+        System.out.println(id + " is moving");
         int randomNum = Greenfoot.getRandomNumber(4);
-        boolean walkedVertical=false;
-        boolean positiveDirection=false;
 
-        if (randomNum == 0) {
-            y -= 5;
-            walkedVertical=true;
-            positiveDirection=false;
-        } else if (randomNum == 1){
-            x -= 5;
-            walkedVertical=false;
-            positiveDirection=false;
-        } else if (randomNum == 2){
-            x += 5;
-            walkedVertical=false;
-            positiveDirection=true;
-        } else if (randomNum == 3) {
-            y += 5;
-            walkedVertical=true;
-            positiveDirection=true;
-        }
+        for (int i = 0; i < 5; i++) {
+            if (randomNum == 0) {
+                posY -= 1;
+                walkedVertical = true;
+                positiveDirection = false;
+            } else if (randomNum == 1) {
+                posX -= 1;
+                walkedVertical = false;
+                positiveDirection = false;
+            } else if (randomNum == 2) {
+                posX += 1;
+                walkedVertical = false;
+                positiveDirection = true;
+            } else if (randomNum == 3) {
+                posY += 1;
+                walkedVertical = true;
+                positiveDirection = true;
+            }
 
-        if(isTouching(Table.class)){
-            if(walkedVertical){
-                if(positiveDirection){
-                    y-=5;
-                }else{
-                    y+=5;
+            if (isTouching(Table.class)) {
+                if (walkedVertical) {
+                    if (positiveDirection) {
+                        posY -= 5;
+                    } else {
+                        posY += 5;
+                    }
+                } else {
+                    if (positiveDirection) {
+                        posX -= 5;
+                    } else {
+                        posX += 5;
+                    }
                 }
-            }else{
-                if(positiveDirection){
-                    x-=5;
-                }else{
-                    x+=5;
+            } else if (isTouching(Seat.class)) {
+                seat = (Seat) getOneIntersectingObject(Seat.class);
+                if (!seat.isTaken()) {
+                    System.out.println(id + " sat down");
+                    seat.setTaken(true);
+                    posX = seat.getX();
+                    posY = seat.getY() + 10;
+                    setSitting(true);
+                    setLocation(posX, posY);
+                    World w = getWorld();
+                    cs = new CustomerSmiley();
+                    w.addObject(cs, this.getX(),this.getY()-40);
+                    break;
                 }
             }
-        }else if (isTouching(Seat.class)){
-            seat = (Seat) getOneIntersectingObject(Seat.class);
-            if(!seat.isTaken()){
-                System.out.println(id + " sat down");
-                seat.setTaken(true);
-                x = seat.getX();
-                y = seat.getY()+10;
-                setSitting(true);
-            }
+            setLocation(posX, posY);
         }
-        /**else if(isTouching(Obstacle.class)){
-            if(walkedVertical){
-                if(positiveDirection){
-                    y-=5;
-                }else{
-                    y+=5;
-                }
-            }else{
-                if(positiveDirection){
-                    x-=5;
-                }else{
-                    x+=5;
-                }
-            }
-        }
-        */
-       System.out.println(id + " moved to "+ x +","+y);
-        setLocation(x, y);
-    }  
+    }
 
     public void incrementBeer() {
         beer++;
