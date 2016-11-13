@@ -22,7 +22,10 @@ public class MyWorld extends World {
     private ActionListener taskPerformer;
     Long beginTime = System.currentTimeMillis();
     private int stupidTimer = 0;
-    
+    private Doors entry1;
+    private Doors entry2;
+    private boolean doorsOpen = false;
+    private int doorTimer = 0;
     public List<Table> tables = new ArrayList<Table>();
     
     /**
@@ -98,6 +101,12 @@ public class MyWorld extends World {
         clock = new Clock(2);
         addObject(clock,700,60);
         
+        entry1 = new Doors();
+        addObject(entry1, 200, 578);
+        
+        entry2 = new Doors();
+        addObject(entry2, 600, 578);
+        
     }
    
    /* Create a table with 4 seats on each side */
@@ -145,12 +154,28 @@ public class MyWorld extends World {
         if (stupidTimer >= 7200) {
             Greenfoot.stop();
         }
+       
     }
      
     private void addRandomPeople()
     {
-        for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++)
-            addObject(new Obstacle(), Greenfoot.getRandomNumber(250), 550 );
+        
+        
+        for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++) {
+            if(Greenfoot.getRandomNumber(100) >= 50) {
+                entry1.openDoors();
+                addObject(new Obstacle(), Greenfoot.getRandomNumber(200), 550 );
+            }
+            else {
+                entry2.openDoors();
+                addObject(new Obstacle(), Greenfoot.getRandomNumber(600), 550 );
+            }
+            doorsOpen = true;
+            
+        }
+            
+            
+        
     }
 
 }
