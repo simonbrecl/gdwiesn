@@ -1,67 +1,121 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Pathmap {
     private final static int I = 999;
 
-    private static int[][] coordinates = new int[][] {
-            {237, 58}, // 0: bar left
-            {363, 51}, // 1: bar right
-            {496, 62}, // 2: passage right
-            {227, 167}, // 3: table 1 right
-            {274, 167}, // 4: between table 1&2
-            {323, 167}, // 5: table 2 left
-            {481, 170}, // 6: table 2 right
-            {523, 170}, // 7: between table 2&3
-            {570, 170}, // 8: table 3 left
-            {229, 317}, // 9: table 4 right
-            {273, 317}, // 10: between table 4&5
-            {312, 317}, // 11: table 5 left
-            {482, 316}, // 12: table 5 right
-            {530, 316}, // 13: between table 5&6
-            {569, 316}, // 14: table 6 left
-            {229, 468}, // 15: table 7 right
-            {274, 468}, // 16: between table 7&8
-            {317, 468}, // 17: table 8 left
-            {480, 468}, // 18: table 8 right
-            {530, 468}, // 19: between table 8&9
-            {569, 468}, // 20: table 9 left
+    private static int[][][] edges = new int[][][] {
+            {
+                    {237, 58}, // bar left
+                    {363, 51}, // bar right
+            },
+            {
+                    {237, 58}, // bar left
+                    {274, 167}, // between table 1&2
+            },
+            {
+                    {274, 167}, // between table 1&2
+                    {227, 167}, // table 1 right
+            },
+            {
+                    {274, 167}, // between table 1&2
+                    {323, 167}, // table 2 left
+            },
+            {
+                    {274, 167}, // between table 1&2
+                    {273, 317}, // between table 4&5
+            },
+            {
+                    {273, 317}, // between table 4&5
+                    {229, 317}, // table 4 right
+            },
+            {
+                    {273, 317}, // between table 4&5
+                    {312, 317}, // table 5 left
+            },
+            {
+                    {273, 317}, // between table 4&5
+                    {274, 468}, // between table 7&8
+            },
+            {
+                    {274, 468}, // between table 7&8
+                    {229, 468}, // table 7 right
+            },
+            {
+                    {274, 468}, // between table 7&8
+                    {317, 468}, // table 8 left
+            },
+            {
+                    {363, 51}, // bar right
+                    {496, 62}, // passage right
+            },
+            {
+                    {496, 62}, // passage right
+                    {523, 170}, // between table 2&3
+            },
+            {
+                    {523, 170}, // between table 2&3
+                    {481, 170}, // table 2 right
+            },
+            {
+                    {523, 170}, // between table 2&3
+                    {570, 170}, // table 3 left
+            },
+            {
+                    {523, 170}, // between table 2&3
+                    {530, 316}, // between table 5&6
+            },
+            {
+                    {530, 316}, // between table 5&6
+                    {482, 316}, // table 5 right
+            },
+            {
+                    {530, 316}, // between table 5&6
+                    {569, 316}, // table 6 left
+            },
+            {
+                    {530, 316}, // between table 5&6
+                    {530, 468}, // between table 8&9
+            },
+            {
+                    {530, 468}, // between table 8&9
+                    {480, 468}, // table 8 right
+            },
+            {
+                    {530, 468}, // between table 8&9
+                    {569, 468}, // table 9 left
+            }
     };
 
-    private static int[][] adjacencies = new int[][] {
-            //  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20
-            {0,	1,	I,	I,	1,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 0
-            {1,	0,	1,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 1
-            {I,	1,	0,	I,	I,	I,	I,	1,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 2
-            {I,	I,	I,	0,	1,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 3
-            {1,	I,	I,	1,	0,	1,	I,	I,	I,	I,	1,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 4
-            {I,	I,	I,	I,	1,	0,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 5
-            {I,	I,	I,	I,	I,	I,	0,	1,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 6
-            {I,	I,	1,	I,	I,	I,	1,	0,	1,	I,	I,	I,	I,	1,	I,	I,	I,	I,	I,	I,	I}, // 7
-            {I,	I,	I,	I,	I,	I,	I,	1,	0,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 8
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	0,	1,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 9
-            {I,	I,	I,	I,	1,	I,	I,	I,	I,	1,	0,	1,	I,	I,	I,	I,	1,	I,	I,	I,	I}, // 10
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	1,	0,	I,	I,	I,	I,	I,	I,	I,	I,	I}, // 11
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	0,	1,	I,	I,	I,	I,	I,	I,	I}, // 12
-            {I,	I,	I,	I,	I,	I,	I,	1,	I,	I,	I,	I,	1,	0,	1,	I,	I,	I,	I,	1,	I}, // 13
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	1,	0,	I,	I,	I,	I,	I,	I}, // 14
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	0,	1,	I,	I,	I,	I}, // 15
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	1,	I,	I,	I,	I,	1,	0,	1,	I,	I,	I}, // 16
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	1,	0,	I,	I,	I}, // 17
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	0,	1,	I}, // 18
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	1,	I,	I,	I,	I,	1,	0,	1}, // 19
-            {I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	I,	1,	0} // 20
-    };
+    private static int[][] coordinates = distinctCoordinates(edges);
+    private static int[][] paths = FloydAlgorithm(edges);
 
-    private static int[][] paths = FloydAlgorithm(adjacencies);
+    private static int[][] FloydAlgorithm(int[][][] edges) {
+        int[][] dist = new int[coordinates.length][coordinates.length];
+        int[][] next = new int[coordinates.length][coordinates.length];
 
-    private static int[][] FloydAlgorithm(int[][] dist) {
-        int[][] next = new int[dist.length][dist.length];
+        // Initialize default values.
+        for (int u = 0; u < dist.length; u++) {
+            for (int v = 0; v < dist.length; v++) {
+                dist[u][v] = I;
+                next[u][v] = -1;
+            }
+        }
 
-        for (int u = 0; u < dist.length; u++)
-            for (int v = 0; v < dist.length; v++)
-                next[u][v] = (dist[u][v] == I) ? -1 : v;
+        // Build distances and next vertex from edges.
+        for (int[][] edge : edges) {
+            int u = findCoordinate(edge[0]);
+            int v = findCoordinate(edge[1]);
 
+            dist[u][u] = 0;
+            dist[u][v] = 1;
+            dist[v][v] = 0;
+            dist[v][u] = 1;
+
+            next[u][v] = v;
+            next[v][u] = u;
+        }
+
+        // Floyd–Warshall algorithm.
         for (int k = 0; k < dist.length; k++) {
             for (int i = 0; i < dist.length; i++) {
                 for (int j = 0; j < dist.length; j++) {
@@ -74,6 +128,49 @@ public class Pathmap {
         }
 
         return next;
+    }
+
+    private static int[][] distinctCoordinates(int[][][] edges) {
+        Set<int[]> coordinates = new HashSet<>();
+
+        for (int[][] edge : edges) {
+            boolean edge0 = false, edge1 = false;
+
+            for (int[] coordinate : coordinates) {
+                if (coordinate[0] == edge[0][0] && coordinate[1] == edge[0][1]) {
+                    edge0 = true;
+                }
+
+                if (coordinate[0] == edge[1][0] && coordinate[1] == edge[1][1]) {
+                    edge1 = true;
+                }
+
+                if (edge0 && edge1) {
+                    break;
+                }
+            }
+
+            if (!edge0) {
+                coordinates.add(edge[0]);
+            }
+
+            if (!edge1) {
+                coordinates.add(edge[1]);
+            }
+        }
+
+        return coordinates.toArray(new int[coordinates.size()][2]);
+    }
+
+
+    private static int findCoordinate(int[] coordinate) {
+        for (int i = 0; i < coordinates.length; i++) {
+            if (coordinates[i][0] == coordinate[0] && coordinates[i][1] == coordinate[1]) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     private static int closestCoordinate(int x, int y) {
