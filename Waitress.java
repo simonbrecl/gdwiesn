@@ -67,7 +67,6 @@ public class Waitress extends Actor {
             
             if (table.incrementBeer()) {
                 beer--;
-                
                 Greenfoot.playSound("put-on-table.wav");
             }
             beerTimer = BEER_TIME;

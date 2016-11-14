@@ -72,13 +72,12 @@ public class MyWorld extends World {
        Table table = new Table();
        tables.add(table);
        
-       
        table.seats = new Seat[8];
        
        int seatOffset = -55;
        
        for(int i = 0; i < 4; i++) {
-           Seat seat = new Seat();
+           Seat seat = new Seat(table, true);
            table.seats[i] = seat;
            addObject(table.seats[i], centerX + seatOffset, centerY - 50);
            seatOffset+= 37;
@@ -90,7 +89,7 @@ public class MyWorld extends World {
        seatOffset = -55;
        
        for(int i=4; i<8; i++) {
-           Seat seat = new Seat();
+           Seat seat = new Seat(table, false);
            table.seats[i] = seat;
            
            addObject(table.seats[i], centerX + seatOffset, centerY + 40);

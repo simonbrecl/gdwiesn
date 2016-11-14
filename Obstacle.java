@@ -1,12 +1,12 @@
 import greenfoot.*;
 
-import java.awt.Color;
-
 public class Obstacle extends Actor {
     private final int id;
-    private int beer = 0;
-    private final int DRUNKTIME;
-    private int drinkingTime = 0;
+    private final int TOTAL_WAITINGTIME;
+    private final int TOTAL_DRINKINGTIME;
+    private boolean waiting = false;
+    private int currentWaitingTime = 0;
+    private int currentDrinkingTime = 0;
     private boolean sitting = false;
     private Seat seat = null;
     private boolean walkedVertical = false;
@@ -15,8 +15,10 @@ public class Obstacle extends Actor {
 
     public Obstacle(int id) {
         this.id = id;
-        drinkingTime = Greenfoot.getRandomNumber(500) + 500;
-        DRUNKTIME = drinkingTime;
+        currentWaitingTime = Greenfoot.getRandomNumber(500) + 500;
+        currentDrinkingTime = Greenfoot.getRandomNumber(500) + 250;
+        TOTAL_WAITINGTIME = currentWaitingTime;
+        TOTAL_DRINKINGTIME = currentDrinkingTime;
     }
 
     public void act() {
@@ -37,23 +39,48 @@ public class Obstacle extends Actor {
         int posY = getY();
 
         if (isSitting()) {
-            drinkingTime--;
-            if(drinkingTime < DRUNKTIME/2){
-                cs.setImage("smiley4.png");
+            if (isWaiting()) {
+                if (seat.getTable().takeBeer()) {
+                    setWaiting(false);
+                    return;
+                }
+                currentWaitingTime--;
+                if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
+                    cs.setImage("smiley4.png");
+                }
+                if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
+                    cs.setImage("smiley3.png");
+                }
+                if (currentWaitingTime == 0) {
+                    seat.getTable().cancelOrder();
+                    seat.setTaken(false);
+                    World world = getWorld();
+                    world.removeObject(this);
+                    world.removeObject(cs);
+                }
+                return;
+            } else {
+                if (currentDrinkingTime == TOTAL_DRINKINGTIME)
+                    cs.setImage("fullbeer.png");
+                currentDrinkingTime--;
+                if (currentDrinkingTime < TOTAL_DRINKINGTIME - TOTAL_DRINKINGTIME / 3) {
+                    cs.setImage("twothirdbeer.png");
+                }
+                if (currentDrinkingTime < TOTAL_DRINKINGTIME - 2 * TOTAL_DRINKINGTIME / 3) {
+                    cs.setImage("onethirdbeer.png");
+                }
+                if (currentDrinkingTime == 0) {
+                    seat.getTable().finishedBeer();
+                    Greenfoot.playSound("drunk-up.wav");
+                    seat.setTaken(false);
+                    World world = getWorld();
+                    world.removeObject(this);
+                    world.removeObject(cs);
+                }
+                return;
             }
-            if(drinkingTime < DRUNKTIME/4){
-                cs.setImage("smiley3.png");
-            }
-            if (drinkingTime == 0) {
-                seat.setTaken(false);
-                World world = getWorld();
-                world.removeObject(this);
-                world.removeObject(cs);
-            }
-            return;
         }
 
-        System.out.println(id + " is moving");
         int randomNum = Greenfoot.getRandomNumber(4);
 
         for (int i = 0; i < 5; i++) {
@@ -92,7 +119,6 @@ public class Obstacle extends Actor {
             } else if (isTouching(Seat.class)) {
                 seat = (Seat) getOneIntersectingObject(Seat.class);
                 if (!seat.isTaken()) {
-                    System.out.println(id + " sat down");
                     seat.setTaken(true);
                     posX = seat.getX();
                     posY = seat.getY() + 10;
@@ -100,16 +126,14 @@ public class Obstacle extends Actor {
                     setLocation(posX, posY);
                     World w = getWorld();
                     cs = new CustomerSmiley();
-                    w.addObject(cs, this.getX(),this.getY()-40);
+                    w.addObject(cs, this.getX(), this.getY() - 50);
+                    seat.getTable().wantBeer();
+                    setWaiting(true);
                     break;
                 }
             }
             setLocation(posX, posY);
         }
-    }
-
-    public void incrementBeer() {
-        beer++;
     }
 
     public boolean isSitting() {
@@ -119,5 +143,15 @@ public class Obstacle extends Actor {
     public void setSitting(boolean flag) {
         this.sitting = flag;
     }
+
+    public boolean isWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(boolean waiting) {
+        this.waiting = waiting;
+    }
+
+
 }
 
