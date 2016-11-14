@@ -1,90 +1,54 @@
-import java.util.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Pathmap {
     private final static int I = 999;
 
-    private static int[][][] edges = new int[][][] {
-            {
-                    {237, 58}, // bar left
-                    {363, 51}, // bar right
-            },
-            {
-                    {237, 58}, // bar left
-                    {274, 167}, // between table 1&2
-            },
-            {
-                    {274, 167}, // between table 1&2
-                    {227, 167}, // table 1 right
-            },
-            {
-                    {274, 167}, // between table 1&2
-                    {323, 167}, // table 2 left
-            },
-            {
-                    {274, 167}, // between table 1&2
-                    {273, 317}, // between table 4&5
-            },
-            {
-                    {273, 317}, // between table 4&5
-                    {229, 317}, // table 4 right
-            },
-            {
-                    {273, 317}, // between table 4&5
-                    {312, 317}, // table 5 left
-            },
-            {
-                    {273, 317}, // between table 4&5
-                    {274, 468}, // between table 7&8
-            },
-            {
-                    {274, 468}, // between table 7&8
-                    {229, 468}, // table 7 right
-            },
-            {
-                    {274, 468}, // between table 7&8
-                    {317, 468}, // table 8 left
-            },
-            {
-                    {363, 51}, // bar right
-                    {496, 62}, // passage right
-            },
-            {
-                    {496, 62}, // passage right
-                    {523, 170}, // between table 2&3
-            },
-            {
-                    {523, 170}, // between table 2&3
-                    {481, 170}, // table 2 right
-            },
-            {
-                    {523, 170}, // between table 2&3
-                    {570, 170}, // table 3 left
-            },
-            {
-                    {523, 170}, // between table 2&3
-                    {530, 316}, // between table 5&6
-            },
-            {
-                    {530, 316}, // between table 5&6
-                    {482, 316}, // table 5 right
-            },
-            {
-                    {530, 316}, // between table 5&6
-                    {569, 316}, // table 6 left
-            },
-            {
-                    {530, 316}, // between table 5&6
-                    {530, 468}, // between table 8&9
-            },
-            {
-                    {530, 468}, // between table 8&9
-                    {480, 468}, // table 8 right
-            },
-            {
-                    {530, 468}, // between table 8&9
-                    {569, 468}, // table 9 left
+    private static int[][][] edges = loadEdges("paths/MyWorld.xml");
+
+    private static int[][][] loadEdges(String file) {
+        List<int[][]> edges = new ArrayList<>();
+
+        try {
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+
+            NodeList cells = doc.getElementsByTagName("mxCell");
+
+            for (int i = 0; i < cells.getLength(); i++) {
+                Node cell = cells.item(i);
+
+                Node edge = cell.getAttributes().getNamedItem("edge");
+
+                if (edge == null || !edge.getTextContent().equals("1")) {
+                    continue;
+                }
+
+                int[][] coordinates = new int[2][2];
+
+                NodeList points = cell.getFirstChild().getChildNodes();
+
+                for (int j = 0; j < 2; j++) {
+                    NamedNodeMap point = points.item(j).getAttributes();
+
+                    coordinates[j] = new int[] {Integer.valueOf(point.getNamedItem("x").getTextContent()), Integer.valueOf(point.getNamedItem("y").getTextContent())};
+                }
+
+                edges.add(coordinates);
             }
-    };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return edges.toArray(new int[edges.size()][2][2]);
+    }
 
     private static int[][] coordinates = distinctCoordinates(edges);
     private static int[][] paths = FloydAlgorithm(edges);
