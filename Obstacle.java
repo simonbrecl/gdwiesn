@@ -1,7 +1,12 @@
 import greenfoot.*;
 
 public class Obstacle extends Actor {
+
     private final int id;
+    private int posX;
+    private int posY;
+    private int deltaX = 1;
+    private int deltaY = 1;
     private final int TOTAL_WAITINGTIME;
     private final int TOTAL_DRINKINGTIME;
     private boolean waiting = false;
@@ -11,14 +16,20 @@ public class Obstacle extends Actor {
     private Seat seat = null;
     private boolean walkedVertical = false;
     private boolean positiveDirection = false;
-    CustomerSmiley cs;
+    private CustomerSmiley cs;
 
     public Obstacle(int id) {
         this.id = id;
-        currentWaitingTime = Greenfoot.getRandomNumber(500) + 500;
+        currentWaitingTime = Greenfoot.getRandomNumber(500) + 5000;
         currentDrinkingTime = Greenfoot.getRandomNumber(500) + 250;
         TOTAL_WAITINGTIME = currentWaitingTime;
         TOTAL_DRINKINGTIME = currentDrinkingTime;
+        if (Greenfoot.getRandomNumber(2) > 0) {
+            deltaY = -deltaY;
+        }
+        if (Greenfoot.getRandomNumber(2) > 0) {
+            deltaX = -deltaX;
+        }
     }
 
     public void act() {
@@ -26,17 +37,17 @@ public class Obstacle extends Actor {
     }
 
     public boolean atWorldEdge() {
-        if (getX() <= 5 || getX() >= getWorld().getWidth() - 5)
+        if (getX() <= 10 || getX() >= getWorld().getWidth() - 10)
             return true;
-        if (getY() <= 5 || getY() >= getWorld().getHeight() - 5)
+        if (getY() <= 10 || getY() >= getWorld().getHeight() - 10)
             return true;
         else
             return false;
     }
 
     private void moveAround() {
-        int posX = getX();
-        int posY = getY();
+        posX = getX();
+        posY = getY();
 
         if (isSitting()) {
             if (isWaiting()) {
@@ -81,8 +92,55 @@ public class Obstacle extends Actor {
             }
         }
 
-        int randomNum = Greenfoot.getRandomNumber(4);
+        //int randomNum = Greenfoot.getRandomNumber(4);
+        //walkRandom(randomNum);
+        walkDiagonal();
 
+
+    }
+
+    private void walkDiagonal() {
+        posX += deltaX;
+        setLocation(posX, posY);
+        checkToBounceX();
+        posY += deltaY;
+        setLocation(posX, posY);
+        checkToBounceY();
+    }
+
+    private void checkToBounceX() {
+        if (atWorldEdge()) {
+            deltaX = -deltaX;
+            posX = posX + deltaX;
+        } else if (isTouching(Seat.class)) {
+            if (!tryToSitDown()) {
+                deltaX = -deltaX;
+                posX = posX + deltaX;
+            }
+        } else if (isTouching(Table.class)) {
+            deltaX = -deltaX;
+            posX = posX + deltaX;
+        }
+        setLocation(posX, posY);
+    }
+
+    private void checkToBounceY() {
+        if (atWorldEdge()) {
+            deltaY = -deltaY;
+            posY = posY + deltaY;
+        } else if (isTouching(Seat.class)) {
+            if (!tryToSitDown()) {
+                deltaY = -deltaY;
+                posY = posY + deltaY;
+            }
+        } else if (isTouching(Table.class)) {
+            deltaY = -deltaY;
+            posY = posY + deltaY;
+        }
+        setLocation(posX, posY);
+    }
+
+    private void walkRandom(int randomNum) {
         for (int i = 0; i < 5; i++) {
             if (randomNum == 0) {
                 posY -= 1;
@@ -101,7 +159,6 @@ public class Obstacle extends Actor {
                 walkedVertical = true;
                 positiveDirection = true;
             }
-
             if (isTouching(Table.class)) {
                 if (walkedVertical) {
                     if (positiveDirection) {
@@ -117,22 +174,36 @@ public class Obstacle extends Actor {
                     }
                 }
             } else if (isTouching(Seat.class)) {
-                seat = (Seat) getOneIntersectingObject(Seat.class);
-                if (!seat.isTaken()) {
-                    seat.setTaken(true);
-                    posX = seat.getX();
-                    posY = seat.getY() + 10;
-                    setSitting(true);
-                    setLocation(posX, posY);
-                    World w = getWorld();
-                    cs = new CustomerSmiley();
-                    w.addObject(cs, this.getX(), this.getY() - 50);
-                    seat.getTable().wantBeer();
-                    setWaiting(true);
-                    break;
-                }
+                tryToSitDown();
             }
             setLocation(posX, posY);
+        }
+    }
+
+    private boolean tryToSitDown() {
+        seat = (Seat) getOneIntersectingObject(Seat.class);
+        if (!seat.isTaken()) {
+            seat.setTaken(true);
+            setSitting(true);
+            if (seat.isUpperRow()) {
+                posX = seat.getX();
+                posY = seat.getY() - 10;
+                setImage("walkerSittingFront.png");
+            } else {
+                posX = seat.getX();
+                posY = seat.getY() - 20;
+                setImage("walkerSittingBack.png");
+            }
+            setLocation(posX, posY);
+            World w = getWorld();
+            cs = new CustomerSmiley();
+            w.addObject(cs, this.getX(), this.getY() - 30);
+            seat.getTable().wantBeer();
+
+            setWaiting(true);
+            return true;
+        } else {
+            return false;
         }
     }
 
