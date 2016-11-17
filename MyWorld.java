@@ -29,9 +29,9 @@ public class MyWorld extends World {
     Money money;
     
     public List<Table> tables = new ArrayList<Table>();
-    
-    public Waitress waitress;
-    
+
+    private Waitress waitress;
+
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -102,7 +102,8 @@ public class MyWorld extends World {
         createTable(400, 475);
         createTable(650, 475);
 
-        Waitress waitress = new Waitress();
+        waitress = new Waitress();
+
         addObject(waitress,85,47);
         
         clock = new Clock(2);
@@ -163,17 +164,9 @@ public class MyWorld extends World {
 
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();
 
-        /*if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
+        if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
             if (mouseInfo.getActor() instanceof Bar || mouseInfo.getActor() instanceof Table) {
                 waitress.moveTo(Pathmap.findPath(waitress.getX(), waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
-            }
-        }*/
-        if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) 
-        {
-            if (mouseInfo.getActor() instanceof Bar || mouseInfo.getActor() instanceof Table)
-            {
-               
-               waitress.moveTo(Pathmap.findPath(waitress.getX(), waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
             }
         }
     }

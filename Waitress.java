@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Waitress extends Actor {
     private static final int MOVE_DELTA = 5;
-    
+
     private List<int[]> moveToPath;
     
     private static final int PICKUP_RADIUS = 40;
@@ -76,7 +76,7 @@ public class Waitress extends Actor {
 
         setLocation(x, y);
     }
-    
+
     public void moveTo(List<int[]> path) {
         this.moveToPath = path;
     }
