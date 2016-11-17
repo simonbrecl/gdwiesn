@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Pathmap
+comment1.params=dist
+comment1.target=int[][]\ FloydAlgorithm(int[][])
+comment2.params=x\ y
+comment2.target=int\ closestCoordinate(int,\ int)
+comment3.params=fromX\ fromY\ toX\ toY
+comment3.target=findPath(int,\ int,\ int,\ int)
+numComments=4
