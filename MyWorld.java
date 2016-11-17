@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class MyWorld extends World {
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
+    private GreenfootSound introSound = new GreenfootSound("intro.mp3");
     static final int MAX_PEOPLE = 5;
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL= 15;
@@ -29,6 +30,7 @@ public class MyWorld extends World {
         super(800, 600, 1);
         prepare();
         addRandomPeople();
+        started();
     }
     
     public void started() {
@@ -71,7 +73,7 @@ public class MyWorld extends World {
         addObject(waitress,85,47);
         
         money = new Money();
-        addObject(money, 700, 27);
+        addObject(money, 763, 575);
    }
    
    /* Create a table with 4 seats on each side */
