@@ -26,8 +26,7 @@ public class Beer extends Actor
     }
     public void pour()
     {
-            setImage("beer.png");
-                isPoured = true;
+   
             
         
        

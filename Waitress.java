@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class Waitress extends Actor {
     private static final int MOVE_DELTA = 5;
-
+    
     private List<int[]> moveToPath;
-
+    
     private static final int PICKUP_RADIUS = 40;
     private static final int BEER_MAX = 5;
     private static final int BEER_TIME = 50;
@@ -76,11 +76,11 @@ public class Waitress extends Actor {
 
         setLocation(x, y);
     }
-
+    
     public void moveTo(List<int[]> path) {
         this.moveToPath = path;
     }
-
+    
     private void unloadBeer() {
         /*
         if (beerTimer > 0) {
