@@ -26,8 +26,8 @@ public class Beer extends Actor
     }
     public void pour()
     {
-   
-            
+            setImage("beer.png");
+                isPoured = true;
         
        
             if ((System.currentTimeMillis()- pourTimer) > POUR_TIME)

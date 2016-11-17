@@ -82,11 +82,12 @@ public class MyWorld extends World {
      */
     private void prepare() {
         Bar bar = new Bar();
+
         addObject(bar,307,40);
 
         BeerButton beerButton = new BeerButton();
-        addObject(beerButton, 500, 40);
-        
+        addObject(beerButton, 413,23);
+
         //Top row
         createTable(150, 175);
         createTable(400, 175);
@@ -103,14 +104,10 @@ public class MyWorld extends World {
         createTable(650, 475);
 
         waitress = new Waitress();
-
         addObject(waitress,85,47);
         
         clock = new Clock(2);
         addObject(clock,700,60);
-        
-        waitress = new Waitress();
-        addObject(waitress,85,47);
         
         money = new Money();
         addObject(money, 763, 575);

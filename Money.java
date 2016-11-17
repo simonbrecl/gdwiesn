@@ -15,7 +15,7 @@ public class Money extends Actor
      private int money = 0;
      
     public Money () {
-        int boardWidth = 110;
+        int boardWidth = 150;
         int boardHeight = 30;
         int boardTransparency = 150;
         board = new GreenfootImage (boardWidth, boardHeight);
@@ -44,7 +44,7 @@ public class Money extends Actor
     
     private void update () {
         sb = new GreenfootImage(board);
-        sb.drawImage (new GreenfootImage(money+"€",18,Color.black, Color.white),25,5);
+        sb.drawImage (new GreenfootImage("Money: "+money+"€",18,Color.black, Color.white),25,5);
         this.setImage(sb);
     }
 }
