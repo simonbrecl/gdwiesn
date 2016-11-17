@@ -21,11 +21,15 @@ public class MyWorld extends World {
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
     Long beginTime = System.currentTimeMillis();
+
     private int stupidTimer = 0;
-    
+
+    Message messagebox = new Message("");
+    Money money;
+
     public List<Table> tables = new ArrayList<Table>();
 
-    private Waitress waitress;
+    public Waitress waitress;
     
     /**
      * Constructor for objects of class MyWorld.
@@ -76,9 +80,12 @@ public class MyWorld extends World {
      */
     private void prepare() {
         Bar bar = new Bar();
-        addObject(bar,307,40);
 
-        
+        addObject(bar,307,60);
+
+        BeerButton beerButton = new BeerButton();
+        addObject(beerButton, 500, 40);
+
         //Top row
         createTable(150, 175);
         createTable(400, 175);
@@ -96,10 +103,13 @@ public class MyWorld extends World {
 
         waitress = new Waitress();
         addObject(waitress,85,47);
-        
+
         clock = new Clock(2);
         addObject(clock,700,60);
-        
+
+        money = new Money();
+        addObject(money, 700, 27);
+        beerButton.setLocation(413,23);
     }
    
    /* Create a table with 4 seats on each side */
@@ -155,6 +165,10 @@ public class MyWorld extends World {
                 waitress.moveTo(Pathmap.findPath(waitress.getX(), waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
             }
         }
+    }
+    
+    public Money getMoney() {
+        return money;
     }
      
     private void addRandomPeople()

@@ -13,11 +13,12 @@ public class Waitress extends Actor {
     private static final int MOVE_DELTA = 5;
 
     private List<int[]> moveToPath;
-    
+
+    private static final int PICKUP_RADIUS = 40;
     private static final int BEER_MAX = 5;
     private static final int BEER_TIME = 50;
     
-    private int beer = 0;
+    private int beerCount = 0;
     private int beerTimer = 0;
     
     private GreenfootImage originalImage;
@@ -32,11 +33,11 @@ public class Waitress extends Actor {
      */
     public void act() {
         move();
+        drawBeer();
+        unloadBeer(); // check if waitress is touching a table with customers whilst she has beers
+        checkBeerIsPoured(); //see if there are any beers ready close to the waitress
         
-        loadBeer();
-        unloadBeer();
         
-        updateBeerCount();
     }    
     
     private void move() {
@@ -79,41 +80,59 @@ public class Waitress extends Actor {
     public void moveTo(List<int[]> path) {
         this.moveToPath = path;
     }
-    
-    private void loadBeer() {
-        if (beerTimer > 0) {
-            beerTimer--;
-        } else if (beer < BEER_MAX && isTouching(Bar.class)) {
-            beer++;
-            beerTimer = BEER_TIME;
-            
-            Greenfoot.playSound("zischen-sprudelwasser.mp3");
-        }
-    }
-    
+
     private void unloadBeer() {
+        /*
         if (beerTimer > 0) {
             beerTimer--;
-        } else if (beer > 0 && isTouching(Table.class)) {
+        } else if (beerCount > 0 && isTouching(Table.class)) {
             Table table = (Table) getOneIntersectingObject(Table.class);
             
             if (table.incrementBeer()) {
-                beer--;
+                beerCount--;
                 
                 Greenfoot.playSound("put-on-table.wav");
             }
             beerTimer = BEER_TIME;
         }
         
-        else if (beer > 0 && isTouching(Obstacle.class)) {
+        else if (beerCount > 0 && isTouching(Obstacle.class)) {
                 Obstacle obstacle = (Obstacle) getOneIntersectingObject(Obstacle.class);
                 Greenfoot.playSound("drop.mp3");
-                beer--;
+                beerCount--;
                 beerTimer = BEER_TIME;
             }
+        */
+       if (beerCount > 0 && isTouching(Table.class))
+       {
+           Table table = (Table) getOneIntersectingObject(Table.class);
+           
+           if (table.incrementBeer()) 
+           {
+               beerCount--;
+               Greenfoot.playSound("put-on-table.wav");
+           }
+       }
     }
     
-    private void updateBeerCount() {
+    
+    private void checkBeerIsPoured() 
+    {
+        if (!getObjectsInRange(PICKUP_RADIUS, Beer.class).isEmpty())
+        {
+            Beer beer = getObjectsInRange(PICKUP_RADIUS, Beer.class).get(0);
+            if (beer.isPoured()) 
+            {
+                World world = getWorld();
+                world.removeObject(beer);
+                beerCount++;
+                Greenfoot.playSound("zischen-sprudelwasser.mp3");
+                //loadBeer();
+            }
+        }
+    }
+    private void drawBeer()
+    {
         int x = 0;
         int y = 0;
         
@@ -121,12 +140,13 @@ public class Waitress extends Actor {
         
         setImage(new GreenfootImage(originalImage));
         
-        for (int i = 0; i < beer; i++) {
-            y = 45 - (int) Math.pow(i - offset, 2);
-            
-            getImage().drawImage(new GreenfootImage("beer.png"), x, y);
         
-            x += 5;
+        if (beerCount != 0) {
+            for (int i= 0; i < beerCount; i++)
+            {y = 45 - (int) Math.pow(i - offset, 2);
+            getImage().drawImage(new GreenfootImage("beer.png"), x, y);
+            x +=5;
+            }
         }
     }
 }

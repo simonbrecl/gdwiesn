@@ -1,6 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.Color;
-
+import java.awt.Font;
 /**
  * Write a description of class Table here.
  * 
@@ -12,7 +12,7 @@ public class Table extends Actor {
     
     private int beer = 0;
     private int wantBeer = 0;
-    
+    private int timer = 0;
     private GreenfootImage originalImage;
     
     Seat[] seats;
@@ -26,15 +26,30 @@ public class Table extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+         Message msgbox = ((MyWorld) getWorld()).messagebox; 
+         timer++;
         if (beer > 0 && Greenfoot.getRandomNumber(1000) < 1) {
             beer--;
-            
             Greenfoot.playSound("drunk-up.wav");
+            World myWorld = getWorld();
+            MyWorld myworld = (MyWorld) myWorld;
+            Money money = myworld.getMoney();
+            money.addMoney(15);
+            
+            String text = "+15€"; 
+            msgbox.setText(text); 
+            getWorld().addObject(msgbox, getX()+100, getY());
+                       
         }
         
         if ((beer + wantBeer) < BEER_MAX && Greenfoot.getRandomNumber(1000) < 1) {
             wantBeer++;
         }
+        
+        if (timer > 180) {
+                getWorld().removeObject(msgbox);
+                timer = 0;
+        } 
         
         updateBeerCount();
         updateWantBeerCount();
