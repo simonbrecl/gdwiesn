@@ -8,6 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Bar extends Actor {
     public Bar() {
+        /*
         int x = 25;
         
         for (int i = 0; i < 5; i++) {
@@ -15,6 +16,7 @@ public class Bar extends Actor {
         
             x += 45;
         }
+        */
     }
     
     /**
