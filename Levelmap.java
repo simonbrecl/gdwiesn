@@ -18,7 +18,7 @@ class Levelmap {
 
     static void loadObjects(String file, World world) {
         try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Levelmap.class.getResource(file).openStream());
 
             NodeList cells = doc.getElementsByTagName("mxCell");
 

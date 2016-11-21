@@ -18,7 +18,7 @@ public class Pathmap {
         List<int[][]> edges = new ArrayList<>();
 
         try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Pathmap.class.getResource(file).openStream());
 
             NodeList cells = doc.getElementsByTagName("mxCell");
 
