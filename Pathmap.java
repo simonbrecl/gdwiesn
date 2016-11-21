@@ -38,7 +38,7 @@ public class Pathmap {
                 for (int j = 0; j < 2; j++) {
                     NamedNodeMap point = points.item(j).getAttributes();
 
-                    coordinates[j] = new int[] {Integer.valueOf(point.getNamedItem("x").getTextContent()), Integer.valueOf(point.getNamedItem("y").getTextContent())};
+                    coordinates[j] = new int[]{Integer.valueOf(point.getNamedItem("x").getTextContent()), Integer.valueOf(point.getNamedItem("y").getTextContent())};
                 }
 
                 edges.add(coordinates);

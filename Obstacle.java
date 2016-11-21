@@ -1,4 +1,6 @@
-import greenfoot.*;
+import greenfoot.Actor;
+import greenfoot.Greenfoot;
+import greenfoot.World;
 
 public class Obstacle extends Actor {
 

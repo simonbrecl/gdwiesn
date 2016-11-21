@@ -1,7 +1,10 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.Actor;
+import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
+import greenfoot.World;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+
 /**
  * Write a description of class Table here.
  *
@@ -28,8 +31,8 @@ public class Table extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-         Message msgbox = ((MyWorld) getWorld()).messagebox; 
-         timer++;
+        Message msgbox = ((MyWorld) getWorld()).messagebox;
+        timer++;
         if (beer > 0 && Greenfoot.getRandomNumber(1000) < 1) {
             beer--;
             Greenfoot.playSound("drunk-up.wav");
@@ -37,26 +40,26 @@ public class Table extends Actor {
             MyWorld myworld = (MyWorld) myWorld;
             Money money = myworld.getMoney();
             money.addMoney(15);
-            
-            String text = "+15€"; 
-            msgbox.setText(text); 
-            getWorld().addObject(msgbox, getX()+100, getY());
-                       
+
+            String text = "+15€";
+            msgbox.setText(text);
+            getWorld().addObject(msgbox, getX() + 100, getY());
+
         }
-        
+
         if ((beer + wantBeer) < BEER_MAX && Greenfoot.getRandomNumber(1000) < 1) {
             wantBeer++;
         }
-        
+
         if (timer > 180) {
-                getWorld().removeObject(msgbox);
-                timer = 0;
-        } 
-        
+            getWorld().removeObject(msgbox);
+            timer = 0;
+        }
+
         updateBeerCount();
         updateWantBeerCount();
-    }    
-    
+    }
+
     public synchronized boolean incrementBeer() {
         if (beer >= BEER_MAX || wantBeer <= 0) {
             return false;
