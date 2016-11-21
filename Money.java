@@ -16,14 +16,12 @@ public class Money extends Actor {
     private GreenfootImage board;
     private int money = 0;
 
-    public Money() {
-        int boardWidth = 150;
-        int boardHeight = 30;
+    public Money(int width ,int height) {
         int boardTransparency = 150;
-        board = new GreenfootImage(boardWidth, boardHeight);
+        board = new GreenfootImage(width, height);
         board.setColor(Color.white);
         board.setTransparency(boardTransparency);
-        board.fillRect(0, 0, boardWidth, boardHeight);
+        board.fillRect(0, 0, width, height);
         this.setImage(board);
         update();
     }

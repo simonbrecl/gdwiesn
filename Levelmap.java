@@ -5,9 +5,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Levelmap {
-    public static void loadObjects(String file, World world) {
+class Levelmap {
+    static Bar bar;
+    static Clock clock;
+    static Money money;
+    static Waitress waitress;
+
+    static List<Table> tables = new ArrayList<>();
+
+    static void loadObjects(String file, World world) {
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
 
@@ -32,17 +41,46 @@ public class Levelmap {
 
                 NamedNodeMap geometry = cell.getFirstChild().getAttributes();
 
-                int x = Integer.valueOf(geometry.getNamedItem("x").getTextContent()) + Integer.valueOf(geometry.getNamedItem("width").getTextContent()) / 2;
-                int y = Integer.valueOf(geometry.getNamedItem("y").getTextContent()) + Integer.valueOf(geometry.getNamedItem("height").getTextContent()) / 2;
+                Node aX = geometry.getNamedItem("x");
+                Node aY = geometry.getNamedItem("y");
+                Node aWidth = geometry.getNamedItem("width");
+                Node aHeight = geometry.getNamedItem("height");
+
+                int width = aWidth == null ? 0 : Integer.valueOf(aWidth.getTextContent());
+                int height = aHeight == null ? 0 : Integer.valueOf(aHeight.getTextContent());
+
+                int x = (aX == null ? 0 : Integer.valueOf(aX.getTextContent())) + width / 2;
+                int y = (aY == null ? 0 : Integer.valueOf(aY.getTextContent())) + height / 2;
 
                 switch (value.getTextContent()) {
                     case "Bar":
-                        world.addObject(new Bar(), x, y);
+                        bar = new Bar();
+                        world.addObject(bar, x, y);
 
                         break;
 
                     case "Table":
-                        world.addObject(new Table(world, x, y), x, y);
+                        Table table = new Table(world, x, y);
+                        tables.add(table);
+                        world.addObject(table, x, y);
+
+                        break;
+
+                    case "Waitress":
+                        waitress = new Waitress();
+                        world.addObject(waitress, x, y);
+
+                        break;
+
+                    case "Clock":
+                        clock = new Clock(2);
+                        world.addObject(clock, x, y);
+
+                        break;
+
+                    case "Money":
+                        money = new Money(width, height);
+                        world.addObject(money, x, y);
 
                         break;
                 }

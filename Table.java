@@ -51,10 +51,8 @@ public class Table extends Actor {
         if (beer > 0 && Greenfoot.getRandomNumber(1000) < 1) {
             beer--;
             Greenfoot.playSound("drunk-up.wav");
-            World myWorld = getWorld();
-            MyWorld myworld = (MyWorld) myWorld;
-            Money money = myworld.getMoney();
-            money.addMoney(15);
+
+            Levelmap.money.addMoney(15);
 
             String text = "+15€";
             msgbox.setText(text);

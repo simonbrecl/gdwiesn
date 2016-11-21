@@ -5,8 +5,6 @@ import greenfoot.World;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -19,7 +17,6 @@ public class MyWorld extends World {
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
     static final int MIN_PER_LEVEL = 2;
-    private Clock clock;
     private Timer levelTimer;
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
@@ -34,9 +31,6 @@ public class MyWorld extends World {
     private int stupidTimer = 0;
 
     Message messagebox = new Message("");
-    Money money;
-
-    private Waitress waitress;
 
     /**
      * Constructor for objects of class MyWorld.
@@ -55,7 +49,7 @@ public class MyWorld extends World {
         /*taskPerformer = new ActionListener() {
           public void actionPerformed(ActionEvent evt) {
               System.out.println("Stop da clock!");
-              clock.stopClock();
+              Levelmap.clock.stopClock();
               levelTimer.stop();
               
               timerGoing = false;
@@ -67,7 +61,7 @@ public class MyWorld extends World {
         levelTimer = new Timer(MIN_PER_LEVEL * 60 * 1000, taskPerformer);
         levelTimer.start();
         */
-        clock.startClock();
+        Levelmap.clock.startClock();
 
 
     }
@@ -76,7 +70,7 @@ public class MyWorld extends World {
         GreenfootSound sound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
         ambientSound.stop();
-        //clock.stopClock();
+        //Levelmap.clock.stopClock();
         //levelTimer.stop();
         stupidTimer = 0;
     }
@@ -90,15 +84,6 @@ public class MyWorld extends World {
 
         BeerButton beerButton = new BeerButton();
         addObject(beerButton, 413, 23);
-
-        waitress = new Waitress();
-        addObject(waitress, 85, 47);
-
-        clock = new Clock(2);
-        addObject(clock, 700, 60);
-
-        money = new Money();
-        addObject(money, 763, 575);
     }
 
     public void act() {
@@ -117,13 +102,9 @@ public class MyWorld extends World {
 
         if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
             if (mouseInfo.getActor() instanceof Bar || mouseInfo.getActor() instanceof Table) {
-                waitress.moveTo(Pathmap.findPath(waitress.getX(), waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
+                Levelmap.waitress.moveTo(Pathmap.findPath(Levelmap.waitress.getX(), Levelmap.waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
             }
         }
-    }
-
-    public Money getMoney() {
-        return money;
     }
 
     private void addRandomPeople() {
