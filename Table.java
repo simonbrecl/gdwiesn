@@ -20,10 +20,25 @@ public class Table extends Actor {
 
     private GreenfootImage originalImage;
 
-    Seat[] seats;
-
-    public Table() {
+    public Table(World world, int x, int y) {
         originalImage = getImage();
+
+        createSeats(world, x, y, true);
+    }
+
+    @Override
+    protected void addedToWorld(World world) {
+        createSeats(world, getX(), getY(), false);
+    }
+
+    private void createSeats(World world, int x, int y, boolean upperRow) {
+        int seatOffset = -55;
+
+        for (int i = 0; i < 4; i++) {
+            world.addObject(new Seat(this, upperRow), x + seatOffset, y + (upperRow ? -50 : 40));
+
+            seatOffset += 37;
+        }
     }
 
     /**

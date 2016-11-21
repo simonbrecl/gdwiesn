@@ -36,8 +36,6 @@ public class MyWorld extends World {
     Message messagebox = new Message("");
     Money money;
 
-    public List<Table> tables = new ArrayList<>();
-
     private Waitress waitress;
 
     /**
@@ -88,27 +86,10 @@ public class MyWorld extends World {
      * That is: create the initial objects and add them to the world.
      */
     private void prepare() {
-        Bar bar = new Bar();
-
-        addObject(bar, 307, 40);
+        Levelmap.loadObjects("levels/MyWorld.xml", this);
 
         BeerButton beerButton = new BeerButton();
         addObject(beerButton, 413, 23);
-
-        //Top row
-        createTable(150, 175);
-        createTable(400, 175);
-        createTable(650, 175);
-
-        //Middle row
-        createTable(150, 325);
-        createTable(400, 325);
-        createTable(650, 325);
-
-        //Bottom row
-        createTable(150, 475);
-        createTable(400, 475);
-        createTable(650, 475);
 
         waitress = new Waitress();
         addObject(waitress, 85, 47);
@@ -118,37 +99,6 @@ public class MyWorld extends World {
 
         money = new Money();
         addObject(money, 763, 575);
-    }
-
-    /* Create a table with 4 seats on each side */
-    private void createTable(int centerX, int centerY) {
-        Table table = new Table();
-        tables.add(table);
-
-        table.seats = new Seat[8];
-
-        int seatOffset = -55;
-
-        for (int i = 0; i < 4; i++) {
-            Seat seat = new Seat(table, true);
-            table.seats[i] = seat;
-            addObject(table.seats[i], centerX + seatOffset, centerY - 50);
-            seatOffset += 37;
-        }
-
-        //Draw the table between the two layers of seats
-        addObject(table, centerX, centerY);
-
-        seatOffset = -55;
-
-        for (int i = 4; i < 8; i++) {
-            Seat seat = new Seat(table, false);
-            table.seats[i] = seat;
-
-            addObject(table.seats[i], centerX + seatOffset, centerY + 40);
-            seatOffset += 37;
-        }
-
     }
 
     public void act() {

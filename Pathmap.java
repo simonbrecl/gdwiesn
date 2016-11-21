@@ -12,7 +12,7 @@ import java.util.Set;
 public class Pathmap {
     private final static int I = 999;
 
-    private static int[][][] edges = loadEdges("paths/MyWorld.xml");
+    private static int[][][] edges = loadEdges("levels/MyWorld.xml");
 
     private static int[][][] loadEdges(String file) {
         List<int[][]> edges = new ArrayList<>();
