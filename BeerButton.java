@@ -11,8 +11,14 @@ import greenfoot.World;
  */
 public class BeerButton extends Actor {
 
+    private Bar bar;
+
     private boolean filling;
     private int fillCounter = 0;
+
+    BeerButton(Bar bar) {
+        this.bar = bar;
+    }
 
     /**
      * Act - do whatever the BeerButton wants to do. This method is called whenever
@@ -32,8 +38,6 @@ public class BeerButton extends Actor {
 
             filling = true;
             this.setImage(new GreenfootImage("barrel-empty-beer.png"));
-
-
         }
 
         if (filling) {
@@ -46,7 +50,7 @@ public class BeerButton extends Actor {
 
                 World world = getWorld();
                 Beer newBeer = new Beer();
-                world.addObject(newBeer, 307, 30);
+                world.addObject(newBeer, bar.getX(), bar.getY() - 20);
                 newBeer.pour();
 
                 filling = false;

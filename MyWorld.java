@@ -62,8 +62,6 @@ public class MyWorld extends World {
         levelTimer.start();
         */
         Levelmap.clock.startClock();
-
-
     }
 
     public void stopped() {
@@ -81,9 +79,6 @@ public class MyWorld extends World {
      */
     private void prepare() {
         Levelmap.loadObjects("levels/MyWorld.xml", this);
-
-        BeerButton beerButton = new BeerButton();
-        addObject(beerButton, 413, 23);
     }
 
     public void act() {

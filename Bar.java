@@ -1,4 +1,5 @@
 import greenfoot.Actor;
+import greenfoot.World;
 
 /**
  * Write a description of class Bar here.
@@ -17,6 +18,11 @@ public class Bar extends Actor {
             x += 45;
         }
         */
+    }
+
+    @Override
+    protected void addedToWorld(World world) {
+        getWorld().addObject(new BeerButton(this), getX() + 90, getY() - 25);
     }
 
     /**

@@ -1,7 +1,4 @@
 #Greenfoot project file
-=\=\=\=\=\=\=
-<<<<<<<=HEAD
->>>>>>>=daniel
 class.Bar.image=new-bar.png
 class.Bar.superclass=greenfoot.Actor
 class.Beer.image=clock.png
