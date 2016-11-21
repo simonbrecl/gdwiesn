@@ -21,9 +21,9 @@ public class MyWorld extends World {
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
 
-    static final int MAX_PEOPLE = 20;
+    static final int MAX_PEOPLE = 30;
     static final int MIN_PEOPLE = 1;
-    static final int INTERVAL = 1;
+    static final int INTERVAL = 5;
     int obsID = 0;
 
     Long beginTime = System.currentTimeMillis();

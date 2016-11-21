@@ -12,6 +12,7 @@ import java.awt.*;
 
 public class Money extends Actor {
 
+    private int timer = 0;
     private GreenfootImage sb;
     private GreenfootImage board;
     private int money = 0;
@@ -27,19 +28,31 @@ public class Money extends Actor {
     }
 
     public void act() {
+        timer++;
+
+        Message msgbox = ((MyWorld) getWorld()).messagebox;
+
+        if (timer > 180) {
+            getWorld().removeObject(msgbox);
+            timer = 0;
+        }
     }
 
-    public void setMoney(int score) {
+    public synchronized void setMoney(int score) {
         this.money = money;
     }
 
-    public int getMoney() {
+    public synchronized int getMoney() {
         return money;
     }
 
-    public void addMoney(int pts) {
+    public synchronized void addMoney(int pts) {
         money += pts;
         update();
+
+        Message msgbox = ((MyWorld) getWorld()).messagebox;
+        msgbox.setText("+15€");
+        getWorld().addObject(msgbox, getX() + 100, getY());
     }
 
     private void update() {

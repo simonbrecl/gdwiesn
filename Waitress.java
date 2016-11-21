@@ -122,7 +122,6 @@ public class Waitress extends Actor {
                 World world = getWorld();
                 world.removeObject(beer);
                 beerCount++;
-                Greenfoot.playSound("zischen-sprudelwasser.mp3");
                 //loadBeer();
             }
         }

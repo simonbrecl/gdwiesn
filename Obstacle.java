@@ -23,7 +23,7 @@ public class Obstacle extends Actor {
     public Obstacle(int id) {
         this.id = id;
         currentWaitingTime = Greenfoot.getRandomNumber(500) + 5000;
-        currentDrinkingTime = Greenfoot.getRandomNumber(500) + 250;
+        currentDrinkingTime = Greenfoot.getRandomNumber(500) + 2500;
         TOTAL_WAITINGTIME = currentWaitingTime;
         TOTAL_DRINKINGTIME = currentDrinkingTime;
         if (Greenfoot.getRandomNumber(2) > 0) {
@@ -71,11 +71,10 @@ public class Obstacle extends Actor {
                     world.removeObject(this);
                     world.removeObject(cs);
                 }
-                return;
             } else {
                 if (currentDrinkingTime == TOTAL_DRINKINGTIME)
                     cs.setImage("fullbeer.png");
-                currentDrinkingTime--;
+                    currentDrinkingTime--;
                 if (currentDrinkingTime < TOTAL_DRINKINGTIME - TOTAL_DRINKINGTIME / 3) {
                     cs.setImage("twothirdbeer.png");
                 }
@@ -83,15 +82,14 @@ public class Obstacle extends Actor {
                     cs.setImage("onethirdbeer.png");
                 }
                 if (currentDrinkingTime == 0) {
-                    seat.getTable().finishedBeer();
                     Greenfoot.playSound("drunk-up.wav");
                     seat.setTaken(false);
                     World world = getWorld();
                     world.removeObject(this);
                     world.removeObject(cs);
                 }
-                return;
             }
+            return;
         }
 
         //int randomNum = Greenfoot.getRandomNumber(4);

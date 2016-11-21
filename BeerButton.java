@@ -41,17 +41,19 @@ public class BeerButton extends Actor {
         }
 
         if (filling) {
-            if (fillCounter == 60) {
+            if (fillCounter == 40) {
                 this.setImage(new GreenfootImage("barrel-filling-beer.png"));
-            } else if (fillCounter == 120) {
+            } else if (fillCounter == 80) {
                 this.setImage(new GreenfootImage("barrel-full-beer.png"));
-            } else if (fillCounter >= 180) {
+            } else if (fillCounter >= 100) {
                 this.setImage(new GreenfootImage("barrel.png"));
 
                 World world = getWorld();
                 Beer newBeer = new Beer();
                 world.addObject(newBeer, bar.getX(), bar.getY() - 20);
                 newBeer.pour();
+
+                Greenfoot.playSound("zischen-sprudelwasser.mp3");
 
                 filling = false;
                 fillCounter = 0;

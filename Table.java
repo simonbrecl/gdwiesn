@@ -12,11 +12,8 @@ import java.awt.*;
  * @version (a version number or a date)
  */
 public class Table extends Actor {
-    private static final int BEER_MAX = 8;
-
     private int beer = 0;
     private int wantBeer = 0;
-    private int timer = 0;
 
     private GreenfootImage originalImage;
 
@@ -46,40 +43,22 @@ public class Table extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        Message msgbox = ((MyWorld) getWorld()).messagebox;
-        timer++;
-        if (beer > 0 && Greenfoot.getRandomNumber(1000) < 1) {
-            beer--;
-            Greenfoot.playSound("drunk-up.wav");
-
-            Levelmap.money.addMoney(15);
-
-            String text = "+15€";
-            msgbox.setText(text);
-            getWorld().addObject(msgbox, getX() + 100, getY());
-
-        }
-
-        if ((beer + wantBeer) < BEER_MAX && Greenfoot.getRandomNumber(1000) < 1) {
-            wantBeer++;
-        }
-
-        if (timer > 180) {
-            getWorld().removeObject(msgbox);
-            timer = 0;
-        }
-
         updateBeerCount();
         updateWantBeerCount();
     }
 
     public synchronized boolean incrementBeer() {
-        if (beer >= BEER_MAX || wantBeer <= 0) {
+        if (wantBeer <= 0) {
             return false;
         }
+
         beer++;
+        wantBeer--;
         updateBeerCount();
         updateWantBeerCount();
+
+        Levelmap.money.addMoney(15);
+
         return true;
     }
 
@@ -111,8 +90,9 @@ public class Table extends Actor {
 
     public synchronized boolean takeBeer() {
         if (beer > 0) {
-            wantBeer--;
-            updateWantBeerCount();
+            beer--;
+            updateBeerCount();
+
             return true;
         } else {
             return false;
@@ -122,10 +102,5 @@ public class Table extends Actor {
     public synchronized void cancelOrder() {
         wantBeer--;
         updateWantBeerCount();
-    }
-
-    public synchronized void finishedBeer() {
-        beer--;
-        updateBeerCount();
     }
 }
