@@ -12,15 +12,19 @@ import javax.swing.Timer;
  */
 public class MyWorld extends World {
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
+
     private GreenfootSound introSound = new GreenfootSound("intro.mp3");
-    static final int MAX_PEOPLE = 5;
-    static final int MIN_PEOPLE = 1;
-    static final int INTERVAL= 15;
     static final int MIN_PER_LEVEL = 2;
     private Clock clock;
     private Timer levelTimer;
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
+
+    static final int MAX_PEOPLE = 30;
+    static final int MIN_PEOPLE = 1;
+    static final int INTERVAL= 1;
+    int obsID = 0;
+
     Long beginTime = System.currentTimeMillis();
 
     private int stupidTimer = 0;
@@ -118,13 +122,12 @@ public class MyWorld extends World {
        Table table = new Table();
        tables.add(table);
        
-       
        table.seats = new Seat[8];
        
        int seatOffset = -55;
        
        for(int i = 0; i < 4; i++) {
-           Seat seat = new Seat();
+           Seat seat = new Seat(table, true);
            table.seats[i] = seat;
            addObject(table.seats[i], centerX + seatOffset, centerY - 50);
            seatOffset+= 37;
@@ -136,7 +139,7 @@ public class MyWorld extends World {
        seatOffset = -55;
        
        for(int i=4; i<8; i++) {
-           Seat seat = new Seat();
+           Seat seat = new Seat(table, false);
            table.seats[i] = seat;
            
            addObject(table.seats[i], centerX + seatOffset, centerY + 40);
@@ -175,7 +178,7 @@ public class MyWorld extends World {
     private void addRandomPeople()
     {
         for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++)
-            addObject(new Obstacle(), Greenfoot.getRandomNumber(250), 550 );
+            addObject(new Obstacle(obsID++), 250+Greenfoot.getRandomNumber(30), 550+Greenfoot.getRandomNumber(30) );
     }
 
 }
