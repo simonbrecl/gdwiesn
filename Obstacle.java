@@ -119,7 +119,7 @@ public class Obstacle extends Actor {
                 deltaX = -deltaX;
                 posX = posX + deltaX;
             }
-        } else if (isTouching(Table.class)) {
+        } else if (isTouching(Table.class) || isTouching(Bar.class)) {
             deltaX = -deltaX;
             posX = posX + deltaX;
         }
@@ -135,7 +135,7 @@ public class Obstacle extends Actor {
                 deltaY = -deltaY;
                 posY = posY + deltaY;
             }
-        } else if (isTouching(Table.class)) {
+        } else if (isTouching(Table.class) || isTouching(Bar.class)) {
             deltaY = -deltaY;
             posY = posY + deltaY;
         }
