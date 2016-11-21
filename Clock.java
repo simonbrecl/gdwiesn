@@ -15,7 +15,6 @@ import java.awt.geom.Arc2D;
 public class Clock extends Actor {
 
     private GreenfootImage face;
-    private int levelLength = 2;
     private double degrees = 0.0;
     private int minutesPerLevel;
     private double decreaseVal;

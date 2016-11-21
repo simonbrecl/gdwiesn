@@ -18,7 +18,6 @@ import java.util.List;
 public class MyWorld extends World {
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
-    private GreenfootSound introSound = new GreenfootSound("intro.mp3");
     static final int MIN_PER_LEVEL = 2;
     private Clock clock;
     private Timer levelTimer;
@@ -37,7 +36,7 @@ public class MyWorld extends World {
     Message messagebox = new Message("");
     Money money;
 
-    public List<Table> tables = new ArrayList<Table>();
+    public List<Table> tables = new ArrayList<>();
 
     private Waitress waitress;
 
