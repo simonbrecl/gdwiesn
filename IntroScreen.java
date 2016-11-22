@@ -39,7 +39,7 @@ public class IntroScreen extends World {
             }
 
             if (x > 305 && x < 490 && y > 464 && y < 530) {
-                Intro intro = new Intro();
+                Intro intro = new Intro(this);
                 Greenfoot.setWorld(intro);
             }
         }
