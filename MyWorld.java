@@ -25,10 +25,13 @@ public class MyWorld extends World {
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
     int obsID = 0;
+    
+    
 
     Long beginTime = System.currentTimeMillis();
 
     private int stupidTimer = 0;
+    private int day = 1;
 
     Message messagebox = new Message("");
 
@@ -90,7 +93,10 @@ public class MyWorld extends World {
         stupidTimer++;
 
         if (stupidTimer >= 7200) {
-            Greenfoot.stop();
+            EndLevel endLevel = new EndLevel(day, Money.getMoney());
+            Money.clearPreviousDaysMoney();
+            Greenfoot.setWorld(endLevel);
+            
         }
 
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();

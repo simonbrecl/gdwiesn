@@ -15,7 +15,7 @@ public class Money extends Actor {
     private int timer = 0;
     private GreenfootImage sb;
     private GreenfootImage board;
-    private int money = 0;
+    static int money = 0;
 
     public Money(int width ,int height) {
         int boardTransparency = 150;
@@ -42,7 +42,7 @@ public class Money extends Actor {
         this.money = money;
     }
 
-    public synchronized int getMoney() {
+    static synchronized int getMoney() {
         return money;
     }
 
@@ -59,5 +59,9 @@ public class Money extends Actor {
         sb = new GreenfootImage(board);
         sb.drawImage(new GreenfootImage("Money: " + money + "€", 18, Color.black, Color.white), 25, 5);
         this.setImage(sb);
+    }
+    static void clearPreviousDaysMoney()
+    {
+        money = 0;
     }
 }
