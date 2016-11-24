@@ -73,7 +73,7 @@ class Levelmap {
                         break;
 
                     case "Clock":
-                        clock = new Clock(2);
+                        clock = new Clock(5);
                         world.addObject(clock, x, y);
 
                         break;

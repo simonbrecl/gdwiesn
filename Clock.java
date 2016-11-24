@@ -31,21 +31,14 @@ public class Clock extends Actor {
         delay = minutes * 60 * 1000; // milliseconds
         stupidTimer = 0;
         drawClockFace();
-        
-       /* ActionListener taskPerformer = new ActionListener() {
-          public void actionPerformed(ActionEvent evt) {
-              decreaseClock();
-              System.out.println("Ding ding ding " + degrees);
-          }
-        };
-        
-        timer = new Timer(1000, taskPerformer);
-        timer.setRepeats(true);*/
+
 
     }
 
     /* Starts the clock */
-    public void startClock() {
+    public void startClock(int minutes) {
+        minutesPerLevel = minutes;
+        countsPerLevel = (double) minutes * 60 * 60;
 
         //timer.start();
     }
@@ -80,9 +73,9 @@ public class Clock extends Actor {
         // Add your action code here.
         stupidTimer++;
         decreaseClock();
-        if (stupidTimer > 7200) {
+        /*if (stupidTimer > countsPerLevel) {
             Greenfoot.stop();
-        }
+        }*/
 
     }
 

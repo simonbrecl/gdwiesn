@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 public class MyWorld extends World {
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
-    static final int MIN_PER_LEVEL = 2;
+    static final int MIN_PER_LEVEL = 5;
     private Timer levelTimer;
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
@@ -64,7 +64,7 @@ public class MyWorld extends World {
         levelTimer = new Timer(MIN_PER_LEVEL * 60 * 1000, taskPerformer);
         levelTimer.start();
         */
-        Levelmap.clock.startClock();
+        Levelmap.clock.startClock(MIN_PER_LEVEL);
     }
 
     public void stopped() {
@@ -92,7 +92,7 @@ public class MyWorld extends World {
 
         stupidTimer++;
 
-        if (stupidTimer >= 7200) {
+        if (stupidTimer >= MIN_PER_LEVEL*60*60) {
             EndLevel endLevel = new EndLevel(day, Money.getMoney());
             Money.clearPreviousDaysMoney();
             Greenfoot.setWorld(endLevel);
