@@ -26,7 +26,7 @@ public class EndLevel extends World
         dayImage = new GreenfootImage(day + "/14", 26, Color.WHITE, new Color(0,0,0,0));
         getBackground().drawImage(dayImage, 385, 99);
         
-        moneyImage = new GreenfootImage("$" + moneyCount + "", 26, Color.WHITE, new Color(0,0,0,0));
+        moneyImage = new GreenfootImage("€" + moneyCount + "", 26, Color.WHITE, new Color(0,0,0,0));
         // make sure displayed money is centred in the box
         if (moneyCount > 99) {
             offset = 0;
