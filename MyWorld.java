@@ -48,22 +48,6 @@ public class MyWorld extends World {
 
     public void started() {
         ambientSound.playLoop();
-        
-        /*taskPerformer = new ActionListener() {
-          public void actionPerformed(ActionEvent evt) {
-              System.out.println("Stop da clock!");
-              Levelmap.clock.stopClock();
-              levelTimer.stop();
-              
-              timerGoing = false;
-              Greenfoot.stop();
-          }
-        };
-        
-        
-        levelTimer = new Timer(MIN_PER_LEVEL * 60 * 1000, taskPerformer);
-        levelTimer.start();
-        */
         Levelmap.clock.startClock(MIN_PER_LEVEL);
     }
 
@@ -97,6 +81,11 @@ public class MyWorld extends World {
             Money.clearPreviousDaysMoney();
             Greenfoot.setWorld(endLevel);
             
+        }
+
+        if(Levelmap.money.getMoney() > Levelmap.goal.getGoal()) {
+
+            Levelmap.goal.goalReached();
         }
 
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();

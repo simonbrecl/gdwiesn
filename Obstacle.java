@@ -22,7 +22,7 @@ public class Obstacle extends Actor {
 
     public Obstacle(int id) {
         this.id = id;
-        currentWaitingTime = Greenfoot.getRandomNumber(500) + 5000;
+        currentWaitingTime = Greenfoot.getRandomNumber(500) + 1000;
         currentDrinkingTime = Greenfoot.getRandomNumber(500) + 2500;
         TOTAL_WAITINGTIME = currentWaitingTime;
         TOTAL_DRINKINGTIME = currentDrinkingTime;

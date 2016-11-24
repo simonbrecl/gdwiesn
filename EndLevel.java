@@ -20,7 +20,7 @@ public class EndLevel extends World
     public EndLevel(int day, int moneyCount)
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1);
+        super(800, 600, 1);
         setBackground("levelEnd.png");
         // new greenfoot image, draw image then addObject. 
         dayImage = new GreenfootImage(day + "/14", 26, Color.WHITE, new Color(0,0,0,0));

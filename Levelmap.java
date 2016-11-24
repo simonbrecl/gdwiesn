@@ -13,6 +13,7 @@ class Levelmap {
     static Clock clock;
     static Money money;
     static Waitress waitress;
+    static Goal goal;
 
     static List<Table> tables = new ArrayList<>();
 
@@ -81,6 +82,14 @@ class Levelmap {
                     case "Money":
                         money = new Money(width, height);
                         world.addObject(money, x, y);
+
+                        break;
+
+                    case "Goal":
+                        goal = new Goal(width, height);
+                        goal.setGoal(400);
+
+                        world.addObject(goal, x, y);
 
                         break;
                 }
