@@ -1,4 +1,5 @@
 import greenfoot.Actor;
+import greenfoot.GreenfootImage;
 import greenfoot.World;
 
 /**
@@ -18,6 +19,7 @@ public class Bar extends Actor {
             x += 45;
         }
         */
+        this.setImage(new GreenfootImage("bar-for-barrel.png"));
     }
 
     @Override
