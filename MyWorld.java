@@ -99,7 +99,7 @@ public class MyWorld extends World {
 
     private void addRandomPeople() {
         for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++)
-            addObject(new Obstacle(obsID++), 250 + Greenfoot.getRandomNumber(30), 550 + Greenfoot.getRandomNumber(30));
+            addObject(new Customer(obsID++), 250 + Greenfoot.getRandomNumber(30), 550 + Greenfoot.getRandomNumber(30));
     }
 
 }

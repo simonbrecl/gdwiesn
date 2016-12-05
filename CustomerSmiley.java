@@ -1,7 +1,100 @@
 import greenfoot.Actor;
 
 public class CustomerSmiley extends Actor {
-    public CustomerSmiley() {
-        setImage("smiley2.png");
+
+    private CustomerOrder choice;
+    private final int initialPosX;
+    private final int initialPosY;
+    /**
+     * Mood of the customer.
+     * 2 = good.
+     * 1 = neutral.
+     * 0 = mad.
+     */
+    private int mood;
+
+    public CustomerSmiley(CustomerOrder choice, int initialPosX, int initialPosY) {
+        this.choice = choice;
+        this.initialPosX = initialPosX;
+        this.initialPosY = initialPosY;
+        setMood(2);
+    }
+
+    /**
+     * Sets the mood image for the waiting customer.
+     *
+     * @param moodLevel level of mood. as described in the variable.
+     */
+    public void setMood(int moodLevel) {
+        setLocation(initialPosX + 10, initialPosY);
+        String path = "customer/mood/";
+        switch (choice) {
+            case BEER: {
+                path += "beer/";
+                break;
+            }
+            case PRETZEL: {
+                path += "pretzel/";
+                break;
+            }
+            case SAUSAGE: {
+                path += "sausage/";
+                break;
+            }
+        }
+        switch (moodLevel) {
+            case 2: {
+                path += "2.png";
+                break;
+            }
+            case 1: {
+                path += "1.png";
+                break;
+            }
+            case 0: {
+                path += "0.png";
+                break;
+            }
+        }
+        setImage(path);
+    }
+
+    /**
+     * Progress of the consuming customer.
+     *
+     * @param progress progress to set. 2 for just started. 1 for 1/3 done. 0 for 2/3 done
+     */
+    public void setProgress(int progress) {
+        setLocation(initialPosX, initialPosY);
+        String path = "customer/progress/";
+        switch (choice) {
+            case BEER: {
+                path += "beer/";
+                break;
+            }
+            case PRETZEL: {
+                path += "pretzel/";
+                break;
+            }
+            case SAUSAGE: {
+                path += "sausage/";
+                break;
+            }
+        }
+        switch (progress) {
+            case 2: {
+                path += "2.png";
+                break;
+            }
+            case 1: {
+                path += "1.png";
+                break;
+            }
+            case 0: {
+                path += "0.png";
+                break;
+            }
+        }
+        setImage(path);
     }
 }

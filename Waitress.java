@@ -97,8 +97,8 @@ public class Waitress extends Actor {
             beerTimer = BEER_TIME;
         }
         
-        else if (beerCount > 0 && isTouching(Obstacle.class)) {
-                Obstacle obstacle = (Obstacle) getOneIntersectingObject(Obstacle.class);
+        else if (beerCount > 0 && isTouching(Customer.class)) {
+                Customer obstacle = (Customer) getOneIntersectingObject(Customer.class);
                 Greenfoot.playSound("drop.mp3");
                 beerCount--;
                 beerTimer = BEER_TIME;
