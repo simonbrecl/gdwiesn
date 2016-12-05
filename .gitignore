@@ -33,9 +33,14 @@ hs_err_pid*
 ## File-based project format:
 *.iws
 
+# BlueJ
+*.ctxt
+
 # IntelliJ
 /out/
 
 #Greenfoot
 *.ctxt
 project.greenfoot
+soundindex.list
+*.class

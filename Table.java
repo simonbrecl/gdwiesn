@@ -1,6 +1,9 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.Actor;
+import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
+import greenfoot.World;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Write a description of class Table here.
@@ -9,17 +12,30 @@ import java.awt.Color;
  * @version (a version number or a date)
  */
 public class Table extends Actor {
-    private static final int BEER_MAX = 8;
-
     private int beer = 0;
     private int wantBeer = 0;
 
     private GreenfootImage originalImage;
 
-    Seat[] seats;
-
-    public Table() {
+    public Table(World world, int x, int y) {
         originalImage = getImage();
+
+        createSeats(world, x, y, true);
+    }
+
+    @Override
+    protected void addedToWorld(World world) {
+        createSeats(world, getX(), getY(), false);
+    }
+
+    private void createSeats(World world, int x, int y, boolean upperRow) {
+        int seatOffset = -55;
+
+        for (int i = 0; i < 4; i++) {
+            world.addObject(new Seat(this, upperRow), x + seatOffset, y + (upperRow ? -50 : 40));
+
+            seatOffset += 37;
+        }
     }
 
     /**
@@ -27,15 +43,22 @@ public class Table extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
+        updateBeerCount();
+        updateWantBeerCount();
     }
 
     public synchronized boolean incrementBeer() {
-        if (beer >= BEER_MAX || wantBeer <= 0) {
+        if (wantBeer <= 0) {
             return false;
         }
+
         beer++;
+        wantBeer--;
         updateBeerCount();
         updateWantBeerCount();
+
+        Levelmap.money.addMoney(15);
+
         return true;
     }
 
@@ -67,8 +90,9 @@ public class Table extends Actor {
 
     public synchronized boolean takeBeer() {
         if (beer > 0) {
-            wantBeer--;
-            updateWantBeerCount();
+            beer--;
+            updateBeerCount();
+
             return true;
         } else {
             return false;
@@ -78,10 +102,5 @@ public class Table extends Actor {
     public synchronized void cancelOrder() {
         wantBeer--;
         updateWantBeerCount();
-    }
-
-    public synchronized void finishedBeer() {
-        beer--;
-        updateBeerCount();
     }
 }
