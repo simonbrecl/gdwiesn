@@ -118,7 +118,7 @@ public class Waitress extends Actor {
     private void checkBeerIsPoured() {
         if (!getObjectsInRange(PICKUP_RADIUS, Beer.class).isEmpty()) {
             Beer beer = getObjectsInRange(PICKUP_RADIUS, Beer.class).get(0);
-            if (beer.isPoured()) {
+            if (beer.isPoured() && beerCount < BEER_MAX) {
                 World world = getWorld();
                 world.removeObject(beer);
                 beerCount++;
