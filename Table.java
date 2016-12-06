@@ -57,7 +57,7 @@ public class Table extends Actor {
         updateBeerCount();
         updateWantBeerCount();
 
-        Levelmap.money.addMoney(15);
+        Levelmap.money.addMoney(15, getX() + 100, getY());
 
         return true;
     }
