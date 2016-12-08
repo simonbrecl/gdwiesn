@@ -9,6 +9,9 @@ import greenfoot.World;
  * @version (a version number or a date)
  */
 public class Bar extends Actor {
+    static final int BEER_MAX = 5;
+    int beerCount = 0;
+
     public Bar() {
         /*
         int x = 25;

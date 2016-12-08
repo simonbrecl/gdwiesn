@@ -46,13 +46,13 @@ public class Money extends Actor {
         return money;
     }
 
-    public synchronized void addMoney(int pts) {
+    public synchronized void addMoney(int pts, int x, int y) {
         money += pts;
         update();
 
         Message msgbox = ((MyWorld) getWorld()).messagebox;
         msgbox.setText("+15€");
-        getWorld().addObject(msgbox, getX() + 100, getY());
+        getWorld().addObject(msgbox, x, y);
     }
 
     private void update() {
