@@ -16,7 +16,7 @@ public class Waitress extends Actor {
 
     private List<int[]> moveToPath;
 
-    private static final int PICKUP_RADIUS = 40;
+    private static final int PICKUP_RADIUS = 45;
     private static final int BEER_MAX = 5;
     private static final int BEER_TIME = 50;
 
@@ -38,8 +38,6 @@ public class Waitress extends Actor {
         drawBeer();
         unloadBeer(); // check if waitress is touching a table with customers whilst she has beers
         checkBeerIsPoured(); //see if there are any beers ready close to the waitress
-
-
     }
 
     private void move() {
@@ -118,9 +116,8 @@ public class Waitress extends Actor {
     private void checkBeerIsPoured() {
         if (!getObjectsInRange(PICKUP_RADIUS, Beer.class).isEmpty()) {
             Beer beer = getObjectsInRange(PICKUP_RADIUS, Beer.class).get(0);
-            if (beer.isPoured()) {
-                World world = getWorld();
-                world.removeObject(beer);
+            if (beer.isPoured() && beerCount < BEER_MAX) {
+                beer.pickUp();
                 beerCount++;
                 //loadBeer();
             }

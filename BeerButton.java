@@ -34,7 +34,7 @@ public class BeerButton extends Actor {
     }
 
     public void pourBeer() {
-        if (Greenfoot.mouseClicked(this)) {
+        if (Greenfoot.mouseClicked(this) && bar.beerCount < bar.BEER_MAX) {
 
             filling = true;
             this.setImage(new GreenfootImage("barrel-empty-beer.png"));
@@ -50,7 +50,7 @@ public class BeerButton extends Actor {
 
                 World world = getWorld();
                 Beer newBeer = new Beer();
-                world.addObject(newBeer, bar.getX(), bar.getY() - 20);
+                world.addObject(newBeer, bar.getX() - 20 + (bar.beerCount * 20), bar.getY() - 20);
                 newBeer.pour();
 
                 Greenfoot.playSound("zischen-sprudelwasser.mp3");

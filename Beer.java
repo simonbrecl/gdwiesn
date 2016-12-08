@@ -1,4 +1,5 @@
 import greenfoot.Actor;
+import greenfoot.World;
 
 /**
  * Write a description of class Beer here.
@@ -8,11 +9,7 @@ import greenfoot.Actor;
  */
 
 public class Beer extends Actor {
-    /**
-     * Act - do whatever the Beer wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-
+    private Bar bar;
     public long pourTimer = System.currentTimeMillis();
     private static final int POUR_TIME = 2000;
     public boolean isClicked = false;
@@ -41,4 +38,20 @@ public class Beer extends Actor {
         return isPoured;
     }
 
+    void pickUp() {
+        if (bar != null) bar.beerCount--;
+
+        getWorld().removeObject(this);
+    }
+
+    @Override
+    protected void addedToWorld(World world) {
+        Actor bar = getOneIntersectingObject(Bar.class);
+
+        if (bar != null) {
+            this.bar = (Bar) bar;
+
+            this.bar.beerCount++;
+        }
+    }
 }
