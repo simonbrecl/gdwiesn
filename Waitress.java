@@ -120,6 +120,10 @@ public class Waitress extends Actor {
                 beer.pickUp();
                 beerCount++;
                 //loadBeer();
+                MyWorld world = (MyWorld) getWorld();
+                if (world.isTutorialActive()) {
+                    world.incrementTutorialStage(); // tutorialStage = 5
+                }
             }
         }
     }
@@ -140,5 +144,8 @@ public class Waitress extends Actor {
                 x += 5;
             }
         }
+    }
+    public int getBeerCount() {
+        return beerCount;
     }
 }

@@ -19,6 +19,8 @@ public class Customer extends Actor {
     private boolean walkedVertical = false;
     private boolean positiveDirection = false;
     private CustomerSmiley cs;
+    private int counter = 0;
+    private boolean isFlashing = false;
 
     public Customer(int id) {
         setImage("customer/model/walker.png");
@@ -37,6 +39,17 @@ public class Customer extends Actor {
 
     public void act() {
         moveAround();
+        //MyWorld world = (MyWorld) getWorld();
+        if (isFlashing) {
+            counter++;
+            if (counter%25==0) {
+                setImage("walkerSittingBack_glow.png");
+            }
+            if (counter%50 == 0) {
+                setImage("walkerSittingBack.png");
+                counter = 0;
+            }
+        }
     }
 
     public boolean atWorldEdge() {
@@ -56,21 +69,32 @@ public class Customer extends Actor {
             if (isWaiting()) {
                 if (seat.getTable().takeBeer()) {
                     setWaiting(false);
+                    MyWorld world = (MyWorld) getWorld();
+                    if (world.isTutorialActive()) {
+                        isFlashing = false;
+                        setImage("walkerSittingBack.png");
+                        //MyWorld world = (MyWorld) getWorld();
+                        world.incrementTutorialStage();
+                    }
                     return;
                 }
                 currentWaitingTime--;
-                if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
-                    cs.setMood(1);
-                }
-                if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
-                    cs.setMood(0);
-                }
-                if (currentWaitingTime == 0) {
-                    seat.getTable().cancelOrder();
-                    seat.setTaken(false);
-                    World world = getWorld();
-                    world.removeObject(this);
-                    world.removeObject(cs);
+                
+                MyWorld tutWorld = (MyWorld) getWorld();
+                if (!tutWorld.isTutorialActive()) {
+                    if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
+                        cs.setMood(1);
+                    }
+                    if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
+                        cs.setMood(0);
+                    }
+                    if (currentWaitingTime == 0) {
+                        seat.getTable().cancelOrder();
+                        seat.setTaken(false);
+                        World world = getWorld();
+                        world.removeObject(this);
+                        world.removeObject(cs);
+                    }
                 }
             } else {
                 if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
@@ -155,8 +179,11 @@ public class Customer extends Actor {
                 setImage("customer/model/walkerSittingBack.png");
             }
             setLocation(posX, posY);
-            World w = getWorld();
+            MyWorld w = (MyWorld) getWorld();
             int order = Greenfoot.getRandomNumber(3);
+            if(w.isTutorialActive()) {
+                order = 0;
+            }
             if(order == 0)
             cs = new CustomerSmiley(CustomerOrder.BEER, getX()+10, getY() - 30);
             if(order == 1)
@@ -187,6 +214,14 @@ public class Customer extends Actor {
 
     public void setWaiting(boolean waiting) {
         this.waiting = waiting;
+    }
+    
+    public void flashTrue() {
+        isFlashing = true;
+    }
+    
+    public void flashFalse() {
+        isFlashing = false;
     }
 
 

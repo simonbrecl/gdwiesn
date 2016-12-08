@@ -2,7 +2,7 @@ import greenfoot.*;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-
+import java.util.List;
 
 /**
  * Write a description of class MyWorld here.
@@ -29,6 +29,12 @@ public class MyWorld extends World {
 
     private int stupidTimer = 0;
     private int day = 1;
+    
+    static boolean tutorialActive = true;
+
+    private int tutorialTimer = 0;
+    SausageBoy sausageBoy = new SausageBoy();
+    static int tutorialStage;
 
     Message messagebox = new Message("");
 
@@ -39,8 +45,9 @@ public class MyWorld extends World {
         // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
         prepare();
-        addRandomPeople();
+        // addRandomPeople();
         started();
+        tutorialStage = 1;
     }
 
     public void started() {
@@ -63,27 +70,73 @@ public class MyWorld extends World {
      */
     private void prepare() {
         Levelmap.loadObjects("levels/MyWorld.xml", this);
+        addObject(sausageBoy, 640, 370);
     }
 
     public void act() {
-        if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
-            addRandomPeople();
-            beginTime = System.currentTimeMillis();
+        
+        if (tutorialActive == false) {
+            if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
+                addRandomPeople();
+                beginTime = System.currentTimeMillis();
+            }
+        
+            stupidTimer++;
+        
+            if (stupidTimer >= MIN_PER_LEVEL*60*60) {
+                EndLevel endLevel = new EndLevel(day, Money.getMoney());
+                Money.clearPreviousDaysMoney();
+                Greenfoot.setWorld(endLevel);
+                
+            }
+        
+            if(Levelmap.money.getMoney() > Levelmap.goal.getGoal()) {
+        
+                Levelmap.goal.goalReached();
+            }
         }
-
-        stupidTimer++;
-
-        if (stupidTimer >= MIN_PER_LEVEL*60*60) {
-            EndLevel endLevel = new EndLevel(day, Money.getMoney());
-            Money.clearPreviousDaysMoney();
-            Greenfoot.setWorld(endLevel);
+        
+        if (tutorialActive == true) {
+            if (tutorialStage == 1) {
+                tutorialTimer++;
+                if (tutorialTimer == 250) {
+                    tutorialStage = 2;
+                    sausageBoy.updateImage(tutorialStage);
+                    addRandomPeople();
+                    tutorialTimer = 0;
+                }
+            } else if (tutorialStage == 2) {
+                tutorialTimer++;
+                if (tutorialTimer == 250) {
+                    tutorialStage = 3;
+                    sausageBoy.updateImage(tutorialStage);
+                    flashBarrel();
+                    tutorialTimer = 0;
+                }
+            } else if (tutorialStage == 4) {
+                // beerflash
+                //flashBeer();
+                sausageBoy.updateImage(tutorialStage);
+            } else if (tutorialStage == 5) {
+                sausageBoy.updateImage(tutorialStage);
+                List<Waitress> waitressList = getObjects(Waitress.class);
+                Waitress waitress = waitressList.get(0);
+                if (waitress.getBeerCount() > 0) {
+                    List<Customer> customerList = getObjects(Customer.class);
+                    Customer customer = customerList.get(0);
+                    customer.flashTrue();
+                }
+            } else if (tutorialStage >= 6 && tutorialStage <= 8) {
+                sausageBoy.updateImage(tutorialStage);
+            } else if (tutorialStage == 9) {
+                removeObject(sausageBoy);
+                tutorialActive = false;
+            }
             
-        }
-
-        if(Levelmap.money.getMoney() > Levelmap.goal.getGoal()) {
-
-            Levelmap.goal.goalReached();
-        }
+            // turn flashing off once clicked
+            List<BeerButton> barrelList = getObjects(BeerButton.class);
+            BeerButton beerButton = barrelList.get(0);
+        }    
 
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();
 
@@ -101,5 +154,28 @@ public class MyWorld extends World {
         for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++)
             addObject(new Customer(obsID++), 250 + Greenfoot.getRandomNumber(30), 550 + Greenfoot.getRandomNumber(30));
     }
-
+    
+    private void flashBarrel() {
+        List<BeerButton> barrelList = getObjects(BeerButton.class);
+        BeerButton beerButton = barrelList.get(0);
+        beerButton.barrelFlash();
+    }
+    
+    private void flashBeer() {
+        List<Beer> beerList = getObjects(Beer.class);
+        Beer beer = beerList.get(0);
+        beer.beerFlash();
+    }
+    
+    static boolean isTutorialActive() {
+        return tutorialActive;
+    }
+    
+    static void incrementTutorialStage() {
+        tutorialStage++;
+    }
+    
+    static int getTutorialStage() {
+        return tutorialStage;
+    }
 }

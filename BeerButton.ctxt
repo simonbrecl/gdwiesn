@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=BeerButton
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ BeerButton\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=bar
+comment1.target=BeerButton(Bar)
+comment2.params=
+comment2.target=BeerButton()
+comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ BeerButton\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment3.params=
+comment3.target=void\ act()
+comment4.params=
+comment4.target=void\ pourBeer()
+comment5.params=
+comment5.target=void\ barrelFlash()
+comment6.params=
+comment6.target=boolean\ isFlashing()
+numComments=7
