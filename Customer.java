@@ -156,8 +156,14 @@ public class Customer extends Actor {
             }
             setLocation(posX, posY);
             World w = getWorld();
-            cs = new CustomerSmiley(CustomerOrder.BEER, getX(), getY() - 30);
-            w.addObject(cs, this.getX(), this.getY() - 30);
+            int order = Greenfoot.getRandomNumber(3);
+            if(order == 0)
+            cs = new CustomerSmiley(CustomerOrder.BEER, getX()+10, getY() - 30);
+            if(order == 1)
+                cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX()+10, getY() - 30);
+            if(order == 2)
+                cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX()+10, getY() - 30);
+            w.addObject(cs, this.getX()+10, this.getY() - 30);
             seat.getTable().wantBeer();
 
             setWaiting(true);

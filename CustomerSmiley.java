@@ -26,7 +26,7 @@ public class CustomerSmiley extends Actor {
      * @param moodLevel level of mood. as described in the variable.
      */
     public void setMood(int moodLevel) {
-        setLocation(initialPosX + 10, initialPosY);
+        setLocation(initialPosX, initialPosY);
         String path = "customer/mood/";
         switch (choice) {
             case BEER: {
