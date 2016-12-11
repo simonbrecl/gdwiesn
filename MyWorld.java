@@ -22,6 +22,7 @@ public class MyWorld extends World {
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
     int obsID = 0;
+    static TentState tent;
     
     
 
@@ -71,6 +72,8 @@ public class MyWorld extends World {
     private void prepare() {
         Levelmap.loadObjects("levels/MyWorld.xml", this);
         addObject(sausageBoy, 640, 370);
+
+        tent = new TentState();
     }
 
     public void act() {

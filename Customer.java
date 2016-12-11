@@ -180,16 +180,20 @@ public class Customer extends Actor {
             }
             setLocation(posX, posY);
             MyWorld w = (MyWorld) getWorld();
-            int order = Greenfoot.getRandomNumber(3);
+
+
+            //if there's no kitchen, 0 is always returned
+            int order = Greenfoot.getRandomNumber(w.tent.getKitchenLevel() + 1);
+
             if(w.isTutorialActive()) {
                 order = 0;
             }
             if(order == 0)
-            cs = new CustomerSmiley(CustomerOrder.BEER, getX()+10, getY() - 30);
+                cs = new CustomerSmiley(CustomerOrder.BEER, getX()+10, getY() - 30);
             if(order == 1)
-                cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX()+10, getY() - 30);
-            if(order == 2)
                 cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX()+10, getY() - 30);
+            if(order == 2)
+                cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX()+10, getY() - 30);
             w.addObject(cs, this.getX()+10, this.getY() - 30);
             seat.getTable().wantBeer();
 
