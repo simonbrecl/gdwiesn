@@ -95,8 +95,8 @@ public class Waitress extends Actor {
             beerTimer = BEER_TIME;
         }
         
-        else if (beerCount > 0 && isTouching(Obstacle.class)) {
-                Obstacle obstacle = (Obstacle) getOneIntersectingObject(Obstacle.class);
+        else if (beerCount > 0 && isTouching(Customer.class)) {
+                Customer obstacle = (Customer) getOneIntersectingObject(Customer.class);
                 Greenfoot.playSound("drop.mp3");
                 beerCount--;
                 beerTimer = BEER_TIME;
@@ -120,6 +120,10 @@ public class Waitress extends Actor {
                 beer.pickUp();
                 beerCount++;
                 //loadBeer();
+                MyWorld world = (MyWorld) getWorld();
+                if (world.isTutorialActive()) {
+                    world.incrementTutorialStage(); // tutorialStage = 5
+                }
             }
         }
     }
@@ -140,5 +144,8 @@ public class Waitress extends Actor {
                 x += 5;
             }
         }
+    }
+    public int getBeerCount() {
+        return beerCount;
     }
 }

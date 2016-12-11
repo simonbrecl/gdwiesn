@@ -1,5 +1,4 @@
-import greenfoot.Actor;
-import greenfoot.World;
+import greenfoot.*;
 
 /**
  * Write a description of class Beer here.
@@ -14,14 +13,31 @@ public class Beer extends Actor {
     private static final int POUR_TIME = 2000;
     public boolean isClicked = false;
     static boolean isPoured = false;
+    static boolean isFlashing = false;
+    private int counter = 0;
 
     public void act() {
-        pour();
+        // pour();
+        if (isFlashing == true) {
+            counter++;
+            if (counter%25==0) {
+                setImage("new-beer-glow.png");
+            }
+            if (counter%50==0) {
+                setImage("new-beer.png");
+                counter = 0;
+            }
+            if (Greenfoot.mouseClicked(this)) {
+                isFlashing = false;
+                MyWorld world = (MyWorld) getWorld();
+                //world.incrementTutorialStage();
+            }
+        }
 
     }
 
     public void pour() {
-        setImage("beer.png");
+        //setImage("beer.png");
         isPoured = true;
 
 
@@ -53,5 +69,8 @@ public class Beer extends Actor {
 
             this.bar.beerCount++;
         }
+    }
+    public void beerFlash() {
+        isFlashing = true;
     }
 }
