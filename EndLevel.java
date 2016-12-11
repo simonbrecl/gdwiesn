@@ -17,6 +17,8 @@ public class EndLevel extends World
     private GreenfootImage moneyImage;
     private GreenfootImage dayImage;
     private int offset;
+    private int money;
+    
     public EndLevel(int day, int moneyCount)
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
@@ -37,12 +39,14 @@ public class EndLevel extends World
         }
         getBackground().drawImage(moneyImage, 381 + offset, 172);
         
+        money = moneyCount;
+        
     }
     public void act()
     {
         if (Greenfoot.mouseClicked(this)) {
-            IntroScreen introScreen = new IntroScreen();
-            Greenfoot.setWorld(introScreen);
+            UpgradeScreen screen = new UpgradeScreen(money);
+            Greenfoot.setWorld(screen);
             
         }
     }

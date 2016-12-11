@@ -6,12 +6,12 @@ import java.awt.*;
 /**
  * Created by ericasolum on 12/1/16.
  */
-public class SaveButton extends Actor {
+public class DoneButton extends Actor {
 
     private GreenfootImage sb;
     private GreenfootImage board;
 
-    public SaveButton(int width ,int height) {
+    public DoneButton(int width ,int height) {
         int boardTransparency = 200;
         board = new GreenfootImage(width, height);
         board.setColor(Color.white);
@@ -27,7 +27,7 @@ public class SaveButton extends Actor {
 
     private void update() {
         sb = new GreenfootImage(board);
-        sb.drawImage(new GreenfootImage("Save", 18, Color.blue, Color.white), 25, 5);
+        sb.drawImage(new GreenfootImage("Done", 18, Color.blue, Color.white), 25, 5);
         this.setImage(sb);
     }
 

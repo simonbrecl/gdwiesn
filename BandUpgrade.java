@@ -3,6 +3,7 @@
  */
 
 import greenfoot.Actor;
+import greenfoot.GreenfootImage;
 
 
 public class BandUpgrade extends Actor {
@@ -13,7 +14,8 @@ public class BandUpgrade extends Actor {
     }
 
     public void prepare() {
-
+        GreenfootImage image = new GreenfootImage("band.png");
+        this.setImage(image);
 
     }
 }
