@@ -1,9 +1,5 @@
-import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import greenfoot.World;
-
-import java.util.List;
 
 /**
  * Write a description of class Waitress here.
@@ -11,11 +7,7 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Waitress extends Actor {
-    private static final int MOVE_DELTA = 5;
-
-    private List<int[]> moveToPath;
-
+public class Waitress extends MovableActor {
     private static final int PICKUP_RADIUS = 45;
     private static final int BEER_MAX = 5;
     private static final int BEER_TIME = 50;
@@ -26,6 +18,8 @@ public class Waitress extends Actor {
     private GreenfootImage originalImage;
 
     public Waitress() {
+        super("levels/MyWorld.xml", 5);
+
         originalImage = getImage();
     }
 
@@ -34,51 +28,11 @@ public class Waitress extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        move();
+        super.act();
+
         drawBeer();
         unloadBeer(); // check if waitress is touching a table with customers whilst she has beers
         checkBeerIsPoured(); //see if there are any beers ready close to the waitress
-    }
-
-    private void move() {
-        if (moveToPath == null || moveToPath.size() == 0) {
-            return;
-        }
-
-        int x = getX();
-        int y = getY();
-
-        int[] waypoint = moveToPath.get(0);
-
-        int distanceX = Math.abs(x - waypoint[0]);
-        int distanceY = Math.abs(y - waypoint[1]);
-
-        double steps = Math.max(distanceX, distanceY) / MOVE_DELTA;
-
-        int moveX = (int) Math.round(distanceX / steps);
-        int moveY = (int) Math.round(distanceY / steps);
-
-        if (distanceX <= MOVE_DELTA) {
-            x = waypoint[0];
-        } else {
-            x += (x < waypoint[0]) ? moveX : -moveX;
-        }
-
-        if (distanceY <= MOVE_DELTA) {
-            y = waypoint[1];
-        } else {
-            y += (y < waypoint[1]) ? moveY : -moveY;
-        }
-
-        if (x == waypoint[0] && y == waypoint[1]) {
-            moveToPath.remove(0);
-        }
-
-        setLocation(x, y);
-    }
-
-    public void moveTo(List<int[]> path) {
-        this.moveToPath = path;
     }
 
     private void unloadBeer() {
