@@ -146,7 +146,7 @@ public class MyWorld extends World {
             Actor actor = mouseInfo.getActor();
 
             // Exclude other click-areas!
-            if (!(actor instanceof BeerButton)) {
+            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy)) {
                 Levelmap.waitress.moveTo(pathmap.findPath(Levelmap.waitress.getX(), Levelmap.waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
             }
         }
