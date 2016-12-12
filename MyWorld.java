@@ -24,8 +24,9 @@ public class MyWorld extends World {
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
     int obsID = 0;
-    
+
     private Pathmap pathmap = new Pathmap("levels/MyWorld.xml");
+    private Levelmap levelmap = new Levelmap("levels/MyWorld.xml", this);
 
     Long beginTime = System.currentTimeMillis();
 
@@ -54,7 +55,7 @@ public class MyWorld extends World {
 
     public void started() {
         ambientSound.playLoop();
-        Levelmap.clock.startClock(MIN_PER_LEVEL);
+        levelmap.clock.startClock(MIN_PER_LEVEL);
     }
 
     public void stopped() {
@@ -71,7 +72,6 @@ public class MyWorld extends World {
      * That is: create the initial objects and add them to the world.
      */
     private void prepare() {
-        Levelmap.loadObjects("levels/MyWorld.xml", this);
         addObject(sausageBoy, 640, 370);
     }
 
@@ -92,9 +92,9 @@ public class MyWorld extends World {
                 
             }
         
-            if(Levelmap.money.getMoney() > Levelmap.goal.getGoal()) {
-        
-                Levelmap.goal.goalReached();
+            if(levelmap.money.getMoney() > levelmap.goal.getGoal()) {
+
+                levelmap.goal.goalReached();
             }
         }
         
@@ -147,7 +147,7 @@ public class MyWorld extends World {
 
             // Exclude other click-areas!
             if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy)) {
-                Levelmap.waitress.moveTo(pathmap.findPath(Levelmap.waitress.getX(), Levelmap.waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
+                levelmap.waitress.moveTo(pathmap.findPath(levelmap.waitress.getX(), levelmap.waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
             }
         }
     }

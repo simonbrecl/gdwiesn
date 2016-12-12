@@ -9,15 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Levelmap {
-    static Bar bar;
-    static Clock clock;
-    static Money money;
-    static Waitress waitress;
-    static Goal goal;
+    Bar bar;
+    Clock clock;
+    Money money;
+    Waitress waitress;
+    Goal goal;
 
-    static List<Table> tables = new ArrayList<>();
+    List<Table> tables = new ArrayList<>();
 
-    static void loadObjects(String file, World world) {
+    Levelmap(String file, World world) {
+        loadObjects(file, world);
+    }
+
+    private void loadObjects(String file, World world) {
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Levelmap.class.getResource(file).openStream());
 
@@ -61,7 +65,7 @@ class Levelmap {
                         break;
 
                     case "Table":
-                        Table table = new Table(world, x, y);
+                        Table table = new Table(world, x, y, this);
                         tables.add(table);
                         world.addObject(table, x, y);
 

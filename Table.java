@@ -12,12 +12,16 @@ import java.awt.*;
  * @version (a version number or a date)
  */
 public class Table extends Actor {
+    private Levelmap levelmap;
+
     private int beer = 0;
     private int wantBeer = 0;
 
     private GreenfootImage originalImage;
 
-    public Table(World world, int x, int y) {
+    public Table(World world, int x, int y, Levelmap levelmap) {
+        this.levelmap = levelmap;
+
         originalImage = getImage();
 
         createSeats(world, x, y, true);
@@ -57,7 +61,7 @@ public class Table extends Actor {
         updateBeerCount();
         updateWantBeerCount();
 
-        Levelmap.money.addMoney(15, getX() + 100, getY());
+        levelmap.money.addMoney(15, getX() + 100, getY());
 
         return true;
     }
