@@ -157,7 +157,7 @@ public class Pathmap {
         return closest;
     }
 
-    public List<int[]> findPath(int fromX, int fromY, int toX, int toY) {
+    List<int[]> findPath(int fromX, int fromY, int toX, int toY) {
         int fromIndex = -1, toIndex = -1;
 
         // Check direct coordinate match.

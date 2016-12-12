@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Levelmap {
+    World world;
+
     Bar bar;
     Clock clock;
     Money money;
@@ -18,10 +20,12 @@ class Levelmap {
     List<Table> tables = new ArrayList<>();
 
     Levelmap(String file, World world) {
-        loadObjects(file, world);
+        this.world = world;
+
+        loadObjects(file);
     }
 
-    private void loadObjects(String file, World world) {
+    private void loadObjects(String file) {
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Levelmap.class.getResource(file).openStream());
 
