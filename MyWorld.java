@@ -2,6 +2,8 @@ import greenfoot.*;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public class MyWorld extends World {
     static final int INTERVAL = 5;
     int obsID = 0;
     
-    
+    private Pathmap pathmap = new Pathmap("levels/MyWorld.xml");
 
     Long beginTime = System.currentTimeMillis();
 
@@ -145,7 +147,7 @@ public class MyWorld extends World {
 
             // Exclude other click-areas!
             if (!(actor instanceof BeerButton)) {
-                Levelmap.waitress.moveTo(Pathmap.findPath(Levelmap.waitress.getX(), Levelmap.waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
+                Levelmap.waitress.moveTo(pathmap.findPath(Levelmap.waitress.getX(), Levelmap.waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
             }
         }
     }

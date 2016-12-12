@@ -12,9 +12,17 @@ import java.util.Set;
 public class Pathmap {
     private final static int I = 999;
 
-    private static int[][][] edges = loadEdges("levels/MyWorld.xml");
+    private int[][] coordinates;
+    private int[][] paths;
 
-    private static int[][][] loadEdges(String file) {
+    Pathmap(String file) {
+        int[][][] edges = loadEdges(file);
+
+        coordinates = distinctCoordinates(edges);
+        paths = FloydAlgorithm(edges);
+    }
+
+    private int[][][] loadEdges(String file) {
         List<int[][]> edges = new ArrayList<>();
 
         try {
@@ -50,10 +58,39 @@ public class Pathmap {
         return edges.toArray(new int[edges.size()][2][2]);
     }
 
-    private static int[][] coordinates = distinctCoordinates(edges);
-    private static int[][] paths = FloydAlgorithm(edges);
+    private int[][] distinctCoordinates(int[][][] edges) {
+        Set<int[]> coordinates = new HashSet<>();
 
-    private static int[][] FloydAlgorithm(int[][][] edges) {
+        for (int[][] edge : edges) {
+            boolean edge0 = false, edge1 = false;
+
+            for (int[] coordinate : coordinates) {
+                if (coordinate[0] == edge[0][0] && coordinate[1] == edge[0][1]) {
+                    edge0 = true;
+                }
+
+                if (coordinate[0] == edge[1][0] && coordinate[1] == edge[1][1]) {
+                    edge1 = true;
+                }
+
+                if (edge0 && edge1) {
+                    break;
+                }
+            }
+
+            if (!edge0) {
+                coordinates.add(edge[0]);
+            }
+
+            if (!edge1) {
+                coordinates.add(edge[1]);
+            }
+        }
+
+        return coordinates.toArray(new int[coordinates.size()][2]);
+    }
+
+    private int[][] FloydAlgorithm(int[][][] edges) {
         int[][] dist = new int[coordinates.length][coordinates.length];
         int[][] next = new int[coordinates.length][coordinates.length];
 
@@ -94,40 +131,7 @@ public class Pathmap {
         return next;
     }
 
-    private static int[][] distinctCoordinates(int[][][] edges) {
-        Set<int[]> coordinates = new HashSet<>();
-
-        for (int[][] edge : edges) {
-            boolean edge0 = false, edge1 = false;
-
-            for (int[] coordinate : coordinates) {
-                if (coordinate[0] == edge[0][0] && coordinate[1] == edge[0][1]) {
-                    edge0 = true;
-                }
-
-                if (coordinate[0] == edge[1][0] && coordinate[1] == edge[1][1]) {
-                    edge1 = true;
-                }
-
-                if (edge0 && edge1) {
-                    break;
-                }
-            }
-
-            if (!edge0) {
-                coordinates.add(edge[0]);
-            }
-
-            if (!edge1) {
-                coordinates.add(edge[1]);
-            }
-        }
-
-        return coordinates.toArray(new int[coordinates.size()][2]);
-    }
-
-
-    private static int findCoordinate(int[] coordinate) {
+    private int findCoordinate(int[] coordinate) {
         for (int i = 0; i < coordinates.length; i++) {
             if (coordinates[i][0] == coordinate[0] && coordinates[i][1] == coordinate[1]) {
                 return i;
@@ -137,7 +141,7 @@ public class Pathmap {
         return -1;
     }
 
-    private static int closestCoordinate(int x, int y) {
+    private int closestCoordinate(int x, int y) {
         int closest = -1;
         double distance = I;
 
@@ -153,7 +157,7 @@ public class Pathmap {
         return closest;
     }
 
-    public static List<int[]> findPath(int fromX, int fromY, int toX, int toY) {
+    public List<int[]> findPath(int fromX, int fromY, int toX, int toY) {
         int fromIndex = -1, toIndex = -1;
 
         // Check direct coordinate match.
