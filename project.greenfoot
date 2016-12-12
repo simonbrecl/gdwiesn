@@ -1,7 +1,7 @@
 #Greenfoot properties
 #Thu Dec 08 16:14:46 CET 2016
 target16.name=Intro
-class.MyWorld.image=wood-floor2.png
+class.MyWorld.image=wood-floor4.jpg
 class.Bar.superclass=greenfoot.Actor
 dependency35.to=Money
 editor.swing.0.y=0
