@@ -2,6 +2,7 @@ import greenfoot.*;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,32 +12,25 @@ import java.util.List;
  * @version (a version number or a date)
  */
 public class MyWorld extends World {
-    private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
-
     static final int MIN_PER_LEVEL = 5;
-    private Timer levelTimer;
-    private boolean timerGoing = false;
-    private ActionListener taskPerformer;
-
     static final int MAX_PEOPLE = 30;
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
+    static boolean tutorialActive = true;
+    static int tutorialStage;
     int obsID = 0;
-
-    private Levelmap levelmap = new Levelmap("levels/MyWorld.xml", this);
-
     Long beginTime = System.currentTimeMillis();
-
+    SausageBoy sausageBoy = new SausageBoy();
+    Message messagebox = new Message("");
+    private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
+    private Timer levelTimer;
+    private boolean timerGoing = false;
+    private ActionListener taskPerformer;
+    private ArrayList<Seat> allSeats = new ArrayList<>();
+    private Levelmap levelmap = new Levelmap("levels/MyWorld.xml", this);
     private int stupidTimer = 0;
     private int day = 1;
-    
-    static boolean tutorialActive = true;
-
     private int tutorialTimer = 0;
-    SausageBoy sausageBoy = new SausageBoy();
-    static int tutorialStage;
-
-    Message messagebox = new Message("");
 
     /**
      * Constructor for objects of class MyWorld.
@@ -45,9 +39,23 @@ public class MyWorld extends World {
         // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
         prepare();
-        // addRandomPeople();
+        for (Table t : levelmap.tables) {
+            allSeats.addAll(t.getSeats());
+        }
         started();
         tutorialStage = 1;
+    }
+
+    static boolean isTutorialActive() {
+        return tutorialActive;
+    }
+
+    static void incrementTutorialStage() {
+        tutorialStage++;
+    }
+
+    static int getTutorialStage() {
+        return tutorialStage;
     }
 
     public void started() {
@@ -73,35 +81,35 @@ public class MyWorld extends World {
     }
 
     public void act() {
-        
+
         if (tutorialActive == false) {
             if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
                 addRandomPeople();
                 beginTime = System.currentTimeMillis();
             }
-        
+
             stupidTimer++;
-        
+
             if (stupidTimer >= MIN_PER_LEVEL*60*60) {
                 EndLevel endLevel = new EndLevel(day, Money.getMoney());
                 Money.clearPreviousDaysMoney();
                 Greenfoot.setWorld(endLevel);
-                
+
             }
-        
+
             if(levelmap.money.getMoney() > levelmap.goal.getGoal()) {
 
                 levelmap.goal.goalReached();
             }
         }
-        
+
         if (tutorialActive == true) {
             if (tutorialStage == 1) {
                 tutorialTimer++;
                 if (tutorialTimer == 250) {
                     tutorialStage = 2;
                     sausageBoy.updateImage(tutorialStage);
-                    addRandomPeople();
+                    addTutorialCustomer();
                     tutorialTimer = 0;
                 }
             } else if (tutorialStage == 2) {
@@ -131,11 +139,11 @@ public class MyWorld extends World {
                 removeObject(sausageBoy);
                 tutorialActive = false;
             }
-            
+
             // turn flashing off once clicked
             List<BeerButton> barrelList = getObjects(BeerButton.class);
             BeerButton beerButton = barrelList.get(0);
-        }    
+        }
 
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();
 
@@ -149,9 +157,28 @@ public class MyWorld extends World {
         }
     }
 
+    private void addTutorialCustomer() {
+        Customer c = new Customer(obsID++);
+        addObject(c, 350, 550);
+        Seat s = allSeats.get(23);
+        s.setTaken(true);
+        c.setSeat(s);
+        c.moveTo(s.getX(), s.getY());
+    }
+    
     private void addRandomPeople() {
-        for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++)
-            addObject(new Customer(obsID++), 250 + Greenfoot.getRandomNumber(30), 550 + Greenfoot.getRandomNumber(30));
+        for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++) {
+            Customer c = new Customer(obsID++);
+            addObject(c, 350, 580);
+            int seatIndex = Greenfoot.getRandomNumber(allSeats.size());
+            while (allSeats.get(seatIndex).isTaken()) {
+                seatIndex = Greenfoot.getRandomNumber(allSeats.size());
+            }
+            Seat s = allSeats.get(seatIndex);
+            s.setTaken(true);
+            c.setSeat(s);
+            c.moveTo(s.getX(), s.getY());
+        }
     }
     
     private void flashBarrel() {
@@ -164,17 +191,5 @@ public class MyWorld extends World {
         List<Beer> beerList = getObjects(Beer.class);
         Beer beer = beerList.get(0);
         beer.beerFlash();
-    }
-    
-    static boolean isTutorialActive() {
-        return tutorialActive;
-    }
-    
-    static void incrementTutorialStage() {
-        tutorialStage++;
-    }
-    
-    static int getTutorialStage() {
-        return tutorialStage;
     }
 }

@@ -1,14 +1,9 @@
-import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.World;
 
-public class Customer extends Actor {
+public class Customer extends MovableActor {
 
     private final int id;
-    private int posX;
-    private int posY;
-    private int deltaX = 1;
-    private int deltaY = 1;
     private final int TOTAL_WAITINGTIME;
     private final int TOTAL_DRINKINGTIME;
     private boolean waiting = false;
@@ -16,54 +11,45 @@ public class Customer extends Actor {
     private int currentDrinkingTime = 0;
     private boolean sitting = false;
     private Seat seat = null;
-    private boolean walkedVertical = false;
-    private boolean positiveDirection = false;
     private CustomerSmiley cs;
     private int counter = 0;
     private boolean isFlashing = false;
+    private boolean reachedDestination = false;
+    private boolean leaving = false;
 
     public Customer(int id) {
+        super("levels/CustomerPathmap.xml", 5);
         setImage("customer/model/walker.png");
         this.id = id;
         currentWaitingTime = Greenfoot.getRandomNumber(500) + 1000;
         currentDrinkingTime = Greenfoot.getRandomNumber(500) + 2500;
         TOTAL_WAITINGTIME = currentWaitingTime;
         TOTAL_DRINKINGTIME = currentDrinkingTime;
-        if (Greenfoot.getRandomNumber(2) > 0) {
-            deltaY = -deltaY;
-        }
-        if (Greenfoot.getRandomNumber(2) > 0) {
-            deltaX = -deltaX;
-        }
     }
 
     public void act() {
+        super.act();
         moveAround();
         //MyWorld world = (MyWorld) getWorld();
         if (isFlashing) {
             counter++;
-            if (counter%25==0) {
+            if (counter % 25 == 0) {
                 setImage("walkerSittingBack_glow.png");
             }
-            if (counter%50 == 0) {
+            if (counter % 50 == 0) {
                 setImage("walkerSittingBack.png");
                 counter = 0;
             }
         }
     }
 
-    public boolean atWorldEdge() {
-        if (getX() <= 10 || getX() >= getWorld().getWidth() - 10)
-            return true;
-        if (getY() <= 10 || getY() >= getWorld().getHeight() - 10)
-            return true;
-        else
-            return false;
+    @Override
+    public void finishedMoveTo() {
+        System.out.println("customer finished moving");
+        reachedDestination = true;
     }
 
     private void moveAround() {
-        posX = getX();
-        posY = getY();
 
         if (isSitting()) {
             if (isWaiting()) {
@@ -79,7 +65,7 @@ public class Customer extends Actor {
                     return;
                 }
                 currentWaitingTime--;
-                
+
                 MyWorld tutWorld = (MyWorld) getWorld();
                 if (!tutWorld.isTutorialActive()) {
                     if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
@@ -90,10 +76,7 @@ public class Customer extends Actor {
                     }
                     if (currentWaitingTime == 0) {
                         seat.getTable().cancelOrder();
-                        seat.setTaken(false);
-                        World world = getWorld();
-                        world.removeObject(this);
-                        world.removeObject(cs);
+                        leaveToDoor();
                     }
                 }
             } else {
@@ -109,95 +92,63 @@ public class Customer extends Actor {
                 }
                 if (currentDrinkingTime == 0) {
                     Greenfoot.playSound("drunk-up.wav");
-                    seat.setTaken(false);
-                    World world = getWorld();
-                    world.removeObject(this);
-                    world.removeObject(cs);
+                    leaveToDoor();
                 }
             }
-            return;
-        }
-
-        walkDiagonal();
-
-
-    }
-
-    private void walkDiagonal() {
-        posX += deltaX;
-        setLocation(posX, posY);
-        checkToBounceX();
-        posY += deltaY;
-        setLocation(posX, posY);
-        checkToBounceY();
-    }
-
-    private void checkToBounceX() {
-        if (atWorldEdge()) {
-            deltaX = -deltaX;
-            posX = posX + deltaX;
-        } else if (isTouching(Seat.class)) {
-            if (!tryToSitDown()) {
-                deltaX = -deltaX;
-                posX = posX + deltaX;
+        } else if (reachedDestination) {
+            if (leaving) {
+                World w = getWorld();
+                w.removeObject(this);
+            } else {
+                tryToSitDown();
             }
-        } else if (isTouching(Table.class) || isTouching(Bar.class)) {
-            deltaX = -deltaX;
-            posX = posX + deltaX;
         }
-        setLocation(posX, posY);
     }
 
-    private void checkToBounceY() {
-        if (atWorldEdge()) {
-            deltaY = -deltaY;
-            posY = posY + deltaY;
-        } else if (isTouching(Seat.class)) {
-            if (!tryToSitDown()) {
-                deltaY = -deltaY;
-                posY = posY + deltaY;
-            }
-        } else if (isTouching(Table.class) || isTouching(Bar.class)) {
-            deltaY = -deltaY;
-            posY = posY + deltaY;
-        }
-        setLocation(posX, posY);
+    private void leaveToDoor() {
+        seat.setTaken(false);
+        setSitting(false);
+        reachedDestination = false;
+        leaving = true;
+        setImage("customer/model/walker.png");
+        moveTo(350, 570);
+        World w = getWorld();
+        w.removeObject(cs);
     }
+
 
     private boolean tryToSitDown() {
-        seat = (Seat) getOneIntersectingObject(Seat.class);
-        if (!seat.isTaken()) {
-            seat.setTaken(true);
-            setSitting(true);
-            if (seat.isUpperRow()) {
-                posX = seat.getX();
-                posY = seat.getY() - 10;
-                setImage("customer/model/walkerSittingFront.png");
-            } else {
-                posX = seat.getX();
-                posY = seat.getY() - 20;
-                setImage("customer/model/walkerSittingBack.png");
-            }
-            setLocation(posX, posY);
-            MyWorld w = (MyWorld) getWorld();
-            int order = Greenfoot.getRandomNumber(3);
-            if(w.isTutorialActive()) {
-                order = 0;
-            }
-            if(order == 0)
-            cs = new CustomerSmiley(CustomerOrder.BEER, getX()+10, getY() - 30);
-            if(order == 1)
-                cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX()+10, getY() - 30);
-            if(order == 2)
-                cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX()+10, getY() - 30);
-            w.addObject(cs, this.getX()+10, this.getY() - 30);
-            seat.getTable().wantBeer();
-
-            setWaiting(true);
-            return true;
+        setSitting(true);
+        int posX;
+        int posY;
+        if (seat.isUpperRow()) {
+            posX = seat.getX();
+            posY = seat.getY() - 10;
+            setImage("customer/model/walkerSittingFront.png");
         } else {
-            return false;
+            posX = seat.getX();
+            posY = seat.getY() - 20;
+            setImage("customer/model/walkerSittingBack.png");
         }
+        setLocation(posX, posY);
+        MyWorld w = (MyWorld) getWorld();
+        int order = Greenfoot.getRandomNumber(3);
+        //for now, just Beer is available
+        order = 0;
+        if (w.isTutorialActive()) {
+            order = 0;
+        }
+        if (order == 0)
+            cs = new CustomerSmiley(CustomerOrder.BEER, getX() + 10, getY() - 30);
+        if (order == 1)
+            cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX() + 10, getY() - 30);
+        if (order == 2)
+            cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX() + 10, getY() - 30);
+        w.addObject(cs, this.getX() + 10, this.getY() - 30);
+        seat.getTable().wantBeer();
+
+        setWaiting(true);
+        return true;
     }
 
     public boolean isSitting() {
@@ -215,15 +166,18 @@ public class Customer extends Actor {
     public void setWaiting(boolean waiting) {
         this.waiting = waiting;
     }
-    
+
     public void flashTrue() {
         isFlashing = true;
     }
-    
+
     public void flashFalse() {
         isFlashing = false;
     }
 
 
+    public void setSeat(Seat seat) {
+        this.seat = seat;
+    }
 }
 

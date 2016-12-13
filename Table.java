@@ -1,9 +1,9 @@
 import greenfoot.Actor;
-import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Write a description of class Table here.
@@ -14,6 +14,7 @@ import java.awt.*;
 public class Table extends Actor {
     private Levelmap levelmap;
 
+    private ArrayList<Seat> seats = new ArrayList<>();
     private int beer = 0;
     private int wantBeer = 0;
 
@@ -36,7 +37,9 @@ public class Table extends Actor {
         int seatOffset = -55;
 
         for (int i = 0; i < 4; i++) {
-            world.addObject(new Seat(this, upperRow), x + seatOffset, y + (upperRow ? -50 : 40));
+            Seat s = new Seat(this, upperRow);
+            seats.add(s);
+            world.addObject(s, x + seatOffset, y + (upperRow ? -50 : 40));
 
             seatOffset += 37;
         }
@@ -106,5 +109,9 @@ public class Table extends Actor {
     public synchronized void cancelOrder() {
         wantBeer--;
         updateWantBeerCount();
+    }
+
+    public ArrayList<Seat> getSeats() {
+        return seats;
     }
 }
