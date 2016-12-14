@@ -33,10 +33,10 @@ public class MyWorld extends World {
     private int stupidTimer = 0;
     private int day = 1;
     
-    static boolean tutorialActive = true;
+    static boolean tutorialActive = false;
 
     private int tutorialTimer = 0;
-    SausageBoy sausageBoy = new SausageBoy();
+    SausageBoy sausageBoy;
     static int tutorialStage;
 
     Message messagebox = new Message("");
@@ -73,18 +73,24 @@ public class MyWorld extends World {
      */
     private void prepare() {
         Levelmap.loadObjects("levels/MyWorld.xml", this);
-        addObject(sausageBoy, 640, 370);
+
 
         tent = new TentState();
+
+        if (tutorialActive) {
+            sausageBoy = new SausageBoy();
+            addObject(sausageBoy, 640, 370);
+        }
     }
 
     public void act() {
         
         if (tutorialActive == false) {
+            Levelmap.clock.startClock(MIN_PER_LEVEL);
             if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
                 addRandomPeople();
                 beginTime = System.currentTimeMillis();
-                Levelmap.clock.startClock(MIN_PER_LEVEL);
+
             }
         
             stupidTimer++;
@@ -150,7 +156,7 @@ public class MyWorld extends World {
             Actor actor = mouseInfo.getActor();
 
             // Exclude other click-areas!
-            if (!(actor instanceof BeerButton)) {
+            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy)) {
                 Levelmap.waitress.moveTo(pathmap.findPath(Levelmap.waitress.getX(), Levelmap.waitress.getY(), mouseInfo.getX(), mouseInfo.getY()));
             }
         }
