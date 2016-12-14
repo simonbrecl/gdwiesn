@@ -22,6 +22,7 @@ public class Clock extends Actor {
     private int delay;
     private double countsPerLevel;
     private int stupidTimer;
+    private boolean started = false;
 
     public Clock(int minutes) {
         minutesPerLevel = minutes;
@@ -39,12 +40,14 @@ public class Clock extends Actor {
     public void startClock(int minutes) {
         minutesPerLevel = minutes;
         countsPerLevel = (double) minutes * 60 * 60;
+        started = true;
 
         //timer.start();
     }
 
     public void stopClock() {
         //timer.stop();
+        started = false;
 
     }
 
@@ -70,9 +73,11 @@ public class Clock extends Actor {
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
-        // Add your action code here.
-        stupidTimer++;
-        decreaseClock();
+        if(started) {
+            stupidTimer++;
+            decreaseClock();
+        }
+
         /*if (stupidTimer > countsPerLevel) {
             Greenfoot.stop();
         }*/
