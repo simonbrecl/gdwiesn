@@ -55,7 +55,7 @@ public class MyWorld extends World {
 
     public void started() {
         ambientSound.playLoop();
-        Levelmap.clock.startClock(MIN_PER_LEVEL);
+
     }
 
     public void stopped() {
@@ -84,6 +84,7 @@ public class MyWorld extends World {
             if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
                 addRandomPeople();
                 beginTime = System.currentTimeMillis();
+                Levelmap.clock.startClock(MIN_PER_LEVEL);
             }
         
             stupidTimer++;
