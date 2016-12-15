@@ -22,12 +22,12 @@ public class Bar extends Actor {
             x += 45;
         }
         */
-        this.setImage(new GreenfootImage("bar-for-barrel.png"));
+        this.setImage(new GreenfootImage("bar.png"));
     }
 
     @Override
     protected void addedToWorld(World world) {
-        getWorld().addObject(new BeerButton(this), getX() + 90, getY() - 25);
+        getWorld().addObject(new BeerButton(this), getX() + 150, getY() - 25);
     }
 
     /**
