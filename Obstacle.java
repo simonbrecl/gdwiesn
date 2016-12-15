@@ -19,6 +19,7 @@ public class Obstacle extends Actor {
     private boolean walkedVertical = false;
     private boolean positiveDirection = false;
     private CustomerSmiley cs;
+    static int counter = 0;
 
     public Obstacle(int id) {
         this.id = id;
@@ -70,6 +71,29 @@ public class Obstacle extends Actor {
                     World world = getWorld();
                     world.removeObject(this);
                     world.removeObject(cs);
+                    counter++;
+                 
+                    if (counter == 1) {
+                        MyWorld.heart3.getImage().setTransparency(100);        
+                        Level2.heart3.getImage().setTransparency(100);
+                   }
+                   
+                   if (counter == 2) {
+                        MyWorld.heart2.getImage().setTransparency(100);
+                        Level2.heart2.getImage().setTransparency(100);
+                   }
+                    
+                   if (counter == 3) {
+                       counter=0;
+                       MyWorld.heart2.getImage().setTransparency(255);
+                       MyWorld.heart3.getImage().setTransparency(255);
+                       Level2.heart3.getImage().setTransparency(255);
+                       Level2.heart3.getImage().setTransparency(255);
+                       Money.clearPreviousDaysMoney();
+                       NoLives dead = new NoLives();
+                       Greenfoot.setWorld(dead);
+                    }
+                
                 }
             } else {
                 if (currentDrinkingTime == TOTAL_DRINKINGTIME)

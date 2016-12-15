@@ -2,6 +2,7 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootSound;
 import greenfoot.MouseInfo;
 import greenfoot.World;
+import java.awt.*;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -20,7 +21,9 @@ public class MyWorld extends World {
     private Timer levelTimer;
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
-
+    static final Lives heart1 = new Lives();
+    static final Lives heart2 = new Lives();
+    static final Lives heart3 = new Lives();
     static final int MAX_PEOPLE = 30;
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
@@ -66,8 +69,16 @@ public class MyWorld extends World {
      */
     private void prepare() {
         Levelmap.loadObjects("levels/MyWorld.xml", this);
+        Font font = getBackground().getFont();
+       font = font.deriveFont(Font.PLAIN, 24);
+        getBackground().setFont(font);
+        getBackground().setColor(Color.black);
+        getBackground().drawString("LEVEL "+day, 20, 548);
+        addObject(heart1,33,574);
+        addObject(heart2,80,574);
+        addObject(heart3,127,574);
     }
-
+    
     public void act() {
         if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
             addRandomPeople();

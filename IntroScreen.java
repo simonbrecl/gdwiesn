@@ -32,13 +32,13 @@ public class IntroScreen extends World {
         if (Greenfoot.mouseClicked(null)) {
             int x = mouse.getX();
             int y = mouse.getY();
-            if (x > 304 && x < 490 && y > 375 && y < 450) {
+            if (x > 305 && x < 490 && y > 464 && y < 530) {
                 introSound1.stop();
                 MyWorld myworld = new MyWorld();
                 Greenfoot.setWorld(myworld);
             }
 
-            if (x > 305 && x < 490 && y > 464 && y < 530) {
+            if (x > 304 && x < 490 && y > 375 && y < 450) {
                 Intro intro = new Intro(this);
                 Greenfoot.setWorld(intro);
             }

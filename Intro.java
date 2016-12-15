@@ -10,7 +10,7 @@ import java.awt.*;
  * @version (a version number or a date)
  */
 public class Intro extends World {
-    //private GreenfootSound introSound = new GreenfootSound("intro.mp3");
+    private GreenfootSound introSound = new GreenfootSound("intro.mp3");
 
     private World previousWorld;
 

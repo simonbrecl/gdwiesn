@@ -1,7 +1,4 @@
-import greenfoot.Actor;
-import greenfoot.Greenfoot;
-import greenfoot.GreenfootImage;
-import greenfoot.World;
+import greenfoot.*;
 
 /**
  * Write a description of class BeerButton here.
@@ -24,12 +21,24 @@ public class BeerButton extends Actor {
      * Act - do whatever the BeerButton wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
+    boolean mouseOver = false;
     public void act() {
         pourBeer();
 
         if (filling) {
             fillCounter++;
         }
+        
+        if (!mouseOver && Greenfoot.mouseMoved(this))  
+           {  
+                setImage("barrel1.png");  
+                mouseOver = true;  
+           }  
+        if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))  
+           {  
+               setImage("barrel.png");  
+               mouseOver = false;  
+           } 
 
     }
 
@@ -37,14 +46,14 @@ public class BeerButton extends Actor {
         if (Greenfoot.mouseClicked(this)) {
 
             filling = true;
-            this.setImage(new GreenfootImage("barrel-empty-beer.png"));
+            this.setImage(new GreenfootImage("barrel-empty-beer1.png"));
         }
 
         if (filling) {
             if (fillCounter == 40) {
-                this.setImage(new GreenfootImage("barrel-filling-beer.png"));
+                this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
             } else if (fillCounter == 80) {
-                this.setImage(new GreenfootImage("barrel-full-beer.png"));
+                this.setImage(new GreenfootImage("barrel-full-beer1.png"));
             } else if (fillCounter >= 100) {
                 this.setImage(new GreenfootImage("barrel.png"));
 
