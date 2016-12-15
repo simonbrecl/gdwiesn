@@ -118,43 +118,13 @@ public class Customer extends MovableActor {
 
 
     private boolean tryToSitDown() {
+        setSitting(true);
         int posX;
         int posY;
-        seat = (Seat) getOneIntersectingObject(Seat.class);
-        if (!seat.isTaken()) {
-            seat.setTaken(true);
-            setSitting(true);
-            if (seat.isUpperRow()) {
-                posX = seat.getX();
-                posY = seat.getY() - 10;
-                setImage("customer/model/walkerSittingFront.png");
-            } else {
-                posX = seat.getX();
-                posY = seat.getY() - 20;
-                setImage("customer/model/walkerSittingBack.png");
-            }
-            setLocation(posX, posY);
-            MyWorld w = (MyWorld) getWorld();
-
-
-            //if there's no kitchen, 0 is always returned
-            int order = Greenfoot.getRandomNumber(w.tent.getKitchenLevel() + 1);
-
-            if(w.isTutorialActive()) {
-                order = 0;
-            }
-            if(order == 0)
-                cs = new CustomerSmiley(CustomerOrder.BEER, getX()+10, getY() - 30);
-            if(order == 1)
-                cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX()+10, getY() - 30);
-            if(order == 2)
-                cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX()+10, getY() - 30);
-            w.addObject(cs, this.getX()+10, this.getY() - 30);
-            seat.getTable().wantBeer();
-
-            setWaiting(true);
-            return true;
-
+        if (seat.isUpperRow()) {
+            posX = seat.getX();
+            posY = seat.getY() - 10;
+            setImage("customer/model/walkerSittingFront.png");
         } else {
             posX = seat.getX();
             posY = seat.getY() - 20;
