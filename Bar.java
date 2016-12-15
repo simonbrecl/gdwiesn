@@ -1,4 +1,5 @@
 import greenfoot.Actor;
+import greenfoot.GreenfootImage;
 import greenfoot.World;
 import greenfoot.*;
 
@@ -9,6 +10,9 @@ import greenfoot.*;
  * @version (a version number or a date)
  */
 public class Bar extends Actor {
+    static final int BEER_MAX = 5;
+    int beerCount = 0;
+
     public Bar() {
         /*
         int x = 25;
@@ -19,6 +23,7 @@ public class Bar extends Actor {
             x += 45;
         }
         */
+        this.setImage(new GreenfootImage("bar-for-barrel.png"));
     }
 
     @Override
