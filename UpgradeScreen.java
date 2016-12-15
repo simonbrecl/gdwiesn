@@ -10,10 +10,12 @@ import greenfoot.World;
 public class UpgradeScreen extends World {
 
     private int money;
+    public TentState tentState;
     
-    public UpgradeScreen(int money) {
+    public UpgradeScreen(int money, TentState state) {
         super(800, 600, 1);
         this.money = money;
+        tentState = state;
         prepare();
 
     }
@@ -25,15 +27,6 @@ public class UpgradeScreen extends World {
 
     public void act() {
 
-
-        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
-
-        if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
-            Actor actor = mouseInfo.getActor();
-
-            // Exclude other click-areas!
-            System.out.println("Clicked on an area: " + actor.toString());
-        }
 
     }
 

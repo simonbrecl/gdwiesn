@@ -24,7 +24,8 @@ public class MyWorld extends World {
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
     int obsID = 0;
-    static TentState tent;
+
+    public static TentState tent;
     
     private Pathmap pathmap = new Pathmap("levels/MyWorld.xml");
 
@@ -96,7 +97,7 @@ public class MyWorld extends World {
             stupidTimer++;
         
             if (stupidTimer >= MIN_PER_LEVEL*60*60) {
-                EndLevel endLevel = new EndLevel(day, Money.getMoney());
+                EndLevel endLevel = new EndLevel(day, Money.getMoney(), tent);
                 Money.clearPreviousDaysMoney();
                 Greenfoot.setWorld(endLevel);
                 

@@ -1,5 +1,4 @@
-import greenfoot.Actor;
-import greenfoot.GreenfootImage;
+import greenfoot.*;
 
 import java.awt.*;
 
@@ -23,7 +22,20 @@ public class DoneButton extends Actor {
 
     public void act() {
 
+        greenfoot.MouseInfo mouseInfo = Greenfoot.getMouseInfo();
+
+        if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
+            Actor actor = mouseInfo.getActor();
+
+            //SAVE TENT STATE HERE
+
+            MyWorld world = new MyWorld();
+            Greenfoot.setWorld(world);
+        }
+
     }
+
+
 
     private void update() {
         sb = new GreenfootImage(board);
