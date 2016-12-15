@@ -94,7 +94,7 @@ public class Customer extends MovableActor {
                            }
                             
                            if (counter1 == 3) {
-                               counter1=0;
+                               counter1 = 0;
                                MyWorld.heart2.getImage().setTransparency(255);
                                MyWorld.heart3.getImage().setTransparency(255);
                                Level2.heart3.getImage().setTransparency(255);
@@ -135,7 +135,7 @@ public class Customer extends MovableActor {
                            }
                             
                            if (counter1 == 3) {
-                               counter1=0;
+                               counter1 = 0;
                                MyWorld.heart2.getImage().setTransparency(255);
                                MyWorld.heart3.getImage().setTransparency(255);
                                Level2.heart3.getImage().setTransparency(255);

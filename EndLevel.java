@@ -60,7 +60,6 @@ public class EndLevel extends World
     {
         if (Greenfoot.mouseClicked(this)) {
            Level2 level2 = new Level2();
-           Customer.counter1=0;
            Greenfoot.setWorld(level2);
             //UpgradeScreen screen = new UpgradeScreen(money, tentState);
            // Greenfoot.setWorld(screen);  
