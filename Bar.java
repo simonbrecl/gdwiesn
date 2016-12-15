@@ -44,7 +44,7 @@ public class Bar extends Actor {
            }  
         if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))  
            {  
-               setImage("bar-for-barrel.png");  
+               setImage("bar.png");  
                mouseOver = false;  
            } 
     }
