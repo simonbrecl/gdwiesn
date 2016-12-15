@@ -46,6 +46,7 @@ public class Clock extends Actor {
 
     public void stopClock() {
         //timer.stop();
+        started = false;
 
     }
 

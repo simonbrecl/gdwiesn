@@ -63,7 +63,7 @@ class Upgrademap {
                         break;
 
                     case "Table":
-                        Table table = new Table(world, x, y);
+                        Table table = new Table(world, x, y, null);
                         tables.add(table);
                         world.addObject(table, x, y);
 

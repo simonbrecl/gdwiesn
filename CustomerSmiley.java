@@ -2,9 +2,9 @@ import greenfoot.Actor;
 
 public class CustomerSmiley extends Actor {
 
-    private CustomerOrder choice;
     private final int initialPosX;
     private final int initialPosY;
+    private CustomerOrder choice;
     /**
      * Mood of the customer.
      * 2 = good.
@@ -65,7 +65,7 @@ public class CustomerSmiley extends Actor {
      * @param progress progress to set. 2 for just started. 1 for 1/3 done. 0 for 2/3 done
      */
     public void setProgress(int progress) {
-        setLocation(initialPosX, initialPosY);
+        setLocation(initialPosX - 7, initialPosY - 8);
         String path = "customer/progress/";
         switch (choice) {
             case BEER: {
