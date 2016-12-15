@@ -14,6 +14,7 @@ public class Waitress extends MovableActor {
 
     private int beerCount = 0;
     private int beerTimer = 0;
+    private MyWorld world1;
 
     private GreenfootImage originalImage;
 
@@ -74,10 +75,15 @@ public class Waitress extends MovableActor {
                 beer.pickUp();
                 beerCount++;
                 //loadBeer();
-                MyWorld world = (MyWorld) getWorld();
-                if (world.isTutorialActive()) {
-                    world.incrementTutorialStage(); // tutorialStage = 5
-                }
+                
+                if (getWorld() instanceof MyWorld) {
+                world1 = (MyWorld) getWorld();
+               }
+              
+            
+               if (world1.isTutorialActive()) {
+                    world1.incrementTutorialStage(); // tutorialStage = 5
+               }
             }
         }
     }

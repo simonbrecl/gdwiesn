@@ -1,0 +1,134 @@
+﻿Merge remote-tracking branch 'refs/remotes/origin/master' into branch-simon
+
+# Conflicts:
+#	BeerButton.java
+#	EndLevel.java
+#	Money.java
+#	MyWorld.java
+#	Obstacle.java
+#	Table.java
+#	project.greenfoot
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch branch-simon
+# Your branch is ahead of 'origin/branch-simon' by 4 commits.
+#   (use "git push" to publish your local commits)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   .idea/misc.xml
+#	new file:   BandUpgrade.java
+#	modified:   Bar.java
+#	new file:   BarUpgrade.java
+#	modified:   Beer.java
+#	modified:   BeerButton.java
+#	modified:   Clock.java
+#	new file:   Customer.java
+#	new file:   CustomerOrder.java
+#	modified:   CustomerSmiley.java
+#	new file:   DecorationsUpgrade.java
+#	new file:   DoneButton.java
+#	modified:   EndLevel.java
+#	new file:   GUI_Component.java
+#	new file:   KitchenUpgrade.java
+#	modified:   Level2.java
+#	modified:   Levelmap.java
+#	new file:   MovableActor.java
+#	modified:   MyWorld.java
+#	deleted:    Obstacle.java
+#	modified:   Pathmap.java
+#	new file:   SausageBoy.java
+#	new file:   SecurityUpgrade.java
+#	modified:   Table.java
+#	new file:   TentState.java
+#	new file:   TextBox.java
+#	new file:   UpgradeScreen.java
+#	new file:   Upgrademap.java
+#	modified:   Waitress.java
+#	new file:   WindowComponent.java
+#	new file:   images/Upgrade-screen-layout.png
+#	new file:   images/band-overlay.png
+#	new file:   images/band.png
+#	new file:   images/bar-upgrade-overlay.png
+#	new file:   images/bar-upgrade.png
+#	modified:   images/bar.png
+#	new file:   images/barrelGlow.png
+#	new file:   images/cartoon-band2.png
+#	renamed:    images/walker.png -> images/customer/model/walker.png
+#	new file:   images/customer/model/walkerSittingBack.png
+#	renamed:    images/walkerSittingFront.png -> images/customer/model/walkerSittingFront.png
+#	new file:   images/customer/mood/beer/0.png
+#	new file:   images/customer/mood/beer/1.png
+#	new file:   images/customer/mood/beer/2.png
+#	new file:   images/customer/mood/beer/beer_full.png
+#	new file:   images/customer/mood/beer/beerbase.xcf
+#	new file:   images/customer/mood/pretzel/0.png
+#	new file:   images/customer/mood/pretzel/1.png
+#	new file:   images/customer/mood/pretzel/2.png
+#	new file:   images/customer/mood/pretzel/pretzel.png
+#	new file:   images/customer/mood/pretzel/pretzelbase.xcf
+#	new file:   images/customer/mood/sausage/0.png
+#	new file:   images/customer/mood/sausage/1.png
+#	new file:   images/customer/mood/sausage/2.png
+#	new file:   images/customer/mood/sausage/sausage.png
+#	new file:   images/customer/mood/sausage/sausagebase.xcf
+#	new file:   images/customer/mood/speechbubble.xcf
+#	renamed:    images/onethirdbeer.png -> images/customer/progress/beer/0.png
+#	renamed:    images/twothirdbeer.png -> images/customer/progress/beer/1.png
+#	new file:   images/customer/progress/beer/2.png
+#	new file:   images/customer/progress/pretzel/0.png
+#	new file:   images/customer/progress/pretzel/1.png
+#	new file:   images/customer/progress/pretzel/2.png
+#	new file:   images/customer/progress/sausage/0.png
+#	new file:   images/customer/progress/sausage/1.png
+#	new file:   images/customer/progress/sausage/2.png
+#	deleted:    images/fullbeer.png
+#	new file:   images/kitchen-upgrade-pretzel-sausage.png
+#	new file:   images/kitchen-upgrade-pretzel.png
+#	new file:   images/kitchen-upgrade1-overlay.png
+#	new file:   images/kitchen-upgrade1.png
+#	new file:   images/kitchen-upgrade2-overlay.png
+#	new file:   images/kitchen-upgrade2.png
+#	new file:   images/new-beer-glow.png
+#	new file:   images/sausage_1.png
+#	new file:   images/sausage_2.png
+#	new file:   images/sausage_3.png
+#	new file:   images/sausage_4.png
+#	new file:   images/sausage_5.png
+#	new file:   images/sausage_6.png
+#	new file:   images/sausage_7.png
+#	new file:   images/sausage_8.png
+#	deleted:    images/smiley2.png
+#	deleted:    images/smiley3.png
+#	deleted:    images/smiley4.png
+#	new file:   images/walkerSittingBack_glow.png
+#	new file:   images/wood-floor4.jpg
+#	new file:   levels/CustomerPathmap.xml
+#	new file:   levels/Upgrade-Screen.xml
+#	new file:   native files/band.psd
+#	new file:   native files/bar-upgrade.psd
+#	new file:   native files/cartoon-band.jpg
+#	new file:   native files/cartoon-band.psd
+#	new file:   native files/cartoon-band2.jpg
+#	new file:   native files/cartoon-band2.psd
+#	new file:   native files/intro800600.ai
+#	new file:   native files/kitchen-upgrade.psd
+#	new file:   native files/pretzel.png
+#	new file:   native files/pretzel.psd
+#	new file:   native files/sausage.png
+#	new file:   native files/sausage.psd
+#	modified:   project.greenfoot
+#
+# Changes not staged for commit:
+#	modified:   README.md
+#	modified:   Waitress.java
+#
+

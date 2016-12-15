@@ -1,6 +1,7 @@
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
+import greenfoot.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -49,7 +50,9 @@ public class Table extends Actor {
      * Act - do whatever the Table wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
+    
     public void act() {
+        glow();
         updateBeerCount();
         updateWantBeerCount();
     }
@@ -68,12 +71,25 @@ public class Table extends Actor {
 
         return true;
     }
-
+    boolean mouseOver = false;
+    public void glow () {
+     if (!mouseOver && Greenfoot.mouseMoved(this))  
+           {  
+                setImage("table-object1.png");  
+                mouseOver = true;  
+           }  
+     if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))  
+           {  
+               setImage("table-object.png");  
+               mouseOver = false;  
+           }     
+    }
+    
     private void updateBeerCount() {
         int x = 12;
         int y = 0;
 
-        setImage(new GreenfootImage(originalImage));
+        //setImage(new GreenfootImage(originalImage));
 
         for (int i = 0; i < beer; i++) {
             y = (i % 2 != 0) ? 30 : 0;
@@ -115,3 +131,4 @@ public class Table extends Actor {
         return seats;
     }
 }
+

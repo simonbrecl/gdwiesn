@@ -16,6 +16,7 @@ public class Money extends Actor {
     private GreenfootImage sb;
     private GreenfootImage board;
     static int money = 0;
+    private Message msgbox;
 
     public Money(int width ,int height) {
         int boardTransparency = 150;
@@ -29,13 +30,21 @@ public class Money extends Actor {
 
     public void act() {
         timer++;
-
+        if (getWorld() instanceof MyWorld) {
         Message msgbox = ((MyWorld) getWorld()).messagebox;
-
         if (timer > 180) {
             getWorld().removeObject(msgbox);
             timer = 0;
         }
+     }
+     
+     if (getWorld() instanceof Level2) {
+        Message msgbox = ((Level2) getWorld()).messagebox;
+        if (timer > 180) {
+            getWorld().removeObject(msgbox);
+            timer = 0;
+        }
+     }
     }
 
     public synchronized void setMoney(int score) {
@@ -49,10 +58,17 @@ public class Money extends Actor {
     public synchronized void addMoney(int pts, int x, int y) {
         money += pts;
         update();
-
+       if (getWorld() instanceof MyWorld) {
         Message msgbox = ((MyWorld) getWorld()).messagebox;
         msgbox.setText("+15€");
         getWorld().addObject(msgbox, x, y);
+       }
+       
+       if (getWorld() instanceof Level2) {
+        Message msgbox = ((Level2) getWorld()).messagebox;
+        msgbox.setText("+15€");
+        getWorld().addObject(msgbox, x, y);
+       }
     }
 
     private void update() {

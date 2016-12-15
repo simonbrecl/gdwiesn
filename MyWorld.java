@@ -1,5 +1,9 @@
+import greenfoot.Greenfoot;
+import greenfoot.GreenfootSound;
+import greenfoot.MouseInfo;
+import greenfoot.World;
+import java.awt.*;
 import greenfoot.*;
-
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,6 +17,12 @@ import java.util.List;
  */
 public class MyWorld extends World {
     static final int MIN_PER_LEVEL = 5;
+    private Timer levelTimer;
+    private boolean timerGoing = false;
+    private ActionListener taskPerformer;
+    static final Lives heart1 = new Lives();
+    static final Lives heart2 = new Lives();
+    static final Lives heart3 = new Lives();
     static final int MAX_PEOPLE = 30;
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
@@ -28,9 +38,6 @@ public class MyWorld extends World {
     SausageBoy sausageBoy = new SausageBoy();
     Message messagebox = new Message("");
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
-    private Timer levelTimer;
-    private boolean timerGoing = false;
-    private ActionListener taskPerformer;
     private ArrayList<Seat> allSeats = new ArrayList<>();
     private Levelmap levelmap = new Levelmap("levels/MyWorld.xml", this);
     private int stupidTimer = 0;
@@ -83,6 +90,14 @@ public class MyWorld extends World {
      */
     private void prepare() {
 
+        Font font = getBackground().getFont();
+       font = font.deriveFont(Font.PLAIN, 24);
+        getBackground().setFont(font);
+        getBackground().setColor(Color.black);
+        getBackground().drawString("LEVEL "+day, 20, 548);
+        addObject(heart1,33,574);
+        addObject(heart2,80,574);
+        addObject(heart3,127,574);
 
         tent = new TentState();
 
@@ -91,7 +106,7 @@ public class MyWorld extends World {
             addObject(sausageBoy, 640, 370);
         }
     }
-
+    
     public void act() {
 
         if (tutorialActive == false) {

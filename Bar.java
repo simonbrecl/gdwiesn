@@ -1,6 +1,7 @@
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
+import greenfoot.*;
 
 /**
  * Write a description of class Bar here.
@@ -34,7 +35,17 @@ public class Bar extends Actor {
      * Act - do whatever the Bar wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
+    boolean mouseOver = false;
     public void act() {
-        // Add your action code here.
+        if (!mouseOver && Greenfoot.mouseMoved(this))  
+           {  
+                setImage("bar-for-barrel1.png");  
+                mouseOver = true;  
+           }  
+        if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))  
+           {  
+               setImage("bar.png");  
+               mouseOver = false;  
+           } 
     }
 }
