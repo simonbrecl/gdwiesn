@@ -9,6 +9,8 @@ public class TentState {
     private int bandLevel;
     private int decorationsLevel;
     private int barLevel;
+    private int money;
+
 
     /* Initialized at the start of the game */
     public TentState() {
@@ -17,7 +19,12 @@ public class TentState {
         bandLevel = 0;
         decorationsLevel = 0;
         barLevel = 1;
+        money = 0;
 
+    }
+
+    public void updateMoney(int m) {
+        money = m;
     }
 
     /** UPGRADE METHODS **/

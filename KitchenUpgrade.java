@@ -32,6 +32,8 @@ public class KitchenUpgrade extends Actor{
     private TextBox textBox = new TextBox(new Point(250, 100), text, new Font("Helvetica", Font.PLAIN, 15));
     private boolean boxShowing = false;
 
+
+
     public KitchenUpgrade() {
 
         prepare();
@@ -55,12 +57,21 @@ public class KitchenUpgrade extends Actor{
         pretzelBought = true;
         nextUpgradeCost = sausagePrice;
         this.setImage(new GreenfootImage("kitchen-upgrade2-overlay.png"));
+        UpgradeScreen world = (UpgradeScreen) getWorld();
+        if(world != null) {
+            world.tentState.upgradeKitchen();
+        }
+
 
     }
 
     public void buySausage() {
         sausageBought = true;
         this.setImage(new GreenfootImage("kitchen-upgrade2.png"));
+        UpgradeScreen world = (UpgradeScreen) getWorld();
+        if(world != null) {
+            world.tentState.upgradeKitchen();
+        }
     }
 
     public void act() {
@@ -70,11 +81,14 @@ public class KitchenUpgrade extends Actor{
             this.getWorld().removeObject(textBox);
             boxShowing = false;
         }
-        if(!sausageBought) {
+        if(!pretzelBought) {
             this.setImage(upgrade1Overlay);
         }
-        else {
+        else if(pretzelBought && !sausageBought) {
             this.setImage(upgrade2Overlay);
+        }
+        else {
+            this.setImage(upgrade2);
         }
 
         if (mouseInfo != null) {
@@ -94,6 +108,18 @@ public class KitchenUpgrade extends Actor{
                     this.getWorld().addObject(textBox, 600, 100);
                     boxShowing = true;
                 }
+            }
+
+            // Buy upgrade
+            if (Greenfoot.mouseClicked(this)) {
+                if(!pretzelBought) {
+                    buyPretzel();
+                }
+                else if(pretzelBought && !sausageBought) {
+                    buySausage();
+                }
+
+
             }
         }
 

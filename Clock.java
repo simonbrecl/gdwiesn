@@ -40,6 +40,9 @@ public class Clock extends Actor {
     public void startClock(int minutes) {
         minutesPerLevel = minutes;
         countsPerLevel = (double) minutes * 60 * 60;
+        decreaseVal = 360.0 / countsPerLevel;
+        delay = minutes * 60 * 1000; // milliseconds
+        stupidTimer = 0;
         started = true;
         //timer.start();
     }

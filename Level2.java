@@ -16,7 +16,7 @@ import java.util.List;
  * @version (a version number or a date)
  */
 public class Level2 extends World {
-    static final int MIN_PER_LEVEL = 5;
+    static final int MIN_PER_LEVEL = 3;
     private Timer levelTimer;
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
@@ -29,14 +29,14 @@ public class Level2 extends World {
     static int tutorialStage;
     int obsID = 0;
 
-    public static TentState tent;
+    public TentState tent;
     
     private Pathmap pathmap = new Pathmap("levels/Level2.xml");
 
     Long beginTime = System.currentTimeMillis();
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
     private ArrayList<Seat> allSeats = new ArrayList<>();
-    private Levelmap levelmap = new Levelmap("levels/Level2.xml", this);
+    private Levelmap levelmap;
     private int stupidTimer = 0;
     private int day = 2;
     Message messagebox = new Message("");
@@ -45,15 +45,18 @@ public class Level2 extends World {
     /**
      * Constructor for objects of class Level2.
      */
-    public Level2() {
+    public Level2(TentState state) {
         // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
         prepare();
+        levelmap = new Levelmap("levels/Level2.xml", this, state);
         for (Table t : levelmap.tables) {
             allSeats.addAll(t.getSeats());
         }
         started();
         tutorialStage = 1;
+        this.tent = state;
+
     }
 
     static int getTutorialStage() {
@@ -68,8 +71,6 @@ public class Level2 extends World {
         GreenfootSound sound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
         ambientSound.stop();
-        //Levelmap.clock.stopClock();
-        //levelTimer.stop();
         stupidTimer = 0;
     }
 
@@ -88,7 +89,6 @@ public class Level2 extends World {
         addObject(heart2,80,574);
         addObject(heart3,127,574);
 
-        tent = new TentState();
     }
     
     public void act() {

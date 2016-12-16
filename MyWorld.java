@@ -16,7 +16,7 @@ import java.util.List;
  * @version (a version number or a date)
  */
 public class MyWorld extends World {
-    static final int MIN_PER_LEVEL = 5;
+    static final int MIN_PER_LEVEL = 2;
     private Timer levelTimer;
     private boolean timerGoing = false;
     private ActionListener taskPerformer;
@@ -29,8 +29,8 @@ public class MyWorld extends World {
     static boolean tutorialActive = true;
     static int tutorialStage;
     int obsID = 0;
-
-    public static TentState tent;
+    int day1Goal = 200;
+    public TentState tent = new TentState();
     
     private Pathmap pathmap = new Pathmap("levels/MyWorld.xml");
 
@@ -39,7 +39,7 @@ public class MyWorld extends World {
     Message messagebox = new Message("");
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
     private ArrayList<Seat> allSeats = new ArrayList<>();
-    private Levelmap levelmap = new Levelmap("levels/MyWorld.xml", this);
+    private Levelmap levelmap = new Levelmap("levels/MyWorld.xml", this, tent);
     private int stupidTimer = 0;
     private int day = 1;
 
@@ -51,7 +51,10 @@ public class MyWorld extends World {
     public MyWorld() {
         // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
+
+
         prepare();
+
         for (Table t : levelmap.tables) {
             allSeats.addAll(t.getSeats());
         }
@@ -94,17 +97,19 @@ public class MyWorld extends World {
        font = font.deriveFont(Font.PLAIN, 24);
         getBackground().setFont(font);
         getBackground().setColor(Color.black);
-        getBackground().drawString("LEVEL "+day, 20, 548);
+        getBackground().drawString("Day " + day, 20, 548);
         addObject(heart1,33,574);
         addObject(heart2,80,574);
         addObject(heart3,127,574);
 
-        tent = new TentState();
+
 
         if (tutorialActive) {
             sausageBoy = new SausageBoy();
             addObject(sausageBoy, 640, 370);
         }
+        levelmap.goal.setGoal(200);
+
     }
     
     public void act() {
@@ -114,7 +119,7 @@ public class MyWorld extends World {
             if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
                 addRandomPeople();
                 beginTime = System.currentTimeMillis();
-                levelmap.clock.startClock(MIN_PER_LEVEL);
+
             }
 
             stupidTimer++;

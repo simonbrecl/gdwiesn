@@ -54,15 +54,16 @@ public class EndLevel extends World
         
         money = moneyCount;
         this.state = state;
+        state.updateMoney(money);
 
     }
     public void act()
     {
         if (Greenfoot.mouseClicked(this)) {
-           Level2 level2 = new Level2();
-           Greenfoot.setWorld(level2);
-            //UpgradeScreen screen = new UpgradeScreen(money, tentState);
-           // Greenfoot.setWorld(screen);  
+            UpgradeScreen screen = new UpgradeScreen(money, state);
+            Greenfoot.setWorld(screen);
+
+
         }
     }
 }
