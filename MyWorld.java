@@ -1,10 +1,8 @@
-import greenfoot.Greenfoot;
-import greenfoot.GreenfootSound;
-import greenfoot.MouseInfo;
-import greenfoot.World;
-import java.awt.*;
 import greenfoot.*;
+import greenfoot.MouseInfo;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,26 +15,23 @@ import java.util.List;
  */
 public class MyWorld extends World {
     static final int MIN_PER_LEVEL = 5;
-    private Timer levelTimer;
-    private boolean timerGoing = false;
-    private ActionListener taskPerformer;
     static final Lives heart1 = new Lives();
     static final Lives heart2 = new Lives();
     static final Lives heart3 = new Lives();
     static final int MAX_PEOPLE = 30;
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
+    public static TentState tent;
     static boolean tutorialActive = true;
     static int tutorialStage;
     int obsID = 0;
-
-    public static TentState tent;
-    
-    private Pathmap pathmap = new Pathmap("levels/MyWorld.xml");
-
     Long beginTime = System.currentTimeMillis();
     SausageBoy sausageBoy = new SausageBoy();
     Message messagebox = new Message("");
+    private Timer levelTimer;
+    private boolean timerGoing = false;
+    private ActionListener taskPerformer;
+    private Pathmap pathmap = new Pathmap("levels/MyWorld.xml");
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
     private ArrayList<Seat> allSeats = new ArrayList<>();
     private Levelmap levelmap = new Levelmap("levels/MyWorld.xml", this);
@@ -189,7 +184,7 @@ public class MyWorld extends World {
     private void addTutorialCustomer() {
         Customer c = new Customer(obsID++);
         addObject(c, 350, 550);
-        Seat s = allSeats.get(23);
+        Seat s = allSeats.get(15);
         s.setTaken(true);
         c.setSeat(s);
         c.moveTo(s.getX(), s.getY());
