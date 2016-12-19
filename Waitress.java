@@ -1,5 +1,6 @@
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import greenfoot.World;
 
 /**
  * Write a description of class Waitress here.
@@ -10,17 +11,15 @@ import greenfoot.GreenfootImage;
 public class Waitress extends MovableActor {
     private static final int PICKUP_RADIUS = 45;
     private static final int BEER_MAX = 5;
-    private static final int BEER_TIME = 50;
 
     private int beerCount = 0;
-    private int beerTimer = 0;
-    private MyWorld world1;
+    private LevelBase world;
 
     private GreenfootImage originalImage;
 
-    public Waitress() {
+    public Waitress(World world) {
         super("levels/MyWorld.xml", 5);
-
+        this.world = (LevelBase) world;
         originalImage = getImage();
     }
 
@@ -37,26 +36,6 @@ public class Waitress extends MovableActor {
     }
 
     private void unloadBeer() {
-        /*
-        if (beerTimer > 0) {
-            beerTimer--;
-        } else if (beerCount > 0 && isTouching(Table.class)) {
-            Table table = (Table) getOneIntersectingObject(Table.class);
-            
-            if (table.incrementBeer()) {
-                beerCount--;
-                Greenfoot.playSound("put-on-table.wav");
-            }
-            beerTimer = BEER_TIME;
-        }
-        
-        else if (beerCount > 0 && isTouching(Customer.class)) {
-                Customer obstacle = (Customer) getOneIntersectingObject(Customer.class);
-                Greenfoot.playSound("drop.mp3");
-                beerCount--;
-                beerTimer = BEER_TIME;
-            }
-        */
         if (beerCount > 0 && isTouching(Table.class)) {
             Table table = (Table) getOneIntersectingObject(Table.class);
 
@@ -75,15 +54,14 @@ public class Waitress extends MovableActor {
                 beer.pickUp();
                 beerCount++;
                 //loadBeer();
-                
-                if (getWorld() instanceof MyWorld) {
-                world1 = (MyWorld) getWorld();
+
+                if (world instanceof Level1) {
+                    if (((Level1) world).isTutorialActive()) {
+                        ((Level1) world).incrementTutorialStage(); // tutorialStage = 5
+                    }
                }
-              
-            
-               if (world1.isTutorialActive()) {
-                    world1.incrementTutorialStage(); // tutorialStage = 5
-               }
+
+
             }
         }
     }

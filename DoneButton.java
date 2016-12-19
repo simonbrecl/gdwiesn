@@ -1,4 +1,6 @@
-import greenfoot.*;
+import greenfoot.Actor;
+import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 
 import java.awt.*;
 
@@ -29,7 +31,7 @@ public class DoneButton extends Actor {
 
             //SAVE TENT STATE HERE
 
-            MyWorld world = new MyWorld();
+            LevelBase world = new Level1();
             Greenfoot.setWorld(world);
         }
 

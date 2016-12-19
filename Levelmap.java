@@ -76,7 +76,7 @@ class Levelmap {
                         break;
 
                     case "Waitress":
-                        waitress = new Waitress();
+                        waitress = new Waitress(world);
                         world.addObject(waitress, x, y);
 
                         break;

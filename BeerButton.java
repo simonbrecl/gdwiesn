@@ -50,18 +50,18 @@ public class BeerButton extends Actor {
         }
 
         // flash the barrel for tutorial mode
-        if (barrelFlash == true) {
+        if (barrelFlash) {
             counter++;
-            if (counter%25==0) {
+            if (counter % 25 == 0) {
                 setImage("barrelGlow.png");
             }
-            if (counter%50==0) {
+            if (counter % 50 == 0) {
                 setImage("barrel.png");
                 counter = 0;
             }
             if (Greenfoot.mouseClicked(this)) {
                 barrelFlash = false;
-                MyWorld world = (MyWorld) getWorld();
+                Level1 world = (Level1) getWorld();
                 world.incrementTutorialStage();
             }
         }
@@ -82,20 +82,17 @@ public class BeerButton extends Actor {
             } else if (fillCounter >= 100) {
                 this.setImage(new GreenfootImage("barrel.png"));
 
-               MyWorld world1;
-               Level2 world2;
-               Beer newBeer = new Beer();
-                if (getWorld() instanceof MyWorld) {
-                world1 = (MyWorld) getWorld();
-                world1.addObject(newBeer, bar.getX() - 20 + (bar.beerCount * 20), bar.getY() - 20);
-                    if (world1.isTutorialActive()) {
-                    newBeer.beerFlash();
+                Beer newBeer = new Beer();
+                if (getWorld() instanceof Level1) {
+                    Level1 world = (Level1) getWorld();
+                    world.addObject(newBeer, bar.getX() - 20 + (bar.beerCount * 20), bar.getY() - 20);
+                    if (world.isTutorialActive()) {
+                        newBeer.beerFlash();
+                    }
+                } else {
+                    LevelBase world = (LevelBase) getWorld();
+                    world.addObject(newBeer, bar.getX() - 20 + (bar.beerCount * 20), bar.getY() - 20);
                 }
-               }
-                if (getWorld() instanceof Level2) {
-                world2 = (Level2) getWorld();
-                world2.addObject(newBeer, bar.getX() - 20 + (bar.beerCount * 20), bar.getY() - 20);
-               }
                 newBeer.pour();
 
 
@@ -109,10 +106,6 @@ public class BeerButton extends Actor {
 
     void barrelFlash() {
         //change from true to false or vice versa.
-        if (barrelFlash) {
-            barrelFlash = false;
-        } else {
-            barrelFlash = true;
-        }
+        barrelFlash = !barrelFlash;
     }
 }

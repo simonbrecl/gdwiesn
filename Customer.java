@@ -31,8 +31,7 @@ public class Customer extends MovableActor {
     public void act() {
         super.act();
         moveAround();
-        //MyWorld world = (MyWorld) getWorld();
-        if (getWorld() instanceof MyWorld) {
+        if (getWorld() instanceof Level1) {
             if (isFlashing) {
                 counter++;
                 if (counter % 25 == 0) {
@@ -56,8 +55,8 @@ public class Customer extends MovableActor {
         if (isSitting()) {
             if (isWaiting()) {
                 //Check if its the first level
-                if (getWorld() instanceof MyWorld) {
-                    MyWorld world = (MyWorld) getWorld();
+                if (getWorld() instanceof Level1) {
+                    Level1 world = (Level1) getWorld();
                     if (seat.getTable().takeBeer()) {
                         setWaiting(false);
                         if (world.isTutorialActive()) {
@@ -92,7 +91,7 @@ public class Customer extends MovableActor {
             }
         } else if (reachedDestination) {
             if (leaving) {
-                if (getWorld() instanceof MyWorld) {
+                if (getWorld() instanceof Level1) {
                     World w = getWorld();
                     w.removeObject(this);
                 }
@@ -176,8 +175,8 @@ public class Customer extends MovableActor {
         setLocation(posX, posY);
         int order = 0;
 
-        if (getWorld() instanceof MyWorld) {
-            MyWorld w = (MyWorld) getWorld();
+        if (getWorld() instanceof Level1) {
+            Level1 w = (Level1) getWorld();
             order = Greenfoot.getRandomNumber(3);
             //for now, just Beer is available
             order = 0;
@@ -191,8 +190,8 @@ public class Customer extends MovableActor {
             cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX() + 10, getY() - 30);
         if (order == 2)
             cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX() + 10, getY() - 30);
-        if (getWorld() instanceof MyWorld) {
-            MyWorld w = (MyWorld) getWorld();
+        if (getWorld() instanceof Level1) {
+            Level1 w = (Level1) getWorld();
             w.addObject(cs, this.getX() + 10, this.getY() - 30);
         }
 

@@ -12,6 +12,11 @@ public class Level2 extends LevelBase {
      */
     public Level2() {
         super("levels/Level2.xml");
+        setDay(2);
+        setMinPerLevel(2);
+        setMaxPeople(20);
+        setMinPeople(1);
+        setInterval(3);
     }
 
     public void act() {
