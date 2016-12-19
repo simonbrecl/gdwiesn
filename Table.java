@@ -1,7 +1,7 @@
 import greenfoot.Actor;
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
-import greenfoot.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,12 +13,11 @@ import java.util.ArrayList;
  * @version (a version number or a date)
  */
 public class Table extends Actor {
+    boolean mouseOver = false;
     private Levelmap levelmap;
-
     private ArrayList<Seat> seats = new ArrayList<>();
     private int beer = 0;
     private int wantBeer = 0;
-
     private GreenfootImage originalImage;
 
     public Table(World world, int x, int y, Levelmap levelmap) {
@@ -50,7 +49,7 @@ public class Table extends Actor {
      * Act - do whatever the Table wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    
+
     public void act() {
         glow();
         updateBeerCount();
@@ -67,11 +66,11 @@ public class Table extends Actor {
         updateBeerCount();
         updateWantBeerCount();
 
-        levelmap.money.addMoney(15, getX() + 100, getY());
+        levelmap.getMoney().addMoney(15, getX() + 100, getY());
 
         return true;
     }
-    boolean mouseOver = false;
+
     public void glow () {
      if (!mouseOver && Greenfoot.mouseMoved(this))  
            {  

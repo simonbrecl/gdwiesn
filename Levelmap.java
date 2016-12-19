@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Levelmap {
-    World world;
+    private World world;
 
-    Bar bar;
-    Clock clock;
-    Money money;
-    Waitress waitress;
-    Goal goal;
+    private Bar bar;
+    private Clock clock;
+    private Money money;
+    private Waitress waitress;
+    private Goal goal;
 
-    List<Table> tables = new ArrayList<>();
+    private List<Table> tables = new ArrayList<>();
 
-    Levelmap(String file, World world) {
+    public Levelmap(String file, World world) {
         this.world = world;
 
         loadObjects(file);
@@ -105,5 +105,34 @@ class Levelmap {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public World getWorld() {
+        return world;
+    }
+
+    public Bar getBar() {
+        return bar;
+    }
+
+    public Clock getClock() {
+        return clock;
+    }
+
+    public Money getMoney() {
+        return money;
+    }
+
+    public Waitress getWaitress() {
+        return waitress;
+    }
+
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public List<Table> getTables() {
+        return tables;
     }
 }

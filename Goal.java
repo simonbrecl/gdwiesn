@@ -12,9 +12,9 @@ import java.awt.*;
 
 public class Goal extends Actor {
 
+    static int goal = 0;
     private GreenfootImage sb;
     private GreenfootImage board;
-    static int goal = 0;
 
     public Goal(int width ,int height) {
         int boardTransparency = 150;
@@ -30,15 +30,14 @@ public class Goal extends Actor {
 
     }
 
+    public synchronized int getGoal() {
+        return goal;
+    }
+
     public synchronized void setGoal(int goal) {
         this.goal = goal;
         update();
     }
-
-    static synchronized int getGoal() {
-        return goal;
-    }
-
 
     private void update() {
         sb = new GreenfootImage(board);
