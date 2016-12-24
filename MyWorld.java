@@ -162,7 +162,7 @@ public class MyWorld extends World {
                 sausageBoy.updateImage(tutorialStage);
                 List<Waitress> waitressList = getObjects(Waitress.class);
                 Waitress waitress = waitressList.get(0);
-                if (waitress.getBeerCount() > 0) {
+                if (waitress.getItemCount() > 0) {
                     List<Customer> customerList = getObjects(Customer.class);
                     Customer customer = customerList.get(0);
                     customer.flashTrue();
@@ -185,7 +185,7 @@ public class MyWorld extends World {
             Actor actor = mouseInfo.getActor();
 
             // Exclude other click-areas!
-            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy)) {
+            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {
                 levelmap.waitress.moveTo(mouseInfo.getX(), mouseInfo.getY());
             }
         }

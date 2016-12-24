@@ -10,9 +10,12 @@ import greenfoot.GreenfootImage;
 public class Waitress extends MovableActor {
     private static final int PICKUP_RADIUS = 45;
     private static final int BEER_MAX = 5;
+    private static final int DIFFERENT_ITEM_MAX = 2;
     private static final int BEER_TIME = 50;
 
     private int beerCount = 0;
+    private int itemCount = 0;
+    private int foodCount = 0;
     private int beerTimer = 0;
     private MyWorld world1;
 
@@ -105,7 +108,8 @@ public class Waitress extends MovableActor {
             }
         }
     }
-    public int getBeerCount() {
+    public int getItemCount() {
         return beerCount;
     }
+
 }

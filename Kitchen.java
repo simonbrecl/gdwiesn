@@ -2,6 +2,7 @@ import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 import greenfoot.*;
+import greenfoot.core.GreenfootMain;
 
 /**
  * Write a description of class Bar here.
@@ -12,14 +13,15 @@ import greenfoot.*;
 public class Kitchen extends Actor {
     static final int FOOD_MAX = 4;
     int foodCount = 0;
+    private int level = 1;
 
     public Kitchen() {
-        this.setImage(new GreenfootImage("kitchen-upgrade1.png"));
+        this.setImage("kitchen-upgrade1.png");
     }
 
     @Override
     protected void addedToWorld(World world) {
-        //getWorld().addObject(new BeerButton(this), getX() + 150, getY() - 25);
+        getWorld().addObject(new PretzelMachine(this), getX() - 150, getY() - 25);
     }
 
     /**
@@ -28,15 +30,34 @@ public class Kitchen extends Actor {
      */
     boolean mouseOver = false;
     public void act() {
-        /*if (!mouseOver && Greenfoot.mouseMoved(this))
+        if (!mouseOver && Greenfoot.mouseMoved(this))
         {
-            setImage("bar-for-barrel1.png");
+            if(level == 1) {
+                setImage("kitchen1-highlight.png");
+            }
+            else {
+                setImage("kitchen2-highlight.png");
+            }
+
             mouseOver = true;
         }
         if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))
         {
-            setImage("bar.png");
+            if(level == 1) {
+                setImage("kitchen-upgrade1.png");
+            }
+            else {
+                setImage("kitchen-upgrade2.png");
+            }
+
             mouseOver = false;
-        }*/
+        }
+    }
+
+    public void upgrade() {
+        level = 2;
+        this.setImage(new GreenfootImage("kitchen-upgrade2.png"));
+
+        //Later add sausage machine
     }
 }
