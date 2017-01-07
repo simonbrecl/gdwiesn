@@ -14,7 +14,7 @@ public class TentState {
 
     /* Initialized at the start of the game */
     public TentState() {
-        kitchenLevel = 1;
+        kitchenLevel = 0;
         securityLevel = 0;
         bandLevel = 0;
         decorationsLevel = 0;

@@ -93,11 +93,10 @@ public class Level2 extends World {
     
     public void act() {
         
-            levelmap.clock.startClock(MIN_PER_LEVEL);
+            levelmap.clock.startClock(MIN_PER_LEVEL, day);
             if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
                 addRandomPeople();
                 beginTime = System.currentTimeMillis();
-                levelmap.clock.startClock(MIN_PER_LEVEL);
             }
 
             stupidTimer++;

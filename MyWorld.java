@@ -93,14 +93,10 @@ public class MyWorld extends World {
      */
     private void prepare() {
 
-        Font font = getBackground().getFont();
-       font = font.deriveFont(Font.PLAIN, 24);
-        getBackground().setFont(font);
-        getBackground().setColor(Color.black);
-        getBackground().drawString("Day " + day, 20, 548);
-        addObject(heart1,33,574);
-        addObject(heart2,80,574);
-        addObject(heart3,127,574);
+
+        addObject(heart1,183,574);
+        addObject(heart2,230,574);
+        addObject(heart3,277,574);
 
 
 
@@ -114,8 +110,10 @@ public class MyWorld extends World {
     
     public void act() {
 
+
+
         if (tutorialActive == false) {
-            levelmap.clock.startClock(MIN_PER_LEVEL);
+            levelmap.clock.startClock(MIN_PER_LEVEL, day);
             if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
                 addRandomPeople();
                 beginTime = System.currentTimeMillis();

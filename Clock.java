@@ -23,6 +23,7 @@ public class Clock extends Actor {
     private double countsPerLevel;
     private int stupidTimer;
     private boolean started = false;
+    private int day = 1;
 
     public Clock(int minutes) {
         minutesPerLevel = minutes;
@@ -37,13 +38,14 @@ public class Clock extends Actor {
     }
 
     /* Starts the clock */
-    public void startClock(int minutes) {
+    public void startClock(int minutes, int day) {
         minutesPerLevel = minutes;
         countsPerLevel = (double) minutes * 60 * 60;
         decreaseVal = 360.0 / countsPerLevel;
         delay = minutes * 60 * 1000; // milliseconds
         stupidTimer = 0;
         started = true;
+        this.day = day;
         //timer.start();
     }
 
@@ -137,6 +139,13 @@ public class Clock extends Actor {
 
             face.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
         }
+
+        Font font = face.getFont();
+        font = font.deriveFont(Font.PLAIN, 16);
+        face.setFont(font);
+        face.setColor(Color.black);
+        face.drawString("Day " + day, 30, 55);
+
 
     }
 
