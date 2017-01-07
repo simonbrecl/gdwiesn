@@ -90,12 +90,12 @@ public class PretzelMachine extends Actor {
                 Pretzel newPretzel = new Pretzel();
                 if (getWorld() instanceof MyWorld) {
                     world1 = (MyWorld) getWorld();
-                    world1.addObject(newPretzel, kitchen.getX() - 20 + (kitchen.foodCount * 20), kitchen.getY() - 20);
+                    world1.addObject(newPretzel, kitchen.getX() - 50 + (kitchen.foodCount * 30), kitchen.getY() - 20);
 
                 }
                 if (getWorld() instanceof Level2) {
                     world2 = (Level2) getWorld();
-                    world2.addObject(newPretzel, kitchen.getX() - 20 + (kitchen.foodCount * 20), kitchen.getY() - 20);
+                    world2.addObject(newPretzel, kitchen.getX() - 50 + (kitchen.foodCount * 30), kitchen.getY() - 20);
                 }
 
 

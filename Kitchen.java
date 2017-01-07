@@ -16,7 +16,7 @@ public class Kitchen extends Actor {
     private int level = 1;
 
     public Kitchen() {
-        this.setImage("kitchen-upgrade1.png");
+        this.setImage("kitchen-counter1.png");
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Kitchen extends Actor {
         if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))
         {
             if(level == 1) {
-                setImage("kitchen-upgrade1.png");
+                setImage("kitchen-counter1.png");
             }
             else {
                 setImage("kitchen-upgrade2.png");

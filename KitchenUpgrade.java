@@ -37,6 +37,7 @@ public class KitchenUpgrade extends Actor{
     public KitchenUpgrade() {
 
         prepare();
+
     }
 
     public void prepare() {

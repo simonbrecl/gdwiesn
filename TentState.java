@@ -111,6 +111,16 @@ public class TentState {
         return bandLevel;
     }
 
+    /*
+        Return the number of possible things customers can order
+        1 - only beer
+        2 - beer and pretzels
+        3 - beer, pretzels, and sausages
+     */
+    public int getNumOrderOptions() {
+        return kitchenLevel+1;
+    }
+
 
 
 }

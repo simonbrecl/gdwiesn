@@ -10,11 +10,11 @@ public class Pretzel extends Actor{
     public long pourTimer = System.currentTimeMillis();
     private static final int POUR_TIME = 2000;
     public boolean isClicked = false;
-    static boolean isMade = false;
+    static boolean isMade = true;
     private int counter = 0;
 
     public Pretzel() {
-        this.setImage("pretzel.png");
+        this.setImage("plate-pretzel.png");
     }
 
     public void pickUp() {
@@ -33,11 +33,15 @@ public class Pretzel extends Actor{
         }
     }
 
-    public void isMade() {
+    public boolean isMade() {
         //setImage("beer.png");
+        return isMade;
+
+
+    }
+
+    public void make() {
         isMade = true;
-
-
     }
 
 }
