@@ -69,7 +69,9 @@ public class KitchenUpgrade extends Actor{
         this.setImage(new GreenfootImage("kitchen-upgrade2-overlay.png"));
         if(world != null) {
             boolean success = world.tentState.upgradeKitchen();
-
+            if(success) {
+                world.upgrademap.money.updateMoney(world.tentState.getMoney());
+            }
         }
 
 
@@ -135,9 +137,6 @@ public class KitchenUpgrade extends Actor{
                         buySausage();
                     }
                 }
-
-
-
             }
         }
 

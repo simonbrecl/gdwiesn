@@ -11,6 +11,7 @@ public class UpgradeScreen extends World {
 
     private int money;
     public TentState tentState;
+    public Upgrademap upgrademap;
     
     public UpgradeScreen(int money, TentState state) {
         super(800, 600, 1);
@@ -21,7 +22,7 @@ public class UpgradeScreen extends World {
     }
 
     public void prepare() {
-        Upgrademap.loadObjects("levels/Upgrade-Screen.xml", this);
+        upgrademap = new Upgrademap("levels/Upgrade-Screen.xml", this, tentState);
 
     }
 

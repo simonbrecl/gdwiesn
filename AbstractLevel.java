@@ -21,4 +21,5 @@ public abstract class AbstractLevel extends World{
     public void updateTentState(TentState state) {
         tentState = state;
     }
+
 }

@@ -21,7 +21,7 @@ public class TentState {
         decorationsLevel = 0;
         barLevel = 1;
         money = 0;
-        day = 0;
+        day = 1;
 
     }
 

@@ -41,10 +41,9 @@ public class MoneyLeft extends Actor {
         return money;
     }
 
-    public void subtractMoney(int amount) {
-        money -= amount;
-        UpgradeScreen world = (UpgradeScreen) getWorld();
-        world.getTentState().updateMoney(money);
+    public void updateMoney(int amount) {
+        money = amount;
+        update();
     }
 
 

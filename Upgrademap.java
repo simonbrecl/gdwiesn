@@ -9,17 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Upgrademap {
-    static BarUpgrade bar;
-    static MoneyLeft money;
-    static DoneButton doneButton;
-    static DecorationsUpgrade decorations;
-    static SecurityUpgrade security;
-    static BandUpgrade band;
-    static KitchenUpgrade kitchen;
+    UpgradeScreen world;
+    BarUpgrade bar;
+    MoneyLeft money;
+    DoneButton doneButton;
+    DecorationsUpgrade decorations;
+    SecurityUpgrade security;
+    BandUpgrade band;
+    KitchenUpgrade kitchen;
+    TentState tentState;
     
-    static List<Table> tables = new ArrayList<>();
+    List<Table> tables = new ArrayList<>();
 
-    static void loadObjects(String file, World world) {
+    public Upgrademap(String file, World world, TentState state) {
+        this.world = (UpgradeScreen) world;
+        tentState = state;
+        loadObjects(file);
+
+
+    }
+
+    private void loadObjects(String file) {
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Upgrademap.class.getResource(file).openStream());
 
