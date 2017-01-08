@@ -15,7 +15,7 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class MyWorld extends World {
+public class MyWorld extends AbstractLevel {
     static final int MIN_PER_LEVEL = 2;
     private Timer levelTimer;
     private boolean timerGoing = false;
@@ -50,7 +50,11 @@ public class MyWorld extends World {
      */
     public MyWorld() {
         // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
-        super(800, 600, 1);
+        // ^^ we do this in abstract world class
+        super(1, new TentState());
+
+        //Couldn't pass the tent state into the default constructor so here's the workaround
+        updateTentState(tent);
 
 
         prepare();
@@ -123,7 +127,7 @@ public class MyWorld extends World {
             stupidTimer++;
 
             if (stupidTimer >= MIN_PER_LEVEL*60*60) {
-                EndLevel endLevel = new EndLevel(day, Money.getMoney(), tent);
+                EndLevel endLevel = new EndLevel(day, levelmap.money.getMoney(), tent);
                 Money.clearPreviousDaysMoney();
                 Greenfoot.setWorld(endLevel);
 
@@ -162,8 +166,11 @@ public class MyWorld extends World {
                 Waitress waitress = waitressList.get(0);
                 if (waitress.getItemCount() > 0) {
                     List<Customer> customerList = getObjects(Customer.class);
-                    Customer customer = customerList.get(0);
-                    customer.flashTrue();
+                    if(!customerList.isEmpty()) {
+                        Customer customer = customerList.get(0);
+                        customer.flashTrue();
+                    }
+
                 }
             } else if (tutorialStage >= 6 && tutorialStage <= 8) {
                 sausageBoy.updateImage(tutorialStage);

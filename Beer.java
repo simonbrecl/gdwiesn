@@ -29,8 +29,6 @@ public class Beer extends Actor {
             }
             if (Greenfoot.mouseClicked(this)) {
                 isFlashing = false;
-                MyWorld world = (MyWorld) getWorld();
-                //world.incrementTutorialStage();
             }
         }
 

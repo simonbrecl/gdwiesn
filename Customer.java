@@ -220,16 +220,24 @@ public class Customer extends MovableActor {
             setImage("customer/model/walkerSittingBack.png");
         }
         setLocation(posX, posY);
-        
+
+        //Determine what the customer will order based on purchased upgrades
         if (getWorld() instanceof MyWorld) {
-        MyWorld w = (MyWorld) getWorld();
-        order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions());
-        //for now, just Beer is available
-        //order = 0;
-        if (w.isTutorialActive()) {
-            order = 0;
+            MyWorld w = (MyWorld) getWorld();
+            order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions());
+            //for now, just Beer is available
+            //order = 0;
+            if (w.isTutorialActive()) {
+                order = 0;
+            }
         }
-       }
+        else if(getWorld() instanceof Level2) {
+            Level2 w = (Level2) getWorld();
+            order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions());
+        }
+        System.out.println("Order number: " + order);
+
+
         if (order == 0) {
             cs = new CustomerSmiley(CustomerOrder.BEER, getX() + 10, getY() - 30);
             seat.getTable().wantBeer();

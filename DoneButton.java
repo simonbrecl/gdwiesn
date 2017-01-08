@@ -27,9 +27,8 @@ public class DoneButton extends Actor {
         if (Greenfoot.mouseClicked(this)) {
             //SAVE TENT STATE HERE
             UpgradeScreen world = (UpgradeScreen) getWorld();
+            world.goToNextDay();
 
-            Level2 level2 = new Level2(world.tentState);
-            Greenfoot.setWorld(level2);
         }
 
     }

@@ -30,5 +30,15 @@ public class UpgradeScreen extends World {
 
     }
 
+    public TentState getTentState() {
+        return tentState;
+    }
+
+    public void goToNextDay() {
+        tentState.increaseDay();
+        Level2 level = new Level2(tentState.getDay(), tentState);
+        Greenfoot.setWorld(level);
+    }
+
 
 }

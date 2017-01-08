@@ -15,7 +15,7 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Level2 extends World {
+public class Level2 extends AbstractLevel {
     static final int MIN_PER_LEVEL = 3;
     private Timer levelTimer;
     private boolean timerGoing = false;
@@ -38,16 +38,16 @@ public class Level2 extends World {
     private ArrayList<Seat> allSeats = new ArrayList<>();
     private Levelmap levelmap;
     private int stupidTimer = 0;
-    private int day = 2;
+    private int day;
     Message messagebox = new Message("");
     private int tutorialTimer = 0;
 
     /**
      * Constructor for objects of class Level2.
      */
-    public Level2(TentState state) {
+    public Level2(int day, TentState state) {
         // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
-        super(800, 600, 1);
+        super(day, state);
         prepare();
         levelmap = new Levelmap("levels/Level2.xml", this, state);
         for (Table t : levelmap.tables) {
@@ -56,6 +56,7 @@ public class Level2 extends World {
         started();
         tutorialStage = 1;
         this.tent = state;
+        this.day = day;
 
     }
 
@@ -79,15 +80,9 @@ public class Level2 extends World {
      * That is: create the initial objects and add them to the world.
      */
     private void prepare() {
-
-        Font font = getBackground().getFont();
-        font = font.deriveFont(Font.PLAIN, 24);
-        getBackground().setFont(font);
-        getBackground().setColor(Color.black);
-        getBackground().drawString("LEVEL "+day, 20, 548);
-        addObject(heart1,33,574);
-        addObject(heart2,80,574);
-        addObject(heart3,127,574);
+        addObject(heart1,183,574);
+        addObject(heart2,230,574);
+        addObject(heart3,277,574);
 
     }
     
@@ -125,14 +120,6 @@ public class Level2 extends World {
         }
     }
 
-    private void addTutorialCustomer() {
-        Customer c = new Customer(obsID++);
-        addObject(c, 350, 550);
-        Seat s = allSeats.get(23);
-        s.setTaken(true);
-        c.setSeat(s);
-        c.moveTo(s.getX(), s.getY());
-    }
     
     private void addRandomPeople() {
         for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++) {

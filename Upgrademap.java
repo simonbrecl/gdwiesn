@@ -1,16 +1,16 @@
-import greenfoot.World;
+import greenfoot.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
+import java.awt.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.List;
 
 class Upgrademap {
     static BarUpgrade bar;
-    static Money money;
+    static MoneyLeft money;
     static DoneButton doneButton;
     static DecorationsUpgrade decorations;
     static SecurityUpgrade security;
@@ -72,8 +72,17 @@ class Upgrademap {
                     
 
                     case "Money":
-                        money = new Money(width, height);
-                        //world.addObject(money, x, y);
+
+                        int amount = ((UpgradeScreen)world).getTentState().getMoney();
+                        int newWidth = 160;
+                        if(amount >= 100) {
+                            newWidth = 180;
+                        }
+                        else if(amount >= 1000) {
+                            newWidth = 200;
+                        }
+                        money = new MoneyLeft(newWidth, height, amount);
+                        world.addObject(money, ((UpgradeScreen)world).getWidth()/2 - newWidth/2, y);
 
                         break;
 
