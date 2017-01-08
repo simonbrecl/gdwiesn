@@ -1,10 +1,3 @@
-import greenfoot.*;
-import greenfoot.MouseInfo;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,135 +6,43 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class MyWorld extends AbstractLevel {
-    static final int MIN_PER_LEVEL = 2;
-    private Timer levelTimer;
-    private boolean timerGoing = false;
-    private ActionListener taskPerformer;
-    static final Lives heart1 = new Lives();
-    static final Lives heart2 = new Lives();
-    static final Lives heart3 = new Lives();
-    static final int MAX_PEOPLE = 30;
-    static final int MIN_PEOPLE = 1;
-    static final int INTERVAL = 5;
-    public static TentState tent;
-    static boolean tutorialActive = true;
-    static int tutorialStage;
-    int obsID = 0;
-    int day1Goal = 200;
-    
-    private Pathmap pathmap = new Pathmap("levels/MyWorld.xml");
 
-    Long beginTime = System.currentTimeMillis();
-    SausageBoy sausageBoy = new SausageBoy();
-    Message messagebox = new Message("");
-    private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
-    private ArrayList<Seat> allSeats = new ArrayList<>();
-    private Levelmap levelmap;
-    private int stupidTimer = 0;
-    private int day = 1;
+public class MyWorld extends LevelBase {
 
+    private boolean tutorialActive = true;
+    private int tutorialStage;
     private int tutorialTimer = 0;
+    private SausageBoy sausageBoy = new SausageBoy();
 
     /**
      * Constructor for objects of class MyWorld.
      */
     public MyWorld() {
-        // Create a new world with 800x600 cells with a cell size of 1x1 pixels.
-        // ^^ we do this in abstract world class
-        super(1, new TentState());
-
-
-        //Couldn't pass the tent state into the default constructor so here's the workaround
-        tent = new TentState();
-        updateTentState(tent);
-
-        levelmap = new Levelmap("levels/MyWorld.xml", this, tent);
-
-
-        prepare();
-
-        for (Table t : levelmap.tables) {
-            allSeats.addAll(t.getSeats());
-        }
-        started();
+        super(1, new TentState(), "levels/MyWorld.xml");
         tutorialStage = 1;
-    }
-
-    static boolean isTutorialActive() {
-        return tutorialActive;
-    }
-
-    static void incrementTutorialStage() {
-        tutorialStage++;
-    }
-
-    static int getTutorialStage() {
-        return tutorialStage;
-    }
-
-    public void started() {
-        ambientSound.playLoop();
-    }
-
-    public void stopped() {
-        GreenfootSound sound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
-
-        ambientSound.stop();
-        //Levelmap.clock.stopClock();
-        //levelTimer.stop();
-        stupidTimer = 0;
-    }
-
-    /**
-     * Prepare the world for the start of the program.
-     * That is: create the initial objects and add them to the world.
-     */
-    private void prepare() {
-
-
-        addObject(heart1,183,574);
-        addObject(heart2,230,574);
-        addObject(heart3,277,574);
-
-
 
         if (tutorialActive) {
             sausageBoy = new SausageBoy();
             addObject(sausageBoy, 640, 370);
         }
-        levelmap.goal.setGoal(200);
-
     }
-    
+
+    public boolean isTutorialActive() {
+        return tutorialActive;
+    }
+
+    public void incrementTutorialStage() {
+        tutorialStage++;
+    }
+
+    public int getTutorialStage() {
+        return tutorialStage;
+    }
+
+
     public void act() {
 
-
-
-        if (tutorialActive == false) {
-            levelmap.clock.startClock(MIN_PER_LEVEL, day);
-            if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
-                addRandomPeople();
-                beginTime = System.currentTimeMillis();
-
-            }
-
-            stupidTimer++;
-
-            if (stupidTimer >= MIN_PER_LEVEL*60*60) {
-                EndLevel endLevel = new EndLevel(day, levelmap.money.getMoney(), tent);
-                Money.clearPreviousDaysMoney();
-                Greenfoot.setWorld(endLevel);
-
-            }
-
-            if(levelmap.money.getMoney() > levelmap.goal.getGoal()) {
-
-                levelmap.goal.goalReached();
-            }
-        }
-
-        if (tutorialActive == true) {
+        if (tutorialActive) {
             if (tutorialStage == 1) {
                 tutorialTimer++;
                 if (tutorialTimer == 250) {
@@ -160,7 +61,7 @@ public class MyWorld extends AbstractLevel {
                 }
             } else if (tutorialStage == 4) {
                 // beerflash
-                //flashBeer();
+                flashBeer();
                 sausageBoy.updateImage(tutorialStage);
             } else if (tutorialStage == 5) {
                 sausageBoy.updateImage(tutorialStage);
@@ -181,22 +82,10 @@ public class MyWorld extends AbstractLevel {
                 tutorialActive = false;
             }
 
-            // turn flashing off once clicked
-            List<BeerButton> barrelList = getObjects(BeerButton.class);
-            BeerButton beerButton = barrelList.get(0);
+        } else {
+            baseLevelAct();
         }
-
-        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
-
-        if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
-            Actor actor = mouseInfo.getActor();
-
-
-            // Exclude other click-areas!
-            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {
-                levelmap.waitress.moveTo(mouseInfo.getX(), mouseInfo.getY());
-            }
-        }
+        clickControl();
     }
 
     private void addTutorialCustomer() {
@@ -206,21 +95,6 @@ public class MyWorld extends AbstractLevel {
         s.setTaken(true);
         c.setSeat(s);
         c.moveTo(s.getX(), s.getY());
-    }
-    
-    private void addRandomPeople() {
-        for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++) {
-            Customer c = new Customer(obsID++);
-            addObject(c, 350, 580);
-            int seatIndex = Greenfoot.getRandomNumber(allSeats.size());
-            while (allSeats.get(seatIndex).isTaken()) {
-                seatIndex = Greenfoot.getRandomNumber(allSeats.size());
-            }
-            Seat s = allSeats.get(seatIndex);
-            s.setTaken(true);
-            c.setSeat(s);
-            c.moveTo(s.getX(), s.getY());
-        }
     }
     
     private void flashBarrel() {

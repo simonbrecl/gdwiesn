@@ -52,7 +52,6 @@ public class Customer extends MovableActor {
 
     @Override
     public void finishedMoveTo() {
-        //System.out.println("customer finished moving");
         reachedDestination = true;
     }
 
@@ -60,124 +59,27 @@ public class Customer extends MovableActor {
 
         if (isSitting()) {
             if (isWaiting()) {
-                if (getWorld() instanceof MyWorld) {
+                //Check if its the first level
 
+                if (getWorld() instanceof MyWorld) {
+                    MyWorld world = (MyWorld) getWorld();
                     if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
                         setWaiting(false);
-                        MyWorld world = (MyWorld) getWorld();
                         if (world.isTutorialActive()) {
                             isFlashing = false;
                             setImage("walkerSittingBack.png");
-                            //MyWorld world = (MyWorld) getWorld();
                             world.incrementTutorialStage();
                         }
                         return;
                     }
-                    else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel()) {
-                        setWaiting(false);
-                        return;
-                    }
-                    currentWaitingTime--;
-    
-                   MyWorld tutWorld = (MyWorld) getWorld();
-                   
-                    if (!tutWorld.isTutorialActive()) {
-                        if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
-                            cs.setMood(1);
-                        }
-                        if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
-                            cs.setMood(0);
-                        }
-                        if (currentWaitingTime == 0) {
-                            if(order < BEER_CUTOFF) {
-                                seat.getTable().cancelOrder(Beer.class);
-                            }
-                            else if(order < PRETZEL_CUTOFF) {
-                                seat.getTable().cancelOrder(Pretzel.class);
-                            }
-                            leaveToDoor(true);
 
-                            counter1++;
-                            if (counter1 == 1) {
-                                MyWorld.heart3.getImage().setTransparency(100);        
-                                Level2.heart3.getImage().setTransparency(100);
-                           }
-                           
-                           if (counter1 == 2) {
-                                MyWorld.heart2.getImage().setTransparency(100);
-                                Level2.heart2.getImage().setTransparency(100);
-                           }
-                            
-                           if (counter1 == 3) {
-                               counter1 = 0;
-                               MyWorld.heart2.getImage().setTransparency(255);
-                               MyWorld.heart3.getImage().setTransparency(255);
-                               Level2.heart3.getImage().setTransparency(255);
-                               Level2.heart3.getImage().setTransparency(255);
-                               Money.clearPreviousDaysMoney();
-                               NoLives dead = new NoLives();
-                               Greenfoot.setWorld(dead);
-                            }
-                        }
+                    if (!world.isTutorialActive()) {
+                        normalAct();
                     }
+                } else {
+                    normalAct();
                 }
-                
-                if (getWorld() instanceof Level2) {
-
-                    if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
-                        setWaiting(false);
-                        return;
-                    }
-                    else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel()) {
-                        setWaiting(false);
-                        return;
-                    }
-
-
-                    currentWaitingTime--;
-                  
-                        if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
-                            cs.setMood(1);
-                        }
-                        if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
-                            cs.setMood(0);
-                        }
-                        if (currentWaitingTime == 0) {
-                            if(order < BEER_CUTOFF) {
-                                seat.getTable().cancelOrder(Beer.class);
-                            }
-                            else if(order < PRETZEL_CUTOFF) {
-                                seat.getTable().cancelOrder(Pretzel.class);
-                            }
-
-                            leaveToDoor(true);
-
-                            counter1++;
-                            if (counter1 == 1) {
-                                MyWorld.heart3.getImage().setTransparency(100);        
-                                Level2.heart3.getImage().setTransparency(100);
-                           }
-                           
-                           if (counter1 == 2) {
-                                MyWorld.heart2.getImage().setTransparency(100);
-                                Level2.heart2.getImage().setTransparency(100);
-                           }
-                            
-                           if (counter1 == 3) {
-                               counter1 = 0;
-                               MyWorld.heart2.getImage().setTransparency(255);
-                               MyWorld.heart3.getImage().setTransparency(255);
-                               Level2.heart3.getImage().setTransparency(255);
-                               Level2.heart3.getImage().setTransparency(255);
-                               Money.clearPreviousDaysMoney();
-                               NoLives dead = new NoLives();
-                               Greenfoot.setWorld(dead);
-                            }
-                        }
-                }
-           }
-            
-            else {
+            } else {
                 if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
                     cs.setProgress(2);
                 }
@@ -195,17 +97,63 @@ public class Customer extends MovableActor {
             }
         } else if (reachedDestination) {
             if (leaving) {
-               if (getWorld() instanceof MyWorld) {
-                World w = getWorld();
-                w.removeObject(this);
-            }
-            
-            if (getWorld() instanceof Level2) {
-                World y = getWorld();
-                y.removeObject(this);
-            }
+                if (getWorld() instanceof MyWorld) {
+                    World w = getWorld();
+                    w.removeObject(this);
+                }
+
+                if (getWorld() instanceof Level2) {
+                    World y = getWorld();
+                    y.removeObject(this);
+                }
             } else {
                 tryToSitDown();
+            }
+        }
+    }
+
+    private void normalAct() {
+        LevelBase world = (LevelBase) getWorld();
+        if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
+            setWaiting(false);
+            return;
+        }
+        else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel()) {
+            setWaiting(false);
+            return;
+        }
+        currentWaitingTime--;
+
+        if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
+            cs.setMood(1);
+        }
+        if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
+            cs.setMood(0);
+        }
+        if (currentWaitingTime == 0) {
+            if(order < BEER_CUTOFF) {
+                seat.getTable().cancelOrder(Beer.class);
+            }
+            else if(order < PRETZEL_CUTOFF) {
+                seat.getTable().cancelOrder(Pretzel.class);
+            }
+            leaveToDoor(true);
+            counter1++;
+            if (counter1 == 1) {
+                world.getHeart3().getImage().setTransparency(100);
+            }
+
+            if (counter1 == 2) {
+                world.getHeart2().getImage().setTransparency(100);
+            }
+
+            if (counter1 == 3) {
+                counter1 = 0;
+                world.getHeart2().getImage().setTransparency(255);
+                world.getHeart3().getImage().setTransparency(255);
+                Money.clearPreviousDaysMoney();
+                NoLives dead = new NoLives();
+                Greenfoot.setWorld(dead);
             }
         }
     }
@@ -226,7 +174,7 @@ public class Customer extends MovableActor {
     }
 
 
-   private boolean tryToSitDown() {
+    private boolean tryToSitDown() {
         setSitting(true);
         int posX;
         int posY;
@@ -242,21 +190,12 @@ public class Customer extends MovableActor {
         setLocation(posX, posY);
 
         //Determine what the customer will order based on purchased upgrades
-        if (getWorld() instanceof MyWorld) {
-            MyWorld w = (MyWorld) getWorld();
-            //order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions());
 
-            //for now, just Beer is available
-            //order = 0;
-            /*if (w.isTutorialActive()) {
-                order = 0;
-            }*/
-            order = 0;
-        }
-        else if(getWorld() instanceof Level2) {
+        int order = 0;
+
+        if(getWorld() instanceof Level2) {
             Level2 w = (Level2) getWorld();
             order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions() * 5);
-            //order = Greenfoot.getRandomNumber(10);
         }
 
 
@@ -274,11 +213,8 @@ public class Customer extends MovableActor {
             seat.getTable().wantSausage();
         }
 
-        AbstractLevel w = (AbstractLevel) getWorld();
+        LevelBase w = (LevelBase) getWorld();
         w.addObject(cs, this.getX() + 10, this.getY() - 30);
-
-
-
 
         setWaiting(true);
         return true;

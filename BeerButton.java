@@ -1,4 +1,6 @@
-import greenfoot.*;
+import greenfoot.Actor;
+import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 
 /**
  * Write a description of class BeerButton here.
@@ -8,28 +10,28 @@ import greenfoot.*;
  */
 public class BeerButton extends Actor {
 
-    private Bar bar;
-
-    private boolean filling;
-    private int fillCounter = 0;
-
-    private int counter = 0;
     static boolean barrelFlash;
-    
-    BeerButton(Bar bar) {
-        this.bar = bar;
-    }
-
     /**
      * Act - do whatever the BeerButton wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     boolean mouseOver = false;
+    private Bar bar;
+    private boolean filling;
+    private int fillCounter = 0;
+    private int counter = 0;
+
+    BeerButton(Bar bar) {
+        this.bar = bar;
+    }
 
     public BeerButton() {
         barrelFlash = false;
     }
-    
+
+    static boolean isFlashing() {
+        return barrelFlash;
+    }
 
     public void act() {
         pourBeer();
@@ -37,17 +39,15 @@ public class BeerButton extends Actor {
         if (filling) {
             fillCounter++;
         }
-        
-        if (!mouseOver && Greenfoot.mouseMoved(this))  
-           {  
-                setImage("barrel1.png");  
-                mouseOver = true;  
-           }  
-        if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))  
-           {  
-               setImage("barrel.png");  
-               mouseOver = false;  
-           } 
+
+        if (!mouseOver && Greenfoot.mouseMoved(this)) {
+            setImage("barrel1.png");
+            mouseOver = true;
+        }
+        if (mouseOver && Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
+            setImage("barrel.png");
+            mouseOver = false;
+        }
 
         // flash the barrel for tutorial mode
         if (barrelFlash == true) {
@@ -81,7 +81,7 @@ public class BeerButton extends Actor {
                 this.setImage(new GreenfootImage("barrel-full-beer1.png"));
             } else if (fillCounter >= 100) {
                 this.setImage(new GreenfootImage("barrel.png"));
-                
+
                MyWorld world1;
                Level2 world2;
                Beer newBeer = new Beer();
@@ -97,8 +97,7 @@ public class BeerButton extends Actor {
                 world2.addObject(newBeer, bar.getX() - 20 + (bar.beerCount * 20), bar.getY() - 20);
                }
                 newBeer.pour();
-                
-                
+
 
                 Greenfoot.playSound("zischen-sprudelwasser.mp3");
 
@@ -107,18 +106,13 @@ public class BeerButton extends Actor {
             }
         }
     }
-    
-    static void barrelFlash() {
+
+    void barrelFlash() {
         //change from true to false or vice versa.
-        if (barrelFlash == true) {
+        if (barrelFlash) {
             barrelFlash = false;
-        }
-        if (barrelFlash == false) {
+        } else {
             barrelFlash = true;
         }
-    }
-    
-    static boolean isFlashing() {
-        return barrelFlash;
     }
 }

@@ -37,8 +37,16 @@ public class UpgradeScreen extends World {
 
     public void goToNextDay() {
         tentState.increaseDay();
-        Level2 level = new Level2(tentState.getDay(), tentState);
-        Greenfoot.setWorld(level);
+        if(tentState.getDay() == 2) {
+            Level2 level = new Level2(tentState);
+            Greenfoot.setWorld(level);
+        }
+        else if(tentState.getDay() == 3) {
+            //Says level 2 for now but change this later
+            Level2 level = new Level2(tentState);
+            Greenfoot.setWorld(level);
+        }
+
     }
 
 
