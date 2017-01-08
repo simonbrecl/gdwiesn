@@ -11,7 +11,7 @@ public class LevelIntro extends LevelBase {
     private boolean bossLeft = false;
 
     public LevelIntro(World previousWorld) {
-        super("levels/LevelIntro.xml");
+        super(0, new TentState(), "levels/LevelIntro.xml");
         setBackground(new GreenfootImage("wood-floor4.jpg"));
         this.previousWorld = previousWorld;
         addBoss();
