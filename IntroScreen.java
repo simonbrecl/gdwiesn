@@ -39,8 +39,9 @@ public class IntroScreen extends World {
             }
 
             if (x > 304 && x < 490 && y > 375 && y < 450) {
-                Intro intro = new Intro(this);
-                Greenfoot.setWorld(intro);
+                introSound1.stop();
+                LevelBase myworld = new LevelIntro(this);
+                Greenfoot.setWorld(myworld);
             }
         }
     }
