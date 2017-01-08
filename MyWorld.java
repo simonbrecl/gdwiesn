@@ -1,10 +1,8 @@
-import greenfoot.Greenfoot;
-import greenfoot.GreenfootSound;
-import greenfoot.MouseInfo;
-import greenfoot.World;
-import java.awt.*;
 import greenfoot.*;
+import greenfoot.MouseInfo;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +24,11 @@ public class MyWorld extends AbstractLevel {
     static final int MAX_PEOPLE = 30;
     static final int MIN_PEOPLE = 1;
     static final int INTERVAL = 5;
+    public static TentState tent;
     static boolean tutorialActive = true;
     static int tutorialStage;
     int obsID = 0;
     int day1Goal = 200;
-    public TentState tent = new TentState();
     
     private Pathmap pathmap = new Pathmap("levels/MyWorld.xml");
 
@@ -39,7 +37,7 @@ public class MyWorld extends AbstractLevel {
     Message messagebox = new Message("");
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
     private ArrayList<Seat> allSeats = new ArrayList<>();
-    private Levelmap levelmap = new Levelmap("levels/MyWorld.xml", this, tent);
+    private Levelmap levelmap;
     private int stupidTimer = 0;
     private int day = 1;
 
@@ -53,8 +51,12 @@ public class MyWorld extends AbstractLevel {
         // ^^ we do this in abstract world class
         super(1, new TentState());
 
+
         //Couldn't pass the tent state into the default constructor so here's the workaround
+        tent = new TentState();
         updateTentState(tent);
+
+        levelmap = new Levelmap("levels/MyWorld.xml", this, tent);
 
 
         prepare();
@@ -200,7 +202,7 @@ public class MyWorld extends AbstractLevel {
     private void addTutorialCustomer() {
         Customer c = new Customer(obsID++);
         addObject(c, 350, 550);
-        Seat s = allSeats.get(23);
+        Seat s = allSeats.get(15);
         s.setTaken(true);
         c.setSeat(s);
         c.moveTo(s.getX(), s.getY());
