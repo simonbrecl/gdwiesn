@@ -73,11 +73,11 @@ public class PretzelMachine extends Actor {
             if (makeCounter >= 80) {
                 this.setImage(new GreenfootImage("pretzelMaker.png"));
 
-                MyWorld world1;
+                Level1 world1;
                 Level2 world2;
                 Pretzel newPretzel = new Pretzel();
-                if (getWorld() instanceof MyWorld) {
-                    world1 = (MyWorld) getWorld();
+                if (getWorld() instanceof Level1) {
+                    world1 = (Level1) getWorld();
                     world1.addObject(newPretzel, kitchen.getX() - 50 + (kitchen.foodCount * 30), kitchen.getY() - 20);
 
                 }

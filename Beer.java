@@ -1,4 +1,6 @@
-import greenfoot.*;
+import greenfoot.Actor;
+import greenfoot.Greenfoot;
+import greenfoot.World;
 
 /**
  * Write a description of class Beer here.
@@ -8,12 +10,12 @@ import greenfoot.*;
  */
 
 public class Beer extends Actor {
-    private Bar bar;
-    public long pourTimer = System.currentTimeMillis();
     private static final int POUR_TIME = 2000;
-    public boolean isClicked = false;
     static boolean isPoured = false;
     static boolean isFlashing = false;
+    public long pourTimer = System.currentTimeMillis();
+    public boolean isClicked = false;
+    private Bar bar;
     private int counter = 0;
 
     public void act() {

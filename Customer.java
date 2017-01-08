@@ -35,8 +35,7 @@ public class Customer extends MovableActor {
     public void act() {
         super.act();
         moveAround();
-        //MyWorld world = (MyWorld) getWorld();
-        if (getWorld() instanceof MyWorld) {
+        if (getWorld() instanceof Level1) {
             if (isFlashing) {
                 counter++;
                 if (counter % 25 == 0) {
@@ -61,8 +60,8 @@ public class Customer extends MovableActor {
             if (isWaiting()) {
                 //Check if its the first level
 
-                if (getWorld() instanceof MyWorld) {
-                    MyWorld world = (MyWorld) getWorld();
+                if (getWorld() instanceof Level1) {
+                    Level1 world = (Level1) getWorld();
                     if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
                         setWaiting(false);
                         if (world.isTutorialActive()) {
@@ -97,7 +96,7 @@ public class Customer extends MovableActor {
             }
         } else if (reachedDestination) {
             if (leaving) {
-                if (getWorld() instanceof MyWorld) {
+                if (getWorld() instanceof Level1) {
                     World w = getWorld();
                     w.removeObject(this);
                 }
@@ -206,6 +205,7 @@ public class Customer extends MovableActor {
         if (order >= 8 && order < 12) {
             cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX() + 10, getY() - 30);
             seat.getTable().wantPretzel();
+
         }
 
         if (order >= 12) {

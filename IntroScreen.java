@@ -34,7 +34,7 @@ public class IntroScreen extends World {
             int y = mouse.getY();
             if (x > 305 && x < 490 && y > 464 && y < 530) {
                 introSound1.stop();
-                MyWorld myworld = new MyWorld();
+                LevelBase myworld = new Level1();
                 Greenfoot.setWorld(myworld);
             }
 

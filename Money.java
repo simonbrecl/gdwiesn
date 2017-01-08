@@ -34,8 +34,8 @@ public class Money extends Actor {
 
     public void act() {
         timer++;
-        if (getWorld() instanceof MyWorld) {
-        Message msgbox = ((MyWorld) getWorld()).messagebox;
+        if (getWorld() instanceof Level1) {
+            Message msgbox = ((Level1) getWorld()).messagebox;
         if (timer > 180) {
             getWorld().removeObject(msgbox);
             timer = 0;
@@ -62,8 +62,8 @@ public class Money extends Actor {
     public synchronized void addMoney(int pts, int x, int y) {
         money += pts;
         update();
-       if (getWorld() instanceof MyWorld) {
-        Message msgbox = ((MyWorld) getWorld()).messagebox;
+        if (getWorld() instanceof Level1) {
+            Message msgbox = ((Level1) getWorld()).messagebox;
         msgbox.setText("+15€");
         getWorld().addObject(msgbox, x, y);
        }

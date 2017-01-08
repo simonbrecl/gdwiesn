@@ -1,13 +1,12 @@
 import java.util.List;
 
 /**
- * Write a description of class MyWorld here.
+ * Write a description of class Level1 here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-
-public class MyWorld extends LevelBase {
+public class Level1 extends LevelBase {
 
     private boolean tutorialActive = true;
     private int tutorialStage;
@@ -15,12 +14,17 @@ public class MyWorld extends LevelBase {
     private SausageBoy sausageBoy = new SausageBoy();
 
     /**
-     * Constructor for objects of class MyWorld.
+     * Constructor for objects of class Level1.
      */
-    public MyWorld() {
+    public Level1() {
         super(1, new TentState(), "levels/MyWorld.xml");
-        tutorialStage = 1;
 
+        tutorialStage = 1;
+        setDay(1);
+        setMinPerLevel(1);
+        setMaxPeople(15);
+        setMinPeople(1);
+        setInterval(5);
         if (tutorialActive) {
             sausageBoy = new SausageBoy();
             addObject(sausageBoy, 640, 370);
@@ -61,7 +65,6 @@ public class MyWorld extends LevelBase {
                 }
             } else if (tutorialStage == 4) {
                 // beerflash
-                flashBeer();
                 sausageBoy.updateImage(tutorialStage);
             } else if (tutorialStage == 5) {
                 sausageBoy.updateImage(tutorialStage);
@@ -96,16 +99,10 @@ public class MyWorld extends LevelBase {
         c.setSeat(s);
         c.moveTo(s.getX(), s.getY());
     }
-    
+
     private void flashBarrel() {
         List<BeerButton> barrelList = getObjects(BeerButton.class);
         BeerButton beerButton = barrelList.get(0);
         beerButton.barrelFlash();
-    }
-    
-    private void flashBeer() {
-        List<Beer> beerList = getObjects(Beer.class);
-        Beer beer = beerList.get(0);
-        beer.beerFlash();
     }
 }

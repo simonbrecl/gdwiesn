@@ -1,5 +1,6 @@
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import greenfoot.World;
 
 /**
  * Write a description of class Waitress here.
@@ -22,16 +23,15 @@ public class Waitress extends MovableActor {
     private int itemCount = 0;
     private int foodCount = 0;
     private int beerTimer = 0;
-    private MyWorld world1;
+    private LevelBase world;
 
     private GreenfootImage originalImage = new GreenfootImage("oktoberfest-waitress.png");
     private GreenfootImage newImage = new GreenfootImage("oktoberfest-waitress.png");
 
-    public Waitress() {
+    public Waitress(World world) {
         super("levels/MyWorld.xml", 5);
-
-        //originalImage = getImage();
-        //newImage = getImage();
+        this.world = (LevelBase) world;
+        originalImage = getImage();
     }
 
     /**
@@ -117,14 +117,15 @@ public class Waitress extends MovableActor {
                 beer.pickUp();
                 beerCount++;
                 itemCount++;
-                if (getWorld() instanceof MyWorld) {
-                    world1 = (MyWorld) getWorld();
+                if (getWorld() instanceof Level1) {
+                    Level1 world1 = (Level1) getWorld();
+                    if (world1.isTutorialActive()) {
+                        world1.incrementTutorialStage(); // tutorialStage = 5
+                    }
                 }
 
 
-                if (world1.isTutorialActive()) {
-                    world1.incrementTutorialStage(); // tutorialStage = 5
-                }
+
             }
 
         }
@@ -138,10 +139,6 @@ public class Waitress extends MovableActor {
                 pretzel.pickUp();
                 foodCount++;
                 itemCount++;
-                //loadBeer();
-
-
-
             }
         }
     }
@@ -151,9 +148,6 @@ public class Waitress extends MovableActor {
         int y = 0;
 
         int offset = (int) Math.floor(FOOD_MAX / 2);
-
-        //setImage(new GreenfootImage(originalImage));
-
 
         if (foodCount != 0) {
             for (int i = 0; i < foodCount; i++) {

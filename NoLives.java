@@ -1,4 +1,6 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.Greenfoot;
+import greenfoot.MouseInfo;
+import greenfoot.World;
 
 /**
  * Write a description of class NoLives here.
@@ -25,7 +27,7 @@ public class NoLives extends World
             int x = mouse.getX();
             int y = mouse.getY();
             if (x > 231 && x < 532 && y > 375 && y < 442) {
-                MyWorld myworld = new MyWorld();
+                Level1 myworld = new Level1();
                 Greenfoot.setWorld(myworld);
             }
         }

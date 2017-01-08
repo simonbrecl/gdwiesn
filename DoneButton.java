@@ -1,5 +1,8 @@
 import greenfoot.*;
 import greenfoot.MouseInfo;
+import greenfoot.Actor;
+import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 import java.awt.*;
 
 /**
@@ -30,10 +33,7 @@ public class DoneButton extends Actor {
             world.goToNextDay();
 
         }
-
     }
-
-
 
     private void update() {
         sb = new GreenfootImage(board);

@@ -12,19 +12,22 @@ import java.util.ArrayList;
 public class LevelBase extends World {
 
     //Duration of a level
-    public int MIN_PER_LEVEL = 5;
+    public int minPerLevel = 5;
     //Maximum amount of customers
-    public int MAX_PEOPLE = 30;
+    public int maxPeople = 30;
     //Minimum amount of customers
-    public int MIN_PEOPLE = 1;
+    public int minPeople = 1;
     //Interval of spawning customers
-    public int INTERVAL = 5;
+    public int interval = 5;
+
     public Levelmap levelmap;
     public TentState tent;
     public ArrayList<Seat> allSeats = new ArrayList<>();
+
     public int stupidTimer = 0;
     public int day = 1;
     public int obsID = 0;
+
     Message messagebox = new Message("");
     private Lives heart1 = new Lives();
     private Lives heart2 = new Lives();
@@ -77,22 +80,21 @@ public class LevelBase extends World {
 
 
     public void baseLevelAct() {
-        levelmap.getClock().startClock(MIN_PER_LEVEL, day);
+        levelmap.getClock().startClock(minPerLevel, day);
         spawnCustomers();
         updateClock();
         updateIfGoalReached();
-        clickControl();
     }
 
     private void spawnCustomers() {
-        if ((System.currentTimeMillis() - beginTime) / 1000 >= INTERVAL) {
+        if ((System.currentTimeMillis() - beginTime) / 1000 >= interval) {
             addRandomPeople();
             beginTime = System.currentTimeMillis();
         }
     }
 
     private void addRandomPeople() {
-        for (int i = 0; i < Greenfoot.getRandomNumber(MAX_PEOPLE + 1 - MAX_PEOPLE) + MIN_PEOPLE; i++) {
+        for (int i = 0; i < Greenfoot.getRandomNumber(maxPeople + 1 - maxPeople) + minPeople; i++) {
             Customer c = new Customer(obsID++);
             addObject(c, 350, 580);
             int seatIndex = Greenfoot.getRandomNumber(allSeats.size());
@@ -109,7 +111,7 @@ public class LevelBase extends World {
     private void updateClock() {
         stupidTimer++;
 
-        if (stupidTimer >= MIN_PER_LEVEL * 60 * 60) {
+        if (stupidTimer >= minPerLevel * 60 * 60) {
             EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
             Money.clearPreviousDaysMoney();
             Greenfoot.setWorld(endLevel);
@@ -160,5 +162,21 @@ public class LevelBase extends World {
 
     public TentState getTentState() {
         return tent;
+    }
+
+    public void setMinPerLevel(int minPerLevel) {
+        this.minPerLevel = minPerLevel;
+    }
+
+    public void setMaxPeople(int maxPeople) {
+        this.maxPeople = maxPeople;
+    }
+
+    public void setMinPeople(int minPeople) {
+        this.minPeople = minPeople;
+    }
+
+    public void setInterval(int interval) {
+        this.interval = interval;
     }
 }
