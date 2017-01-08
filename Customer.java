@@ -235,7 +235,6 @@ public class Customer extends MovableActor {
             Level2 w = (Level2) getWorld();
             order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions());
         }
-        System.out.println("Order number: " + order);
 
 
         if (order == 0) {

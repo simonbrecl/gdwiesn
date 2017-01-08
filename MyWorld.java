@@ -189,6 +189,7 @@ public class MyWorld extends AbstractLevel {
         if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
             Actor actor = mouseInfo.getActor();
 
+
             // Exclude other click-areas!
             if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {
                 levelmap.waitress.moveTo(mouseInfo.getX(), mouseInfo.getY());

@@ -114,7 +114,7 @@ public class Level2 extends AbstractLevel {
             Actor actor = mouseInfo.getActor();
 
             // Exclude other click-areas!
-            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy)) {
+            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {
                 levelmap.waitress.moveTo(mouseInfo.getX(), mouseInfo.getY());
             }
         }
