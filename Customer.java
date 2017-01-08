@@ -3,6 +3,8 @@ import greenfoot.World;
 
 public class Customer extends MovableActor {
 
+    static int counter = 0;
+    static int counter1 = 0;
     private final int id;
     private final int TOTAL_WAITINGTIME;
     private final int TOTAL_DRINKINGTIME;
@@ -14,8 +16,6 @@ public class Customer extends MovableActor {
     private boolean sitting = false;
     private Seat seat = null;
     private CustomerSmiley cs;
-    static int counter = 0;
-    static int counter1 = 0;
     private boolean isFlashing = false;
     private boolean reachedDestination = false;
     private boolean leaving = false;
@@ -95,7 +95,8 @@ public class Customer extends MovableActor {
                             else if(order < PRETZEL_CUTOFF) {
                                 seat.getTable().cancelOrder(Pretzel.class);
                             }
-                            leaveToDoor();
+                            leaveToDoor(true);
+
                             counter1++;
                             if (counter1 == 1) {
                                 MyWorld.heart3.getImage().setTransparency(100);        
@@ -149,7 +150,8 @@ public class Customer extends MovableActor {
                                 seat.getTable().cancelOrder(Pretzel.class);
                             }
 
-                            leaveToDoor();
+                            leaveToDoor(true);
+
                             counter1++;
                             if (counter1 == 1) {
                                 MyWorld.heart3.getImage().setTransparency(100);        
@@ -188,7 +190,7 @@ public class Customer extends MovableActor {
                 }
                 if (currentDrinkingTime == 0) {
                     Greenfoot.playSound("drunk-up.wav");
-                    leaveToDoor();
+                    leaveToDoor(false);
                 }
             }
         } else if (reachedDestination) {
@@ -208,12 +210,16 @@ public class Customer extends MovableActor {
         }
     }
 
-    private void leaveToDoor() {
+    private void leaveToDoor(boolean angry) {
         seat.setTaken(false);
         setSitting(false);
         reachedDestination = false;
         leaving = true;
-        setImage("customer/model/walker.png");
+        if (angry) {
+            setImage("customer/model/walkerAngry.png");
+        } else {
+            setImage("customer/model/walker.png");
+        }
         moveTo(350, 570);
         World w = getWorld();
         w.removeObject(cs);
