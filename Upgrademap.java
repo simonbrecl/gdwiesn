@@ -1,25 +1,35 @@
-import greenfoot.World;
+import greenfoot.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
+import java.awt.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.List;
 
 class Upgrademap {
-    static BarUpgrade bar;
-    static Money money;
-    static DoneButton doneButton;
-    static DecorationsUpgrade decorations;
-    static SecurityUpgrade security;
-    static BandUpgrade band;
-    static KitchenUpgrade kitchen;
+    UpgradeScreen world;
+    BarUpgrade bar;
+    MoneyLeft money;
+    DoneButton doneButton;
+    DecorationsUpgrade decorations;
+    SecurityUpgrade security;
+    BandUpgrade band;
+    KitchenUpgrade kitchen;
+    TentState tentState;
     
-    static List<Table> tables = new ArrayList<>();
+    List<Table> tables = new ArrayList<>();
 
-    static void loadObjects(String file, World world) {
+    public Upgrademap(String file, World world, TentState state) {
+        this.world = (UpgradeScreen) world;
+        tentState = state;
+        loadObjects(file);
+
+
+    }
+
+    private void loadObjects(String file) {
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Upgrademap.class.getResource(file).openStream());
 
@@ -72,8 +82,17 @@ class Upgrademap {
                     
 
                     case "Money":
-                        money = new Money(width, height);
-                        //world.addObject(money, x, y);
+
+                        int amount = ((UpgradeScreen)world).getTentState().getMoney();
+                        int newWidth = 160;
+                        if(amount >= 100) {
+                            newWidth = 180;
+                        }
+                        else if(amount >= 1000) {
+                            newWidth = 200;
+                        }
+                        money = new MoneyLeft(newWidth, height, amount);
+                        world.addObject(money, ((UpgradeScreen)world).getWidth()/2 - newWidth/2, y);
 
                         break;
 

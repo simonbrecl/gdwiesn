@@ -51,10 +51,9 @@ public class EndLevel extends World {
         } else {
             offset = 10;
         }
-        //getBackground().drawImage(moneyImage, 381 + offset, 172);
 
-        money = moneyCount;
         this.tentState = state;
+        state.updateMoney(money);
 
     }
 

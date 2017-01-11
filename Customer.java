@@ -8,6 +8,8 @@ public class Customer extends MovableActor {
     private final int id;
     private final int TOTAL_WAITINGTIME;
     private final int TOTAL_DRINKINGTIME;
+    private final int BEER_CUTOFF = 8;
+    private final int PRETZEL_CUTOFF = 12;
     private boolean waiting = false;
     private int currentWaitingTime = 0;
     private int currentDrinkingTime = 0;
@@ -17,6 +19,8 @@ public class Customer extends MovableActor {
     private boolean isFlashing = false;
     private boolean reachedDestination = false;
     private boolean leaving = false;
+    private int order = 0;
+
 
     public Customer(int id) {
         super("levels/CustomerPathmap.xml", 5);
@@ -55,9 +59,10 @@ public class Customer extends MovableActor {
         if (isSitting()) {
             if (isWaiting()) {
                 //Check if its the first level
+
                 if (getWorld() instanceof Level1) {
                     Level1 world = (Level1) getWorld();
-                    if (seat.getTable().takeBeer()) {
+                    if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
                         setWaiting(false);
                         if (world.isTutorialActive()) {
                             isFlashing = false;
@@ -108,7 +113,11 @@ public class Customer extends MovableActor {
 
     private void normalAct() {
         LevelBase world = (LevelBase) getWorld();
-        if (seat.getTable().takeBeer()) {
+        if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
+            setWaiting(false);
+            return;
+        }
+        else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel()) {
             setWaiting(false);
             return;
         }
@@ -121,7 +130,12 @@ public class Customer extends MovableActor {
             cs.setMood(0);
         }
         if (currentWaitingTime == 0) {
-            seat.getTable().cancelOrder();
+            if(order < BEER_CUTOFF) {
+                seat.getTable().cancelOrder(Beer.class);
+            }
+            else if(order < PRETZEL_CUTOFF) {
+                seat.getTable().cancelOrder(Pretzel.class);
+            }
             leaveToDoor(true);
             counter1++;
             if (counter1 == 1) {
@@ -173,33 +187,34 @@ public class Customer extends MovableActor {
             setImage("customer/model/walkerSittingBack.png");
         }
         setLocation(posX, posY);
+
+        //Determine what the customer will order based on purchased upgrades
+
         int order = 0;
 
-        if (getWorld() instanceof Level1) {
-            Level1 w = (Level1) getWorld();
-            order = Greenfoot.getRandomNumber(3);
-            //for now, just Beer is available
-            order = 0;
-            if (w.isTutorialActive()) {
-                order = 0;
-            }
-        }
-        if (order == 0)
-            cs = new CustomerSmiley(CustomerOrder.BEER, getX() + 10, getY() - 30);
-        if (order == 1)
-            cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX() + 10, getY() - 30);
-        if (order == 2)
-            cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX() + 10, getY() - 30);
-        if (getWorld() instanceof Level1) {
-            Level1 w = (Level1) getWorld();
-            w.addObject(cs, this.getX() + 10, this.getY() - 30);
+        if(getWorld() instanceof Level2) {
+            Level2 w = (Level2) getWorld();
+            order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions() * 5);
         }
 
-        if (getWorld() instanceof Level2) {
-            Level2 y = (Level2) getWorld();
-            y.addObject(cs, this.getX() + 10, this.getY() - 30);
+
+        if (order < 8) {
+            cs = new CustomerSmiley(CustomerOrder.BEER, getX() + 10, getY() - 30);
+            seat.getTable().wantBeer();
         }
-        seat.getTable().wantBeer();
+        if (order >= 8 && order < 12) {
+            cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX() + 10, getY() - 30);
+            seat.getTable().wantPretzel();
+
+        }
+
+        if (order >= 12) {
+            cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX() + 10, getY() - 30);
+            seat.getTable().wantSausage();
+        }
+
+        LevelBase w = (LevelBase) getWorld();
+        w.addObject(cs, this.getX() + 10, this.getY() - 30);
 
         setWaiting(true);
         return true;

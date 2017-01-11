@@ -13,11 +13,16 @@ import java.util.ArrayList;
  * @version (a version number or a date)
  */
 public class Table extends Actor {
-    boolean mouseOver = false;
     private Levelmap levelmap;
     private ArrayList<Seat> seats = new ArrayList<>();
     private int beer = 0;
     private int wantBeer = 0;
+    private int pretzel = 0; //How many pretzels are on the table that are unclaimed?
+    private int wantPretzel = 0; // Customers at table with pretzel orders
+    private int sausage = 0;
+    private int wantSausage = 0;
+    boolean mouseOver = false;
+
     private GreenfootImage originalImage;
 
     public Table(World world, int x, int y, Levelmap levelmap) {
@@ -52,8 +57,16 @@ public class Table extends Actor {
 
     public void act() {
         glow();
-        updateBeerCount();
-        updateWantBeerCount();
+
+        if(beer > 0) {
+            updateBeerCount();
+            //updateWantBeerCount();
+        }
+
+        if(pretzel > 0) {
+            updatePretzelCount();
+        }
+
     }
 
     public synchronized boolean incrementBeer() {
@@ -64,9 +77,24 @@ public class Table extends Actor {
         beer++;
         wantBeer--;
         updateBeerCount();
-        updateWantBeerCount();
+        //updateWantBeerCount();
 
         levelmap.getMoney().addMoney(15, getX() + 100, getY());
+
+        return true;
+    }
+
+    public synchronized boolean incrementPretzel() {
+        if (wantPretzel <= 0) {
+
+            return false;
+        }
+
+        pretzel++;
+        wantPretzel--;
+        updatePretzelCount();
+
+        levelmap.getMoney().addMoney(5, getX() + 100, getY());
 
         return true;
     }
@@ -101,13 +129,38 @@ public class Table extends Actor {
         }
     }
 
+    private void updatePretzelCount() {
+        int x = 12;
+        int y = 0;
+
+        //setImage(new GreenfootImage(originalImage));
+
+        for (int i = 0; i < pretzel; i++) {
+            y = (i % 2 != 0) ? 30 : 0;
+
+            getImage().drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+
+            if (i % 2 != 0) {
+                x += 37;
+            }
+        }
+    }
+
     private void updateWantBeerCount() {
         getImage().drawImage(new GreenfootImage(String.valueOf(wantBeer), 20, Color.WHITE, Color.BLACK), 70, 20);
     }
 
     public synchronized void wantBeer() {
         wantBeer++;
-        updateWantBeerCount();
+        //updateWantBeerCount();
+    }
+
+    public synchronized void wantPretzel() {
+        wantPretzel++;
+    }
+
+    public synchronized void wantSausage() {
+        wantPretzel++;
     }
 
     public synchronized boolean takeBeer() {
@@ -120,10 +173,26 @@ public class Table extends Actor {
             return false;
         }
     }
+    public synchronized boolean takePretzel() {
+        if (pretzel > 0) {
+            pretzel--;
+            updatePretzelCount();
 
-    public synchronized void cancelOrder() {
-        wantBeer--;
-        updateWantBeerCount();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public synchronized void cancelOrder(Class<?> cls) {
+        if(cls == Beer.class ) {
+            wantBeer--;
+        }
+        else if(cls == Pretzel.class) {
+            wantPretzel--;
+        }
+
+        //updateWantBeerCount();
     }
 
     public ArrayList<Seat> getSeats() {

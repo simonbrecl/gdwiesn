@@ -9,6 +9,9 @@ public class TentState {
     private int bandLevel;
     private int decorationsLevel;
     private int barLevel;
+    private int money;
+    private int day;
+
 
     /* Initialized at the start of the game */
     public TentState() {
@@ -17,7 +20,13 @@ public class TentState {
         bandLevel = 0;
         decorationsLevel = 0;
         barLevel = 1;
+        money = 0;
+        day = 1;
 
+    }
+
+    public void updateMoney(int m) {
+        money = m;
     }
 
     /** UPGRADE METHODS **/
@@ -25,11 +34,26 @@ public class TentState {
     /* Upgrade the kitchen level.
     Returns true if successful, false otherwise. */
     public boolean upgradeKitchen() {
-        if(kitchenLevel < 3) {
-            kitchenLevel++;
-            return true;
+        //Buy pretzels
+        if(kitchenLevel == 0) {
+            if(money < KitchenUpgrade.PRETZEL_PRICE) {
+                return false;
+            }
+            money -= KitchenUpgrade.PRETZEL_PRICE;
         }
-        return false;
+
+        //Buy pretzels
+        else if(kitchenLevel == 1) {
+            if(money < KitchenUpgrade.SAUSAGE_PRICE) {
+                return false;
+            }
+            money -= KitchenUpgrade.SAUSAGE_PRICE;
+        }
+        if(kitchenLevel == 2) {
+            return false;
+        }
+        kitchenLevel++;
+        return true;
     }
 
     /* Upgrade the bar level */
@@ -64,6 +88,15 @@ public class TentState {
             return true;
         }
         return false;
+    }
+
+    public boolean increaseDay() {
+        if(day < 16) {
+            day++;
+            return true;
+        }
+        return false;
+
     }
 
     /** GET METHODS **/
@@ -102,6 +135,24 @@ public class TentState {
      */
     public int getBandLevel() {
         return bandLevel;
+    }
+
+    /*
+        Return the number of possible things customers can order
+        1 - only beer
+        2 - beer and pretzels
+        3 - beer, pretzels, and sausages
+     */
+    public int getNumOrderOptions() {
+        return kitchenLevel+1;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public int getDay() {
+        return day;
     }
 
 

@@ -17,7 +17,8 @@ public class Level1 extends LevelBase {
      * Constructor for objects of class Level1.
      */
     public Level1() {
-        super("levels/MyWorld.xml");
+        super(1, new TentState(), "levels/MyWorld.xml");
+
         tutorialStage = 1;
         setDay(1);
         setMinPerLevel(1);
@@ -41,6 +42,7 @@ public class Level1 extends LevelBase {
     public int getTutorialStage() {
         return tutorialStage;
     }
+
 
     public void act() {
 
@@ -68,10 +70,13 @@ public class Level1 extends LevelBase {
                 sausageBoy.updateImage(tutorialStage);
                 List<Waitress> waitressList = getObjects(Waitress.class);
                 Waitress waitress = waitressList.get(0);
-                if (waitress.getBeerCount() > 0) {
+                if (waitress.getItemCount() > 0) {
                     List<Customer> customerList = getObjects(Customer.class);
-                    Customer customer = customerList.get(0);
-                    customer.flashTrue();
+                    if(!customerList.isEmpty()) {
+                        Customer customer = customerList.get(0);
+                        customer.flashTrue();
+                    }
+
                 }
             } else if (tutorialStage >= 6 && tutorialStage <= 8) {
                 sausageBoy.updateImage(tutorialStage);
@@ -79,6 +84,7 @@ public class Level1 extends LevelBase {
                 removeObject(sausageBoy);
                 tutorialActive = false;
             }
+
         } else {
             baseLevelAct();
         }

@@ -10,18 +10,19 @@ import java.util.List;
 
 class Levelmap {
     private World world;
-
+    private Kitchen kitchen;
     private Bar bar;
     private Clock clock;
     private Money money;
     private Waitress waitress;
     private Goal goal;
+    private TentState tentState;
 
     private List<Table> tables = new ArrayList<>();
 
-    public Levelmap(String file, World world) {
+    public Levelmap(String file, World world, TentState state) {
         this.world = world;
-
+        tentState = state;
         loadObjects(file);
     }
 
@@ -68,6 +69,15 @@ class Levelmap {
 
                         break;
 
+                    case "Kitchen":
+                        if(tentState.getKitchenLevel() == 1) {
+                            kitchen = new Kitchen();
+                            world.addObject(kitchen, x, y);
+                        }
+
+
+                        break;
+
                     case "Table":
                         Table table = new Table(world, x, y, this);
                         tables.add(table);
@@ -82,7 +92,7 @@ class Levelmap {
                         break;
 
                     case "Clock":
-                        clock = new Clock(5);
+                        clock = new Clock(2);
                         world.addObject(clock, x, y);
 
                         break;

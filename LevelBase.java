@@ -35,10 +35,12 @@ public class LevelBase extends World {
     private Long beginTime = System.currentTimeMillis();
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
-    public LevelBase(String pathToLevelmap) {
+    public LevelBase(int day, TentState state, String pathToLevelmap) {
         super(800, 600, 1);
         prepare();
-        levelmap = new Levelmap(pathToLevelmap, this);
+        this.day = day;
+        tent = state;
+        levelmap = new Levelmap(pathToLevelmap, this, tent);
         for (Table t : levelmap.getTables()) {
             allSeats.addAll(t.getSeats());
         }
@@ -68,9 +70,9 @@ public class LevelBase extends World {
         getBackground().setFont(font);
         getBackground().setColor(Color.black);
         getBackground().drawString("LEVEL " + day, 20, 548);
-        addObject(heart1, 33, 574);
-        addObject(heart2, 80, 574);
-        addObject(heart3, 127, 574);
+        addObject(heart1, 183, 574);
+        addObject(heart2, 230, 574);
+        addObject(heart3, 277, 574);
 
         tent = new TentState();
 
@@ -78,7 +80,7 @@ public class LevelBase extends World {
 
 
     public void baseLevelAct() {
-        levelmap.getClock().startClock(minPerLevel);
+        levelmap.getClock().startClock(minPerLevel, day);
         spawnCustomers();
         updateClock();
         updateIfGoalReached();
@@ -88,7 +90,6 @@ public class LevelBase extends World {
         if ((System.currentTimeMillis() - beginTime) / 1000 >= interval) {
             addRandomPeople();
             beginTime = System.currentTimeMillis();
-            levelmap.getClock().startClock(minPerLevel);
         }
     }
 
@@ -130,9 +131,10 @@ public class LevelBase extends World {
 
         if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
             Actor actor = mouseInfo.getActor();
+            System.out.println("Inside clickControl() and inside if statement");
 
             // Exclude other click-areas!
-            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy)) {
+            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {
                 levelmap.getWaitress().moveTo(mouseInfo.getX(), mouseInfo.getY());
             }
         }
@@ -152,6 +154,14 @@ public class LevelBase extends World {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    public void updateTentState(TentState state) {
+        tent = state;
+    }
+
+    public TentState getTentState() {
+        return tent;
     }
 
     public void setMinPerLevel(int minPerLevel) {
