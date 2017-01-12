@@ -41,52 +41,78 @@ public class LeftBeerBarrel extends Actor {
         //highlighted
         if (!mouseOver && Greenfoot.mouseMoved(this)) {
             setImage("left-barrel1.png");
-            if(fillCounter < 40) {
-                this.setImage(new GreenfootImage("left-barrel-filling-beer1.png"));
+            if(filling) {
+                if(fillCounter < 40) {
+                    this.setImage(new GreenfootImage("left-barrel-filling-beer1.png"));
+                }
+                else if(fillCounter < 80) {
+                    this.setImage(new GreenfootImage("left-barrel-full-beer1.png"));
+                }
             }
-            else if(fillCounter < 80) {
-                this.setImage(new GreenfootImage("left-barrel-full-beer1.png"));
-            }
+
             mouseOver = true;
         }
         if (mouseOver && Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
             setImage("left-barrel.png");
-            if(fillCounter < 40) {
-                this.setImage(new GreenfootImage("left-barrel-filling-beer.png"));
+            if(filling) {
+                if(fillCounter < 40) {
+                    this.setImage(new GreenfootImage("left-barrel-filling-beer.png"));
+                }
+                else if(fillCounter < 80) {
+                    this.setImage(new GreenfootImage("left-barrel-full-beer.png"));
+                }
             }
-            else if(fillCounter < 80) {
-                this.setImage(new GreenfootImage("left-barrel-full-beer.png"));
-            }
+
             mouseOver = false;
         }
     }
 
     public void pourBeer() {
-        if (Greenfoot.mouseClicked(this) && bar.beerCount < bar.BEER_MAX) {
+        if (Greenfoot.mouseClicked(this) && bar.beerCount < bar.beerMaximum) {
 
             filling = true;
-            this.setImage(new GreenfootImage("left-barrel-empty-beer1.png"));
+            if(mouseOver) {
+                this.setImage(new GreenfootImage("left-barrel-empty-beer1.png"));
+            }
+            else {
+                this.setImage(new GreenfootImage("left-barrel-empty-beer.png"));
+            }
         }
 
         if (filling) {
             if (fillCounter == 40) {
-                this.setImage(new GreenfootImage("left-barrel-filling-beer1.png"));
-            } else if (fillCounter == 80) {
-                this.setImage(new GreenfootImage("left-barrel-full-beer1.png"));
-            } else if (fillCounter >= 100) {
-                this.setImage(new GreenfootImage("left-barrel.png"));
+                if(mouseOver) {
+                    this.setImage(new GreenfootImage("left-barrel-filling-beer1.png"));
+                }
+                else {
+                    this.setImage(new GreenfootImage("left-barrel-filling-beer.png"));
+                }
+            }
+            else if (fillCounter == 80) {
+                if(mouseOver) {
+                    this.setImage(new GreenfootImage("left-barrel-full-beer1.png"));
+                }
+                else {
+                    this.setImage(new GreenfootImage("left-barrel-full-beer.png"));
+                }
+            }
+            else if (fillCounter >= 100) {
+                if(mouseOver) {
+                    this.setImage(new GreenfootImage("left-barrel1.png"));
+                }
+                else {
+                    this.setImage(new GreenfootImage("left-barrel.png"));
+                }
+
+                int offset = 40;
+                if(bar.upgradeLevel > 1) {
+                    offset = 90;
+                }
 
                 Beer newBeer = new Beer();
-                if (getWorld() instanceof Level1) {
-                    Level1 world = (Level1) getWorld();
-                    world.addObject(newBeer, bar.getX() - 120 + (bar.beerCount * 20), bar.getY() - 20);
-                    if (world.isTutorialActive()) {
-                        newBeer.beerFlash();
-                    }
-                } else {
-                    LevelBase world = (LevelBase) getWorld();
-                    world.addObject(newBeer, bar.getX() - 120 + (bar.beerCount * 20), bar.getY() - 20);
-                }
+                LevelBase world = (LevelBase) getWorld();
+                world.addObject(newBeer, bar.getX() - offset + (bar.beerCount * 20), bar.getY() - 20);
+
                 newBeer.pour();
 
 

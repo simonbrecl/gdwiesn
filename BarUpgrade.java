@@ -17,7 +17,7 @@ public class BarUpgrade extends Actor {
 
 
     //Add text box here
-    String text = "Purchase the bar upgrade for a second beer tap." +
+    String text = "Purchase the bar upgrade for a second beer tap and the ability to keep up to 10 beers on the counter." +
             "\nCost: " + nextUpgradeCost + "€";
     String clickToBuy = "\n\nClick to buy!";
     String moneyExtra = "\n\nSorry, you need more money!";
@@ -35,6 +35,10 @@ public class BarUpgrade extends Actor {
     }
 
     public void prepare() {
+        //Set the text boxes to read-only
+        readyToBuyBox.setReadOnly(true);
+        notEnoughMoneyBox.setReadOnly(true);
+        
         if (upgradeBought) {
             this.setImage(upgrade);
         }

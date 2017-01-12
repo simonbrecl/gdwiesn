@@ -9,7 +9,7 @@ import greenfoot.World;
  * @version (a version number or a date)
  */
 public class Waitress extends MovableActor {
-    private static final int PICKUP_RADIUS = 45;
+    private static final int PICKUP_RADIUS = 125;
     private static final int TWO_HAND_BEER_MAX = 6;
     private static final int ONE_HAND_BEER_MAX = 3;
     private static final int TWO_HAND_FOOD_MAX = 2;

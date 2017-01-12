@@ -11,12 +11,18 @@ import greenfoot.*;
  */
 public class Bar extends Actor {
     static final int BEER_MAX = 5;
+    static final int UPGRADED_BEER_MAX = 10;
+    static int beerMaximum = 5;
+
     int beerCount = 0;
     int upgradeLevel;
 
     public Bar(int level) {
         this.upgradeLevel = level;
         this.setImage(new GreenfootImage("bar.png"));
+        if(level > 1) {
+            beerMaximum = 10;
+        }
     }
 
     @Override

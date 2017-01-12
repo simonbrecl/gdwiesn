@@ -50,6 +50,10 @@ public class KitchenUpgrade extends Actor{
     }
 
     public void prepare() {
+        //Set the text boxes to read-only
+        readyToBuyBox.setReadOnly(true);
+        notEnoughMoneyBox.setReadOnly(true);
+
         if (pretzelBought) {
             this.setImage(upgrade2Overlay);
             nextUpgradeCost = SAUSAGE_PRICE;

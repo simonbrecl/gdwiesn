@@ -144,7 +144,8 @@ public class LevelBase extends World {
             Actor actor = mouseInfo.getActor();
 
             // Exclude other click-areas!
-            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {
+            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)
+                    && !(actor instanceof LeftBeerBarrel)) {
                 levelmap.getWaitress().moveTo(mouseInfo.getX(), mouseInfo.getY());
             }
         }

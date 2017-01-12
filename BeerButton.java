@@ -35,17 +35,36 @@ public class BeerButton extends Actor {
 
     public void act() {
         pourBeer();
-
         if (filling) {
             fillCounter++;
         }
 
         if (!mouseOver && Greenfoot.mouseMoved(this)) {
             setImage("barrel1.png");
+
+            //Change image for highlighted barrel
+            if(filling) {
+                if(fillCounter < 40) {
+                    this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
+                }
+                else if(fillCounter < 80) {
+                    this.setImage(new GreenfootImage("barrel-full-beer1.png"));
+                }
+            }
             mouseOver = true;
         }
+        //Change image for non-highlighted barrel
         if (mouseOver && Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
             setImage("barrel.png");
+
+            if(filling) {
+                if(fillCounter < 40) {
+                    this.setImage(new GreenfootImage("barrel-filling-beer.png"));
+                }
+                else if(fillCounter < 80) {
+                    this.setImage(new GreenfootImage("barrel-full-beer1.png"));
+                }
+            }
             mouseOver = false;
         }
 
@@ -68,30 +87,60 @@ public class BeerButton extends Actor {
     }
 
     public void pourBeer() {
-        if (Greenfoot.mouseClicked(this) && bar.beerCount < bar.BEER_MAX) {
+        if (Greenfoot.mouseClicked(this) && bar.beerCount < bar.beerMaximum) {
 
             filling = true;
-            this.setImage(new GreenfootImage("barrel-empty-beer1.png"));
+            if(mouseOver) {
+                this.setImage(new GreenfootImage("barrel-empty-beer1.png"));
+            }
+            else {
+                this.setImage(new GreenfootImage("barrel-empty-beer.png"));
+            }
+
         }
 
         if (filling) {
             if (fillCounter == 40) {
-                this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
-            } else if (fillCounter == 80) {
-                this.setImage(new GreenfootImage("barrel-full-beer1.png"));
-            } else if (fillCounter >= 100) {
-                this.setImage(new GreenfootImage("barrel.png"));
+                if(mouseOver) {
+                    this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
+                }
+                else {
+                    this.setImage(new GreenfootImage("barrel-filling-beer.png"));
+                }
+
+            }
+            else if (fillCounter == 80) {
+                if(mouseOver) {
+                    this.setImage(new GreenfootImage("barrel-full-beer1.png"));
+                }
+                else {
+                    this.setImage(new GreenfootImage("barrel-full-beer.png"));
+                }
+
+            }
+            else if (fillCounter >= 100) {
+                if(mouseOver) {
+                    this.setImage(new GreenfootImage("barrel1.png"));
+                }
+                else {
+                    this.setImage(new GreenfootImage("barrel.png"));
+                }
+
 
                 Beer newBeer = new Beer();
                 if (getWorld() instanceof Level1) {
                     Level1 world = (Level1) getWorld();
-                    world.addObject(newBeer, bar.getX() - 20 + (bar.beerCount * 20), bar.getY() - 20);
+                    world.addObject(newBeer, bar.getX() - 40 + (bar.beerCount * 20), bar.getY() - 20);
                     if (world.isTutorialActive()) {
                         newBeer.beerFlash();
                     }
                 } else {
+                    int offset = 40;
+                    if(bar.upgradeLevel > 1) {
+                        offset = 90;
+                    }
                     LevelBase world = (LevelBase) getWorld();
-                    world.addObject(newBeer, bar.getX() - 20 + (bar.beerCount * 20), bar.getY() - 20);
+                    world.addObject(newBeer, bar.getX() - offset + (bar.beerCount * 20), bar.getY() - 20);
                 }
                 newBeer.pour();
 
