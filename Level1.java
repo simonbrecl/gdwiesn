@@ -17,7 +17,7 @@ public class Level1 extends LevelBase {
      * Constructor for objects of class Level1.
      */
     public Level1() {
-        super(1, new TentState(), "levels/MyWorld.xml");
+        super(1, 150, new TentState(), "levels/MyWorld.xml");
 
         tutorialStage = 1;
         setDay(1);
