@@ -23,15 +23,13 @@ public class LeftBeerBarrel extends Actor {
 
     LeftBeerBarrel(Bar bar) {
         this.bar = bar;
+        this.setImage("left-barrel.png");
     }
 
     public LeftBeerBarrel() {
         barrelFlash = false;
     }
 
-    static boolean isFlashing() {
-        return barrelFlash;
-    }
 
     public void act() {
         pourBeer();
@@ -40,30 +38,26 @@ public class LeftBeerBarrel extends Actor {
             fillCounter++;
         }
 
+        //highlighted
         if (!mouseOver && Greenfoot.mouseMoved(this)) {
             setImage("left-barrel1.png");
+            if(fillCounter < 40) {
+                this.setImage(new GreenfootImage("left-barrel-filling-beer1.png"));
+            }
+            else if(fillCounter < 80) {
+                this.setImage(new GreenfootImage("left-barrel-full-beer1.png"));
+            }
             mouseOver = true;
         }
         if (mouseOver && Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
             setImage("left-barrel.png");
+            if(fillCounter < 40) {
+                this.setImage(new GreenfootImage("left-barrel-filling-beer.png"));
+            }
+            else if(fillCounter < 80) {
+                this.setImage(new GreenfootImage("left-barrel-full-beer.png"));
+            }
             mouseOver = false;
-        }
-
-        // flash the barrel for tutorial mode
-        if (barrelFlash) {
-            counter++;
-            if (counter % 25 == 0) {
-                setImage("left-barrelGlow.png");
-            }
-            if (counter % 50 == 0) {
-                setImage("left-barrel.png");
-                counter = 0;
-            }
-            if (Greenfoot.mouseClicked(this)) {
-                barrelFlash = false;
-                Level1 world = (Level1) getWorld();
-                world.incrementTutorialStage();
-            }
         }
     }
 
