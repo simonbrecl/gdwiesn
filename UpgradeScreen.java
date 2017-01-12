@@ -25,7 +25,7 @@ public class UpgradeScreen extends World {
 
     public void prepare() {
         upgrademap = new Upgrademap("levels/Upgrade-Screen.xml", this, tentState);
-        world = new LevelBase(2, new TentState(), "levels/MyWorld.xml");
+        world = new LevelBase(2,300, new TentState(), "levels/MyWorld.xml");
 
     }
 
@@ -45,7 +45,7 @@ public class UpgradeScreen extends World {
             Greenfoot.setWorld(level);
             world.getHeart2().getImage().setTransparency(255);
             world.getHeart3().getImage().setTransparency(255);
-            Customer.counter1=0;
+            Customer.counter1 = 0;
         } else if (tentState.getDay() == 3) {
             //Says level 2 for now but change this later
             Level2 level = new Level2(tentState);
