@@ -52,6 +52,8 @@ public class LevelBase extends World {
 
     @Override
     public void act() {
+        cheatControl();
+
         baseLevelAct();
         clickControl();
     }
@@ -146,6 +148,15 @@ public class LevelBase extends World {
             if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {
                 levelmap.getWaitress().moveTo(mouseInfo.getX(), mouseInfo.getY());
             }
+        }
+    }
+
+    void cheatControl() {
+        if (Greenfoot.isKeyDown("control") && Greenfoot.isKeyDown("enter")) {
+            levelmap.getMoney().setMoney(1000);
+            stupidTimer = minPerLevel * 60 * 60;
+
+            baseLevelAct();
         }
     }
 

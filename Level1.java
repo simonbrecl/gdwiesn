@@ -45,6 +45,7 @@ public class Level1 extends LevelBase {
 
 
     public void act() {
+        cheatControl();
 
         if (tutorialActive) {
             if (tutorialStage == 1) {
