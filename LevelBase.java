@@ -76,11 +76,6 @@ public class LevelBase extends World {
      */
     private void prepare() {
 
-        Font font = getBackground().getFont();
-        font = font.deriveFont(Font.PLAIN, 24);
-        getBackground().setFont(font);
-        getBackground().setColor(Color.black);
-        getBackground().drawString("LEVEL " + day, 20, 548);
         addObject(heart1, 183, 574);
         addObject(heart2, 230, 574);
         addObject(heart3, 277, 574);
