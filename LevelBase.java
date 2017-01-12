@@ -19,6 +19,8 @@ public class LevelBase extends World {
     public int minPeople = 1;
     //Interval of spawning customers
     public int interval = 5;
+    //Money goal.
+    public int goal = 200;
 
     public Levelmap levelmap;
     public TentState tent;
@@ -35,9 +37,10 @@ public class LevelBase extends World {
     private Long beginTime = System.currentTimeMillis();
     private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
-    public LevelBase(int day, TentState state, String pathToLevelmap) {
+    public LevelBase(int day, int goal, TentState state, String pathToLevelmap) {
         super(800, 600, 1);
         prepare();
+        this.goal = goal;
         this.day = day;
         tent = state;
         levelmap = new Levelmap(pathToLevelmap, this, tent);
@@ -49,6 +52,8 @@ public class LevelBase extends World {
 
     @Override
     public void act() {
+        cheatControl();
+
         baseLevelAct();
         clickControl();
     }
@@ -143,6 +148,15 @@ public class LevelBase extends World {
             if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {
                 levelmap.getWaitress().moveTo(mouseInfo.getX(), mouseInfo.getY());
             }
+        }
+    }
+
+    void cheatControl() {
+        if (Greenfoot.isKeyDown("control") && Greenfoot.isKeyDown("enter")) {
+            levelmap.getMoney().setMoney(1000);
+            stupidTimer = minPerLevel * 60 * 60;
+
+            baseLevelAct();
         }
     }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Levelmap {
-    private World world;
+    private LevelBase level;
     private Kitchen kitchen;
     private Bar bar;
     private Clock clock;
@@ -20,8 +20,8 @@ class Levelmap {
 
     private List<Table> tables = new ArrayList<>();
 
-    public Levelmap(String file, World world, TentState state) {
-        this.world = world;
+    public Levelmap(String file, LevelBase level, TentState state) {
+        this.level = level;
         tentState = state;
         loadObjects(file);
     }
@@ -65,49 +65,49 @@ class Levelmap {
                 switch (value.getTextContent()) {
                     case "Bar":
                         bar = new Bar();
-                        world.addObject(bar, x, y);
+                        level.addObject(bar, x, y);
 
                         break;
 
                     case "Kitchen":
                         if(tentState.getKitchenLevel() == 1) {
                             kitchen = new Kitchen();
-                            world.addObject(kitchen, x, y);
+                            level.addObject(kitchen, x, y);
                         }
 
 
                         break;
 
                     case "Table":
-                        Table table = new Table(world, x, y, this);
+                        Table table = new Table(level, x, y, this);
                         tables.add(table);
-                        world.addObject(table, x, y);
+                        level.addObject(table, x, y);
 
                         break;
 
                     case "Waitress":
-                        waitress = new Waitress(world);
-                        world.addObject(waitress, x, y);
+                        waitress = new Waitress(level);
+                        level.addObject(waitress, x, y);
 
                         break;
 
                     case "Clock":
                         clock = new Clock(2);
-                        world.addObject(clock, x, y);
+                        level.addObject(clock, x, y);
 
                         break;
 
                     case "Money":
                         money = new Money(width, height);
-                        world.addObject(money, x, y);
+                        level.addObject(money, x, y);
 
                         break;
 
                     case "Goal":
                         goal = new Goal(width, height);
-                        goal.setGoal(400);
+                        goal.setGoal(level.goal);
 
-                        world.addObject(goal, x, y);
+                        level.addObject(goal, x, y);
 
                         break;
                 }
@@ -119,7 +119,7 @@ class Levelmap {
 
 
     public World getWorld() {
-        return world;
+        return level;
     }
 
     public Bar getBar() {

@@ -55,7 +55,7 @@ public class Money extends Actor {
         return money;
     }
 
-    public synchronized void setMoney(int score) {
+    public synchronized void setMoney(int money) {
         this.money = money;
     }
 
