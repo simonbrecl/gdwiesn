@@ -64,15 +64,15 @@ public class BarUpgrade extends Actor {
     public void act() {
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();
 
-
+        if(boxShowing) {
+            this.getWorld().removeObject(currentBox);
+            boxShowing = false;
+        }
 
         if(!upgradeBought) {
             this.setImage(upgradeOverlay);
 
-            if(boxShowing) {
-                this.getWorld().removeObject(currentBox);
-                boxShowing = false;
-            }
+
             if(mouseInfo != null) {
                 List objects = getWorld().getObjectsAt(mouseInfo.getX(), mouseInfo.getY(), BarUpgrade.class);
                 for (Object object : objects)

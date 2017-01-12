@@ -24,7 +24,7 @@ public class Bar extends Actor {
         getWorld().addObject(new BeerButton(this), getX() + 150, getY() - 25);
 
         if(upgradeLevel > 1) {
-            getWorld().addObject(new BeerButton(this), getX() - 150, getY() - 25);
+            getWorld().addObject(new LeftBeerBarrel(this), getX() - 150, getY() - 25);
         }
     }
 
