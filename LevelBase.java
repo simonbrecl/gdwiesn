@@ -131,7 +131,6 @@ public class LevelBase extends World {
 
         if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
             Actor actor = mouseInfo.getActor();
-            System.out.println("Inside clickControl() and inside if statement");
 
             // Exclude other click-areas!
             if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)) {

@@ -58,8 +58,9 @@ public class TentState {
 
     /* Upgrade the bar level */
     public boolean upgradeBar() {
-        if(barLevel < 2) {
+        if(barLevel < 2 && money >= BarUpgrade.SECOND_TAP_PRICE) {
             barLevel++;
+            money -= BarUpgrade.SECOND_TAP_PRICE;
             return true;
         }
         return false;

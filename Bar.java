@@ -12,23 +12,20 @@ import greenfoot.*;
 public class Bar extends Actor {
     static final int BEER_MAX = 5;
     int beerCount = 0;
+    int upgradeLevel;
 
-    public Bar() {
-        /*
-        int x = 25;
-        
-        for (int i = 0; i < 5; i++) {
-            getImage().drawImage(new GreenfootImage("new-beer.png"), x, 10);
-        
-            x += 45;
-        }
-        */
+    public Bar(int level) {
+        this.upgradeLevel = level;
         this.setImage(new GreenfootImage("bar.png"));
     }
 
     @Override
     protected void addedToWorld(World world) {
         getWorld().addObject(new BeerButton(this), getX() + 150, getY() - 25);
+
+        if(upgradeLevel > 1) {
+            getWorld().addObject(new BeerButton(this), getX() - 150, getY() - 25);
+        }
     }
 
     /**

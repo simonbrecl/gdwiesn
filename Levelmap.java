@@ -64,7 +64,7 @@ class Levelmap {
 
                 switch (value.getTextContent()) {
                     case "Bar":
-                        bar = new Bar();
+                        bar = new Bar(tentState.getBarLevel());
                         world.addObject(bar, x, y);
 
                         break;
@@ -105,7 +105,7 @@ class Levelmap {
 
                     case "Goal":
                         goal = new Goal(width, height);
-                        goal.setGoal(400);
+                        goal.setGoal(150);
 
                         world.addObject(goal, x, y);
 
