@@ -21,7 +21,6 @@ public class Level2 extends LevelBase {
     }
 
     public void act() {
-        baseLevelAct();
-        clickControl();
+        super.act();
     }
 }

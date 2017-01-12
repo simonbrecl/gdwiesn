@@ -47,6 +47,12 @@ public class LevelBase extends World {
         started();
     }
 
+    @Override
+    public void act() {
+        baseLevelAct();
+        clickControl();
+    }
+
     public void started() {
         ambientSound.playLoop();
     }
