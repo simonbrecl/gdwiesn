@@ -1,4 +1,5 @@
 import greenfoot.Greenfoot;
+import greenfoot.GreenfootSound;
 import greenfoot.MouseInfo;
 import greenfoot.World;
 
@@ -18,7 +19,9 @@ public class NoLives extends World
     public NoLives()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(800, 600, 1); 
+        super(800, 600, 1);
+        GreenfootSound sound = new GreenfootSound("fail.wav");
+        sound.play();
     }
     
     public void act () {

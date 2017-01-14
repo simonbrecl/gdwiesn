@@ -1,5 +1,6 @@
 import greenfoot.Greenfoot;
 import greenfoot.World;
+import greenfoot.GreenfootSound;
 
 public class Customer extends MovableActor {
 
@@ -105,6 +106,16 @@ public class Customer extends MovableActor {
                     World y = getWorld();
                     y.removeObject(this);
                 }
+
+                if (getWorld() instanceof Level3) {
+                    World y = getWorld();
+                    y.removeObject(this);
+                }
+
+                if (getWorld() instanceof Level4) {
+                    World y = getWorld();
+                    y.removeObject(this);
+                }
             } else {
                 tryToSitDown();
             }
@@ -164,12 +175,15 @@ public class Customer extends MovableActor {
         leaving = true;
         if (angry) {
             setImage("customer/model/walkerAngry.png");
+            GreenfootSound sound = new GreenfootSound("angry.wav");
+            sound.play();
         } else {
             setImage("customer/model/walker.png");
         }
         moveTo(350, 570);
         World w = getWorld();
         w.removeObject(cs);
+
     }
 
 

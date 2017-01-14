@@ -47,10 +47,18 @@ public class UpgradeScreen extends World {
             world.getHeart3().getImage().setTransparency(255);
             Customer.counter1 = 0;
         } else if (tentState.getDay() == 3) {
-            //Says level 2 for now but change this later
-            Level2 level = new Level2(tentState);
-            Greenfoot.setWorld(level);
+            world.getHeart2().getImage().setTransparency(255);
+            world.getHeart3().getImage().setTransparency(255);
+            Customer.counter1 = 0;
+            Level3 level3 = new Level3(tentState);
+            Greenfoot.setWorld(level3);
         }
-
+        else if (tentState.getDay() == 4) {
+            world.getHeart2().getImage().setTransparency(255);
+            world.getHeart3().getImage().setTransparency(255);
+            Customer.counter1 = 0;
+            Level4 level4 = new Level4(tentState);
+            Greenfoot.setWorld(level4);
+        }
     }
 }
