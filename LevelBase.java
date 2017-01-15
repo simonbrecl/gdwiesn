@@ -167,10 +167,6 @@ public class LevelBase extends World {
         return heart3;
     }
 
-    public void setDay(int day) {
-        this.day = day;
-    }
-
     public void updateTentState(TentState state) {
         tent = state;
     }
