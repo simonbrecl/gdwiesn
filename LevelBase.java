@@ -52,10 +52,10 @@ public class LevelBase extends World {
 
     @Override
     public void act() {
-        cheatControl();
-
         baseLevelAct();
         clickControl();
+
+        cheatControl();
     }
 
     public void started() {
@@ -116,8 +116,7 @@ public class LevelBase extends World {
         stupidTimer++;
 
         if (stupidTimer >= minPerLevel * 60 * 60) {
-            EndLevel endLevel = new EndLevel(day, levelmap, tent);
-            Money.clearPreviousDaysMoney();
+            EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
             Greenfoot.setWorld(endLevel);
 
         }

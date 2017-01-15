@@ -142,7 +142,6 @@ public class Customer extends MovableActor {
                 counter1 = 0;
                 world.getHeart2().getImage().setTransparency(255);
                 world.getHeart3().getImage().setTransparency(255);
-                Money.clearPreviousDaysMoney();
                 NoLives dead = new NoLives();
                 Greenfoot.setWorld(dead);
             }

@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public class EndLevel extends World {
 
-    static int money;
+    private int money;
     /**
      * Constructor for objects of class LevelEnd.
      */
@@ -25,11 +25,14 @@ public class EndLevel extends World {
     private TentState tentState;
 
 
-    public EndLevel(int day, Levelmap levelmap, TentState state) {
+    public EndLevel(int day, int moneyCount, TentState state) {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
 
-        int moneyCount = levelmap.getMoney().getMoney();
+        money = state.getMoney() + moneyCount - 200;
+
+        this.tentState = state;
+        this.tentState.updateMoney(money);
 
         setBackground("levelend.jpg");
         int i = Customer.counter1;
@@ -40,9 +43,8 @@ public class EndLevel extends World {
         getBackground().drawImage(moneyImage, 413 + offset, 479);
         lostCostum = new GreenfootImage(i + "", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(lostCostum, 366 + offset, 420);
-        rent = new GreenfootImage(levelmap.getGoal().getGoal() + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
+        rent = new GreenfootImage("200€", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(rent, 413 + offset, 517);
-        money += moneyCount - 200;
         total = new GreenfootImage(money + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(total, 411 + offset, 553);
 
@@ -54,15 +56,11 @@ public class EndLevel extends World {
         } else {
             offset = 10;
         }
-
-        this.tentState = state;
-        state.updateMoney(money);
-
     }
 
     public void act() {
         if (Greenfoot.mouseClicked(this)) {
-            UpgradeScreen screen = new UpgradeScreen(money, tentState);
+            UpgradeScreen screen = new UpgradeScreen(tentState);
             Greenfoot.setWorld(screen);
         }
     }

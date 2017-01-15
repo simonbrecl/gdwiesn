@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class Money extends Actor {
 
-    static int money = 0;
+    private int money = 0;
     private int timer = 0;
     private GreenfootImage sb;
     private GreenfootImage board;
@@ -26,10 +26,6 @@ public class Money extends Actor {
         board.fillRect(0, 0, width, height);
         this.setImage(board);
         update();
-    }
-
-    static void clearPreviousDaysMoney() {
-        money = 0;
     }
 
     public void act() {
@@ -50,7 +46,7 @@ public class Money extends Actor {
     }
 
     public synchronized void addMoney(int money, int x, int y) {
-        Money.money += money;
+        this.money += money;
         update();
         Message msgbox = ((LevelBase) getWorld()).messagebox;
         msgbox.setText("+" + money + "€");
