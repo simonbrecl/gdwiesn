@@ -64,13 +64,13 @@ public class Money extends Actor {
         update();
         if (getWorld() instanceof Level1) {
             Message msgbox = ((Level1) getWorld()).messagebox;
-        msgbox.setText("+15€");
-        getWorld().addObject(msgbox, x, y);
+            msgbox.setText("+" + pts + "€");
+            getWorld().addObject(msgbox, x, y);
        }
 
         if (getWorld() instanceof Level2) {
         Message msgbox = ((Level2) getWorld()).messagebox;
-        msgbox.setText("+15€");
+        msgbox.setText("+" + pts + "€");
         getWorld().addObject(msgbox, x, y);
        }
     }

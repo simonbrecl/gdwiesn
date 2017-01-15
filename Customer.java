@@ -62,7 +62,7 @@ public class Customer extends MovableActor {
 
                 if (getWorld() instanceof Level1) {
                     Level1 world = (Level1) getWorld();
-                    if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
+                    if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
                         setWaiting(false);
                         if (world.isTutorialActive()) {
                             isFlashing = false;
@@ -113,11 +113,11 @@ public class Customer extends MovableActor {
 
     private void normalAct() {
         LevelBase world = (LevelBase) getWorld();
-        if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
+        if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
             setWaiting(false);
             return;
         }
-        else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel()) {
+        else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel(cs.getMood())) {
             setWaiting(false);
             return;
         }

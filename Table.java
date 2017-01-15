@@ -79,8 +79,6 @@ public class Table extends Actor {
         updateBeerCount();
         //updateWantBeerCount();
 
-        levelmap.getMoney().addMoney(15, getX() + 100, getY());
-
         return true;
     }
 
@@ -93,8 +91,6 @@ public class Table extends Actor {
         pretzel++;
         wantPretzel--;
         updatePretzelCount();
-
-        levelmap.getMoney().addMoney(5, getX() + 100, getY());
 
         return true;
     }
@@ -163,20 +159,24 @@ public class Table extends Actor {
         wantPretzel++;
     }
 
-    public synchronized boolean takeBeer() {
+    public synchronized boolean takeBeer(int mood) {
         if (beer > 0) {
             beer--;
             updateBeerCount();
+
+            pay(10, mood);
 
             return true;
         } else {
             return false;
         }
     }
-    public synchronized boolean takePretzel() {
+    public synchronized boolean takePretzel(int mood) {
         if (pretzel > 0) {
             pretzel--;
             updatePretzelCount();
+
+            pay(5, mood);
 
             return true;
         } else {
@@ -197,6 +197,20 @@ public class Table extends Actor {
 
     public ArrayList<Seat> getSeats() {
         return seats;
+    }
+
+    private void pay(int money, int mood) {
+        switch (mood) {
+            case 1:
+                money += 2;
+                break;
+
+            case 2:
+                money += 5;
+                break;
+        }
+        System.out.println("Mood: " + mood + " Money: " + money);
+        levelmap.getMoney().addMoney(money, getX() + 100, getY());
     }
 }
 
