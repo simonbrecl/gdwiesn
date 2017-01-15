@@ -209,7 +209,7 @@ public class Table extends Actor {
                 money += 5;
                 break;
         }
-        System.out.println("Mood: " + mood + " Money: " + money);
+
         levelmap.getMoney().addMoney(money, getX() + 100, getY());
     }
 }

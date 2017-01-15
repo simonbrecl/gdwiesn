@@ -96,15 +96,7 @@ public class Customer extends MovableActor {
             }
         } else if (reachedDestination) {
             if (leaving) {
-                if (getWorld() instanceof Level1) {
-                    World w = getWorld();
-                    w.removeObject(this);
-                }
-
-                if (getWorld() instanceof Level2) {
-                    World y = getWorld();
-                    y.removeObject(this);
-                }
+                getWorld().removeObject(this);
             } else {
                 tryToSitDown();
             }

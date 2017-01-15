@@ -34,21 +34,11 @@ public class Money extends Actor {
 
     public void act() {
         timer++;
-        if (getWorld() instanceof Level1) {
-            Message msgbox = ((Level1) getWorld()).messagebox;
+        Message msgbox = ((LevelBase) getWorld()).messagebox;
         if (timer > 180) {
             getWorld().removeObject(msgbox);
             timer = 0;
         }
-     }
-
-     if (getWorld() instanceof Level2) {
-        Message msgbox = ((Level2) getWorld()).messagebox;
-        if (timer > 180) {
-            getWorld().removeObject(msgbox);
-            timer = 0;
-        }
-     }
     }
 
     public synchronized int getMoney() {
@@ -59,20 +49,12 @@ public class Money extends Actor {
         this.money = money;
     }
 
-    public synchronized void addMoney(int pts, int x, int y) {
-        money += pts;
+    public synchronized void addMoney(int money, int x, int y) {
+        Money.money += money;
         update();
-        if (getWorld() instanceof Level1) {
-            Message msgbox = ((Level1) getWorld()).messagebox;
-            msgbox.setText("+" + pts + "€");
-            getWorld().addObject(msgbox, x, y);
-       }
-
-        if (getWorld() instanceof Level2) {
-        Message msgbox = ((Level2) getWorld()).messagebox;
-        msgbox.setText("+" + pts + "€");
+        Message msgbox = ((LevelBase) getWorld()).messagebox;
+        msgbox.setText("+" + money + "€");
         getWorld().addObject(msgbox, x, y);
-       }
     }
 
     private void update() {
