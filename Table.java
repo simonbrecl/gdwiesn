@@ -210,7 +210,7 @@ public class Table extends Actor {
                 break;
         }
 
-        levelmap.getMoney().addMoney(money, getX() + 100, getY());
+        levelmap.getMoney().addMoney(money, getX() + (getX() > getWorld().getWidth() / 2 ? 100 : -100), getY());
     }
 }
 

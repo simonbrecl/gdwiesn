@@ -80,8 +80,6 @@ public class LevelBase extends World {
         addObject(heart2, 230, 574);
         addObject(heart3, 277, 574);
 
-        tent = new TentState();
-
     }
 
 
@@ -118,7 +116,7 @@ public class LevelBase extends World {
         stupidTimer++;
 
         if (stupidTimer >= minPerLevel * 60 * 60) {
-            EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
+            EndLevel endLevel = new EndLevel(day, levelmap, tent);
             Money.clearPreviousDaysMoney();
             Greenfoot.setWorld(endLevel);
 
