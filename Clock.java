@@ -80,6 +80,7 @@ public class Clock extends Actor {
         if(started) {
             stupidTimer++;
             decreaseClock();
+            updateLabel();
         }
 
         /*if (stupidTimer > countsPerLevel) {
@@ -90,13 +91,28 @@ public class Clock extends Actor {
 
     public void updateFace() {
 
+        // turning 4 days per level
+        if (degrees > 90.0) {
+            day++;
+            updateLabel();
+        }
+
+        if (degrees > 180.0) {
+            day++;
+            updateLabel();
+        }
+
+        if (degrees > 270.0) {
+            day++;
+            updateLabel();
+        }
+
         if (degrees > 230.0) {
             face.setColor(Color.ORANGE);
             face.fillOval(2, 2, 96, 96);
         }
 
         if (degrees > 300.0) {
-
             face.setColor(Color.RED);
             face.fillOval(2, 2, 96, 96);
         }
@@ -139,14 +155,15 @@ public class Clock extends Actor {
 
             face.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
         }
-
         Font font = face.getFont();
         font = font.deriveFont(Font.PLAIN, 16);
         face.setFont(font);
         face.setColor(Color.black);
+    }
+
+    // update label
+    public void updateLabel() {
         face.drawString("Day " + day, 30, 55);
-
-
     }
 
     public void decreaseClock() {

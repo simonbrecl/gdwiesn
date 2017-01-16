@@ -1,5 +1,6 @@
 import greenfoot.Greenfoot;
 import greenfoot.World;
+import greenfoot.GreenfootSound;
 
 public class Customer extends MovableActor {
 
@@ -155,6 +156,8 @@ public class Customer extends MovableActor {
         leaving = true;
         if (angry) {
             setImage("customer/model/walkerAngry.png");
+            GreenfootSound sound = new GreenfootSound("angry.wav");
+            sound.play();
         } else {
             setImage("customer/model/walker.png");
         }
