@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class Money extends Actor {
 
-    static int money = 0;
+    private int money = 0;
     private int timer = 0;
     private GreenfootImage sb;
     private GreenfootImage board;
@@ -28,27 +28,13 @@ public class Money extends Actor {
         update();
     }
 
-    static void clearPreviousDaysMoney() {
-        money = 0;
-    }
-
     public void act() {
         timer++;
-        if (getWorld() instanceof Level1) {
-            Message msgbox = ((Level1) getWorld()).messagebox;
+        Message msgbox = ((LevelBase) getWorld()).messagebox;
         if (timer > 180) {
             getWorld().removeObject(msgbox);
             timer = 0;
         }
-     }
-
-     if (getWorld() instanceof Level2) {
-        Message msgbox = ((Level2) getWorld()).messagebox;
-        if (timer > 180) {
-            getWorld().removeObject(msgbox);
-            timer = 0;
-        }
-     }
     }
 
     public synchronized int getMoney() {
@@ -59,20 +45,12 @@ public class Money extends Actor {
         this.money = money;
     }
 
-    public synchronized void addMoney(int pts, int x, int y) {
-        money += pts;
+    public synchronized void addMoney(int money, int x, int y) {
+        this.money += money;
         update();
-        if (getWorld() instanceof Level1) {
-            Message msgbox = ((Level1) getWorld()).messagebox;
-        msgbox.setText("+15€");
+        Message msgbox = ((LevelBase) getWorld()).messagebox;
+        msgbox.setText("+" + money + "€");
         getWorld().addObject(msgbox, x, y);
-       }
-
-        if (getWorld() instanceof Level2) {
-        Message msgbox = ((Level2) getWorld()).messagebox;
-        msgbox.setText("+15€");
-        getWorld().addObject(msgbox, x, y);
-       }
     }
 
     private void update() {

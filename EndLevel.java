@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public class EndLevel extends World {
 
-    static int money;
+    private int money;
     /**
      * Constructor for objects of class LevelEnd.
      */
@@ -34,6 +34,12 @@ public class EndLevel extends World {
     public EndLevel(int day, int moneyCount, TentState state) {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
+
+        money = state.getMoney() + moneyCount - 200;
+
+        this.tentState = state;
+        this.tentState.updateMoney(money);
+
         setBackground("levelend.jpg");
 
         // new greenfoot image, draw image then addObject. 
@@ -62,7 +68,6 @@ public class EndLevel extends World {
         }
         rent = new GreenfootImage("200€", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(rent, 401 + offset, 540);
-        money += moneyCount - 200;
 
         total = new GreenfootImage(money + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(total, 414 + offset, 568);
@@ -70,11 +75,21 @@ public class EndLevel extends World {
         this.tentState = state;
         state.updateMoney(money);
         i++;
+        getBackground().drawImage(total, 411 + offset, 553);
+
+        // make sure displayed money is centred in the box
+        if (moneyCount > 99) {
+            offset = 0;
+        } else if (moneyCount > 9) {
+            offset = 5;
+        } else {
+            offset = 10;
+        }
     }
 
     public void act() {
         if (Greenfoot.mouseClicked(this)) {
-            UpgradeScreen screen = new UpgradeScreen(money, tentState);
+            UpgradeScreen screen = new UpgradeScreen(tentState);
             Greenfoot.setWorld(screen);
         }
     }

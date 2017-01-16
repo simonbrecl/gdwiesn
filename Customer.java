@@ -63,7 +63,7 @@ public class Customer extends MovableActor {
 
                 if (getWorld() instanceof Level1) {
                     Level1 world = (Level1) getWorld();
-                    if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
+                    if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
                         setWaiting(false);
                         if (world.isTutorialActive()) {
                             isFlashing = false;
@@ -97,25 +97,7 @@ public class Customer extends MovableActor {
             }
         } else if (reachedDestination) {
             if (leaving) {
-                if (getWorld() instanceof Level1) {
-                    World w = getWorld();
-                    w.removeObject(this);
-                }
-
-                if (getWorld() instanceof Level2) {
-                    World y = getWorld();
-                    y.removeObject(this);
-                }
-
-                if (getWorld() instanceof Level3) {
-                    World y = getWorld();
-                    y.removeObject(this);
-                }
-
-                if (getWorld() instanceof Level4) {
-                    World y = getWorld();
-                    y.removeObject(this);
-                }
+                getWorld().removeObject(this);
             } else {
                 tryToSitDown();
             }
@@ -124,11 +106,11 @@ public class Customer extends MovableActor {
 
     private void normalAct() {
         LevelBase world = (LevelBase) getWorld();
-        if (order < BEER_CUTOFF && seat.getTable().takeBeer()) {
+        if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
             setWaiting(false);
             return;
         }
-        else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel()) {
+        else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel(cs.getMood())) {
             setWaiting(false);
             return;
         }
@@ -161,7 +143,6 @@ public class Customer extends MovableActor {
                 counter1 = 0;
                 world.getHeart2().getImage().setTransparency(255);
                 world.getHeart3().getImage().setTransparency(255);
-                Money.clearPreviousDaysMoney();
                 NoLives dead = new NoLives();
                 Greenfoot.setWorld(dead);
             }
@@ -183,7 +164,6 @@ public class Customer extends MovableActor {
         moveTo(350, 570);
         World w = getWorld();
         w.removeObject(cs);
-
     }
 
 

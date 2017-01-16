@@ -52,10 +52,9 @@ public class LevelBase extends World {
 
     @Override
     public void act() {
-        cheatControl();
-
         baseLevelAct();
         clickControl();
+        cheatControl();
     }
 
     public void started() {
@@ -79,8 +78,6 @@ public class LevelBase extends World {
         addObject(heart1, 183, 574);
         addObject(heart2, 230, 574);
         addObject(heart3, 277, 574);
-
-        tent = new TentState();
 
     }
 
@@ -124,7 +121,6 @@ public class LevelBase extends World {
             }
             else {
                 EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
-                Money.clearPreviousDaysMoney();
                 Greenfoot.setWorld(endLevel);
             }
         }
@@ -170,10 +166,6 @@ public class LevelBase extends World {
 
     public Lives getHeart3() {
         return heart3;
-    }
-
-    public void setDay(int day) {
-        this.day = day;
     }
 
     public void updateTentState(TentState state) {
