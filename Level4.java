@@ -15,7 +15,7 @@ public class Level4 extends LevelBase {
         super(13, 600, state, "levels/MyWorld.xml");
 
         setMinPerLevel(2);
-        setMaxPeople(20);
+        setMaxPeople(30);
         setMinPeople(5);
         setInterval(4);
     }
