@@ -25,6 +25,7 @@ public class LevelBase extends World {
     public Levelmap levelmap;
     public TentState tent;
     public ArrayList<Seat> allSeats = new ArrayList<>();
+    public ArrayList<Customer> customers = new ArrayList<>();
 
     public int stupidTimer = 0;
     public int day = 1;
@@ -43,9 +44,11 @@ public class LevelBase extends World {
         this.goal = goal;
         this.day = day;
         tent = state;
-        levelmap = new Levelmap(pathToLevelmap, this, tent);
-        for (Table t : levelmap.getTables()) {
-            allSeats.addAll(t.getSeats());
+        if (tent.getBandLevel() > 0) {
+            loadLevelMap("levels/MyWorld-Band.xml");
+        }
+        else {
+            loadLevelMap(pathToLevelmap);
         }
         started();
     }
@@ -82,6 +85,15 @@ public class LevelBase extends World {
 
     }
 
+    //Made a separate function for this so we can add a different pathmap for the band upgrade
+    public void loadLevelMap(String pathToLevelmap) {
+        levelmap = new Levelmap(pathToLevelmap, this, tent);
+        for (Table t : levelmap.getTables()) {
+            allSeats.addAll(t.getSeats());
+        }
+    }
+
+
 
     public void baseLevelAct() {
         levelmap.getClock().startClock(minPerLevel, day);
@@ -100,6 +112,7 @@ public class LevelBase extends World {
     private void addRandomPeople() {
         for (int i = 0; i < Greenfoot.getRandomNumber(maxPeople + 1 - maxPeople) + minPeople; i++) {
             Customer c = new Customer(obsID++);
+            customers.add(c);
             addObject(c, 350, 580);
             int seatIndex = Greenfoot.getRandomNumber(allSeats.size());
             while (allSeats.get(seatIndex).isTaken()) {
@@ -151,6 +164,21 @@ public class LevelBase extends World {
             baseLevelAct();
         }
     }
+
+    public void removeCustomer(Customer c) {
+        boolean success = customers.remove(c);
+        if(!success) {
+            System.out.println("Error removing customer");
+        }
+        removeObject(c);
+    }
+
+    public void resetCustomerMoods() {
+        for(Customer c: customers) {
+            c.resetPatienceLevel();
+        }
+    }
+
 
     public Lives getHeart1() {
         return heart1;

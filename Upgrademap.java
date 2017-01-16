@@ -112,17 +112,19 @@ class Upgrademap {
                         break;
                         
                     case "SecurityUpgrade":
-                        security = new SecurityUpgrade();
+                        /* Comment out until this is implemented*/
+                        //security = new SecurityUpgrade();
 
 
-                        world.addObject(security, x, y);
+                        //world.addObject(security, x, y);
 
                         break;
 
                     case "DecorationsUpgrade":
-                        decorations = new DecorationsUpgrade();
+                        /* Comment out until this is implemented*/
+                        //decorations = new DecorationsUpgrade();
 
-                        world.addObject(decorations, x, y);
+                        //world.addObject(decorations, x, y);
 
                         break;
 

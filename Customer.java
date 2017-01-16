@@ -1,6 +1,8 @@
 import greenfoot.Greenfoot;
 import greenfoot.World;
 
+import java.util.logging.Level;
+
 public class Customer extends MovableActor {
 
     static int counter = 0;
@@ -75,10 +77,12 @@ public class Customer extends MovableActor {
                     if (!world.isTutorialActive()) {
                         normalAct();
                     }
-                } else {
+                }
+                else {
                     normalAct();
                 }
-            } else {
+            }
+            else {
                 if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
                     cs.setProgress(2);
                 }
@@ -96,7 +100,8 @@ public class Customer extends MovableActor {
             }
         } else if (reachedDestination) {
             if (leaving) {
-                getWorld().removeObject(this);
+                LevelBase w = (LevelBase) getWorld();
+                w.removeCustomer(this);
             } else {
                 tryToSitDown();
             }
@@ -159,7 +164,7 @@ public class Customer extends MovableActor {
             setImage("customer/model/walker.png");
         }
         moveTo(350, 570);
-        World w = getWorld();
+        LevelBase w = (LevelBase) getWorld();
         w.removeObject(cs);
     }
 
@@ -183,8 +188,8 @@ public class Customer extends MovableActor {
 
         int order = 0;
 
-        if(getWorld() instanceof Level2) {
-            Level2 w = (Level2) getWorld();
+        if(!(getWorld() instanceof Level1)) {
+            LevelBase w = (LevelBase) getWorld();
             order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions() * 5);
         }
 
@@ -209,6 +214,15 @@ public class Customer extends MovableActor {
 
         setWaiting(true);
         return true;
+    }
+
+    public void resetPatienceLevel() {
+
+        if(sitting) {
+            currentWaitingTime = TOTAL_WAITINGTIME;
+            cs.setMood(2);
+        }
+
     }
 
     public boolean isSitting() {

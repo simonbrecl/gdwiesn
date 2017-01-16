@@ -12,6 +12,7 @@ class Levelmap {
     private LevelBase level;
     private Kitchen kitchen;
     private Bar bar;
+    private Band band;
     private Clock clock;
     private Money money;
     private Waitress waitress;
@@ -69,6 +70,15 @@ class Levelmap {
 
                         break;
 
+                    case "Band":
+                        if(tentState.getBandLevel() > 0) {
+                            band = new Band();
+                            level.addObject(band, x, y);
+                        }
+
+
+                        break;
+
                     case "Kitchen":
                         if(tentState.getKitchenLevel() == 1) {
                             kitchen = new Kitchen();
@@ -86,7 +96,7 @@ class Levelmap {
                         break;
 
                     case "Waitress":
-                        waitress = new Waitress(level);
+                        waitress = new Waitress(level, file);
                         level.addObject(waitress, x, y);
 
                         break;
