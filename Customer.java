@@ -1,6 +1,6 @@
 import greenfoot.Greenfoot;
-import greenfoot.World;
 import greenfoot.GreenfootSound;
+import greenfoot.World;
 
 public class Customer extends MovableActor {
 
@@ -21,11 +21,17 @@ public class Customer extends MovableActor {
     private boolean reachedDestination = false;
     private boolean leaving = false;
     private int order = 0;
+    private boolean isGirl = false;
 
 
     public Customer(int id) {
         super("levels/CustomerPathmap.xml", 5);
-        setImage("customer/model/walker.png");
+        if (Greenfoot.getRandomNumber(2) == 1) {
+            setImage("customer/model/girlwalker.png");
+            isGirl = true;
+        } else {
+            setImage("customer/model/walker.png");
+        }
         this.id = id;
         currentWaitingTime = Greenfoot.getRandomNumber(500) + 1000;
         currentDrinkingTime = Greenfoot.getRandomNumber(500) + 2500;
@@ -155,11 +161,19 @@ public class Customer extends MovableActor {
         reachedDestination = false;
         leaving = true;
         if (angry) {
-            setImage("customer/model/walkerAngry.png");
-            GreenfootSound sound = new GreenfootSound("angry.wav");
-            sound.play();
+            if (isGirl) {
+                setImage("customer/model/girlwalkerAngry.png");
+            } else {
+                setImage("customer/model/walkerAngry.png");
+                GreenfootSound sound = new GreenfootSound("angry.wav");
+                sound.play();
+            }
         } else {
-            setImage("customer/model/walker.png");
+            if (isGirl) {
+                setImage("customer/model/girlwalker.png");
+            } else {
+                setImage("customer/model/walker.png");
+            }
         }
         moveTo(350, 570);
         World w = getWorld();
@@ -174,11 +188,19 @@ public class Customer extends MovableActor {
         if (seat.isUpperRow()) {
             posX = seat.getX();
             posY = seat.getY() - 10;
-            setImage("customer/model/walkerSittingFront.png");
+            if (isGirl) {
+                setImage("customer/model/girlwalkerSittingFront.png");
+            } else {
+                setImage("customer/model/walkerSittingFront.png");
+            }
         } else {
             posX = seat.getX();
             posY = seat.getY() - 20;
-            setImage("customer/model/walkerSittingBack.png");
+            if (isGirl) {
+                setImage("customer/model/girlwalkerSittingBack.png");
+            } else {
+                setImage("customer/model/walkerSittingBack.png");
+            }
         }
         setLocation(posX, posY);
 
