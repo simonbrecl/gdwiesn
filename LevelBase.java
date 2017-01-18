@@ -132,6 +132,7 @@ public class LevelBase extends World {
                 c.setSeat(s);
                 c.moveTo(s.getX(), s.getY());
                 seatsTaken++;
+                customers.add(c);
             }
         }
 
