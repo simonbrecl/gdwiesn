@@ -16,7 +16,7 @@ public class Level6 extends LevelBase {
 
         setMinPerLevel(1);
         setMaxPeople(20);
-        setMinPeople(5);
+        setMinPeople(3);
         setInterval(5);
     }
 

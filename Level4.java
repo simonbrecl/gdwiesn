@@ -16,8 +16,8 @@ public class Level4 extends LevelBase {
 
         setMinPerLevel(1);
         setMaxPeople(15);
-        setMinPeople(5);
-        setInterval(6);
+        setMinPeople(2);
+        setInterval(5);
     }
 
     public void act() {
