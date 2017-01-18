@@ -34,7 +34,7 @@ public class Customer extends MovableActor {
         }
         this.id = id;
         currentWaitingTime = Greenfoot.getRandomNumber(500) + 1000;
-        currentDrinkingTime = Greenfoot.getRandomNumber(500) + 2500;
+        currentDrinkingTime = Greenfoot.getRandomNumber(500) + 1250;
         TOTAL_WAITINGTIME = currentWaitingTime;
         TOTAL_DRINKINGTIME = currentDrinkingTime;
     }
@@ -99,6 +99,8 @@ public class Customer extends MovableActor {
                 if (currentDrinkingTime == 0) {
                     Greenfoot.playSound("drunk-up.wav");
                     leaveToDoor(false);
+                    LevelBase world = (LevelBase)getWorld();
+                    world.seatsTaken--;
                 }
             }
         } else if (reachedDestination) {
@@ -136,6 +138,7 @@ public class Customer extends MovableActor {
                 seat.getTable().cancelOrder(Pretzel.class);
             }
             leaveToDoor(true);
+            world.seatsTaken--;
             counter1++;
             if (counter1 == 1) {
                 world.getHeart3().getImage().setTransparency(100);

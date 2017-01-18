@@ -29,6 +29,9 @@ public class LevelBase extends World {
     public int stupidTimer = 0;
     public int day = 1;
     public int obsID = 0;
+    public int seatsTaken = 0;
+    public int numSeatsTotal = 32;
+    public int minPeopleBase = 0;
 
     Message messagebox = new Message("");
     private Lives heart1 = new Lives();
@@ -42,6 +45,12 @@ public class LevelBase extends World {
         prepare();
         this.goal = goal;
         this.day = day;
+        if(day > 4) {
+            minPeopleBase = 1;
+        }
+        if(day > 8) {
+            minPeopleBase = 2;
+        }
         tent = state;
         levelmap = new Levelmap(pathToLevelmap, this, tent);
         for (Table t : levelmap.getTables()) {
@@ -97,18 +106,23 @@ public class LevelBase extends World {
     }
 
     private void addRandomPeople() {
-        for (int i = 0; i < Greenfoot.getRandomNumber(maxPeople + 1 - maxPeople) + minPeople; i++) {
-            Customer c = new Customer(obsID++);
-            addObject(c, 350, 580);
-            int seatIndex = Greenfoot.getRandomNumber(allSeats.size());
-            while (allSeats.get(seatIndex).isTaken()) {
-                seatIndex = Greenfoot.getRandomNumber(allSeats.size());
+        int randomNumberToAdd = minPeopleBase + Greenfoot.getRandomNumber(minPeople + 1);
+        if(seatsTaken < maxPeople) {
+            for (int i = 0; i < randomNumberToAdd; i++) {
+                Customer c = new Customer(obsID++);
+                addObject(c, 350, 580);
+                int seatIndex = Greenfoot.getRandomNumber(allSeats.size());
+                while (allSeats.get(seatIndex).isTaken()) {
+                    seatIndex = Greenfoot.getRandomNumber(allSeats.size());
+                }
+                Seat s = allSeats.get(seatIndex);
+                s.setTaken(true);
+                c.setSeat(s);
+                c.moveTo(s.getX(), s.getY());
+                seatsTaken++;
             }
-            Seat s = allSeats.get(seatIndex);
-            s.setTaken(true);
-            c.setSeat(s);
-            c.moveTo(s.getX(), s.getY());
         }
+
     }
 
     private void updateClock() {
