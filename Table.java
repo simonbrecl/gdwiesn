@@ -13,6 +13,8 @@ import java.util.ArrayList;
  * @version (a version number or a date)
  */
 public class Table extends Actor {
+    private static final int CLEANING_TIME = 300;
+    
     private Levelmap levelmap;
     private ArrayList<Seat> seats = new ArrayList<>();
     private int beer = 0;
@@ -21,6 +23,9 @@ public class Table extends Actor {
     private int wantPretzel = 0; // Customers at table with pretzel orders
     private int sausage = 0;
     private int wantSausage = 0;
+    private int cleanCounter = 0;
+    private int imageMarker = 0;
+    private boolean puke = false;
     boolean mouseOver = false;
 
     private GreenfootImage originalImage;
@@ -96,16 +101,20 @@ public class Table extends Actor {
     }
 
     public void glow () {
-     if (!mouseOver && Greenfoot.mouseMoved(this))  
-           {  
-                setImage("table-object1.png");  
-                mouseOver = true;  
-           }  
-     if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))  
-           {  
-               setImage("table-object.png");  
-               mouseOver = false;  
-           }     
+        if (!isDirty()) {
+             if (!mouseOver && Greenfoot.mouseMoved(this))  
+                   {  
+                        setImage("table-object1.png");  
+                        mouseOver = true;  
+                   }  
+             if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))  
+                   {  
+                       setImage("table-object.png");  
+                       mouseOver = false;  
+                   }
+        } else {
+            //new glow
+        }
     }
     
     private void updateBeerCount() {
@@ -211,6 +220,53 @@ public class Table extends Actor {
         }
 
         levelmap.getMoney().addMoney(money, getX() + (getX() > getWorld().getWidth() / 2 ? 100 : -100), getY());
+    }
+    public void puke() {
+        setImage("table-object-puke.png");
+        puke = true; 
+    }
+    
+    public boolean isDirty() {
+        if (puke == true) {
+            return true;
+        } else {
+            return false;
+        }
+    } 
+    public void clean() {
+        cleanCounter++;
+        if (cleanCounter % 20 == 0) {
+            if (imageMarker == 0) {
+                setImage("table-object-clean1.png");
+                imageMarker = 1;
+            } else if (imageMarker == 1) {
+                setImage("table-object-clean.png");
+                imageMarker = 0;
+            }
+        }
+        if (cleanCounter >= CLEANING_TIME) {
+            puke = false;
+            setImage("table-object.png");
+            cleanCounter = 0;
+            Waitress waitress = (Waitress) getOneIntersectingObject(Waitress.class);
+            waitress.changeCleaningStatus();
+            if (getWorld() instanceof Level1) {
+                Level1 world1 = (Level1) getWorld();
+                if(world1.isTutorialActive()) {
+                    world1.incrementTutorialStage();
+                }
+            }
+        
+        }
+        /*while (cleanCounter < CLEANING_TIME) {
+            if (cleanCounter % 20 == 0) {
+                setImage("table-object-clean.png");
+            } else if(cleanCounter % 10 == 0) {
+                setImage("table-object-puke.png");
+            }
+            cleanCounter++;
+        }
+        */
     }
 }
 

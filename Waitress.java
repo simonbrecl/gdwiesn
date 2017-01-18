@@ -24,6 +24,7 @@ public class Waitress extends MovableActor {
     private int foodCount = 0;
     private int beerTimer = 0;
     private LevelBase world;
+    private boolean cleaning = false;
 
     private GreenfootImage originalImage = new GreenfootImage("oktoberfest-waitress.png");
     private GreenfootImage newImage = new GreenfootImage("oktoberfest-waitress.png");
@@ -58,7 +59,7 @@ public class Waitress extends MovableActor {
             unloadPretzel(); // check if waitress is touching a table with customers while she has pretzels
             checkPretzelIsMade(); //see if there are any pretzels ready close to the waitress
         } */
-
+        cleanTable();
 
         newImage = new GreenfootImage("oktoberfest-waitress.png");
         unloadBeer(); // check if waitress is touching a table with customers whilst she has beers
@@ -216,6 +217,27 @@ public class Waitress extends MovableActor {
     }
     public int getItemCount() {
         return itemCount;
+    }
+    
+    private void cleanTable() {
+        if (isTouching(Table.class)) {
+            Table table = (Table) getOneIntersectingObject(Table.class);
+            if (table.isDirty() && Greenfoot.mouseClicked(table)) {
+                cleaning = true; // commence clean
+                Greenfoot.playSound("cleaning.wav");
+            }
+            if (table.isDirty() && cleaning == true) {
+                //currentImage = getImage();
+                //setImage("oktoberfest-waitress-sponge.png");
+                table.clean();
+                
+                //setImage(currentImage);
+            }
+        }
+    }
+    
+    public void changeCleaningStatus() {
+        cleaning = !cleaning;
     }
 
 }

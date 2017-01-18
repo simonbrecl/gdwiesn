@@ -81,7 +81,7 @@ public class BeerButton extends Actor {
             if (Greenfoot.mouseClicked(this)) {
                 barrelFlash = false;
                 Level1 world = (Level1) getWorld();
-                world.incrementTutorialStage();
+                // world.incrementTutorialStage();
             }
         }
     }
@@ -133,6 +133,9 @@ public class BeerButton extends Actor {
                     world.addObject(newBeer, bar.getX() - 40 + (bar.beerCount * 20), bar.getY() - 20);
                     if (world.isTutorialActive()) {
                         newBeer.beerFlash();
+                        if (world.getTutorialStage() == 3) {
+                            world.incrementTutorialStage();
+                        }
                     }
                 } else {
                     int offset = 40;

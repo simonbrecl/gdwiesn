@@ -1,5 +1,6 @@
 import greenfoot.World;
-
+import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 import java.util.List;
 
 /**
@@ -15,7 +16,8 @@ public class Level1 extends LevelBase {
     private int tutorialStage;
     private int tutorialTimer = 0;
     private SausageBoy sausageBoy = new SausageBoy();
-
+    private ClickToContinue ctc = new ClickToContinue();
+    
     /**
      * Constructor for objects of class Level1.
      */
@@ -58,19 +60,40 @@ public class Level1 extends LevelBase {
         if (tutorialActive) {
             if (tutorialStage == 1) {
                 tutorialTimer++;
-                if (tutorialTimer == 250) {
+               
+                //flash clicking instruction
+                if ((tutorialTimer % 25 == 0) && (tutorialTimer % 50 != 0)) {
+                    
+                    addObject(ctc, 700, 80);
+                } else if (tutorialTimer % 50 == 0) {
+                    removeObject(ctc);
+                    tutorialTimer = 0;
+                }
+                
+                
+                if (Greenfoot.mouseClicked(null)) {
                     tutorialStage = 2;
                     sausageBoy.updateImage(tutorialStage);
                     addTutorialCustomer();
-                    tutorialTimer = 0;
+                    
                 }
+                
             } else if (tutorialStage == 2) {
                 tutorialTimer++;
-                if (tutorialTimer == 250) {
+                //flash clicking instruction
+                if ((tutorialTimer % 50 == 0) && (tutorialTimer % 100 != 0)) {
+                    addObject(ctc, 700, 80);
+                } else if (tutorialTimer % 100 == 0) {
+                    removeObject(ctc);
+                    tutorialTimer = 0;
+                }
+                
+                if (Greenfoot.mouseClicked(null)) {
                     tutorialStage = 3;
                     sausageBoy.updateImage(tutorialStage);
                     flashBarrel();
-                    tutorialTimer = 0;
+                    addObject(ctc, 700, 80);
+                    removeObject(ctc);
                 }
             } else if (tutorialStage == 4) {
                 // beerflash
@@ -80,16 +103,16 @@ public class Level1 extends LevelBase {
                 List<Waitress> waitressList = getObjects(Waitress.class);
                 Waitress waitress = waitressList.get(0);
                 if (waitress.getItemCount() > 0) {
-                    List<Customer> customerList = getObjects(Customer.class);
+                    List<TutorialCustomer> customerList = getObjects(TutorialCustomer.class);
                     if(!customerList.isEmpty()) {
-                        Customer customer = customerList.get(0);
+                        TutorialCustomer customer = customerList.get(0);
                         customer.flashTrue();
                     }
 
                 }
-            } else if (tutorialStage >= 6 && tutorialStage <= 8) {
+            } else if (tutorialStage >= 6 && tutorialStage <= 9) {
                 sausageBoy.updateImage(tutorialStage);
-            } else if (tutorialStage == 9) {
+            } else if (tutorialStage == 10) {
                 removeObject(sausageBoy);
                 tutorialActive = false;
                 repeat++;
@@ -102,7 +125,7 @@ public class Level1 extends LevelBase {
     }
 
     private void addTutorialCustomer() {
-        Customer c = new Customer(obsID++);
+        TutorialCustomer c = new TutorialCustomer(obsID++);
         addObject(c, 350, 550);
         Seat s = allSeats.get(15);
         s.setTaken(true);
@@ -115,4 +138,5 @@ public class Level1 extends LevelBase {
         BeerButton beerButton = barrelList.get(0);
         beerButton.barrelFlash();
     }
+    
 }

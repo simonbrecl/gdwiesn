@@ -22,6 +22,7 @@ public class Customer extends MovableActor {
     private boolean isFlashing = false;
     private boolean reachedDestination = false;
     private boolean leaving = false;
+    private boolean repeat  = false;
     private int order = 0;
     private boolean isGirl = false;
 
@@ -55,6 +56,11 @@ public class Customer extends MovableActor {
                     counter = 0;
                 }
             }
+        }
+        
+        if (seat.getTable().isDirty() && repeat == false) {
+            leaveToDoor(false);
+            repeat = true;
         }
     }
 
@@ -102,9 +108,13 @@ public class Customer extends MovableActor {
                 }
                 if (currentDrinkingTime == 0) {
                     Greenfoot.playSound("drunk-up.wav");
-                    leaveToDoor(false);
                     LevelBase world = (LevelBase)getWorld();
                     world.seatsTaken--;
+                    if (Greenfoot.getRandomNumber(10) == 5) {     // how frequent you want customers to throw up
+                        seat.getTable().puke();
+                        Greenfoot.playSound("vomit.wav");
+                    }
+                    leaveToDoor(false);
                 }
             }
         } else if (reachedDestination) {
