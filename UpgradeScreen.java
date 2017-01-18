@@ -26,7 +26,6 @@ public class UpgradeScreen extends World {
 
     public void act() {
 
-
     }
 
     public TentState getTentState() {
