@@ -91,18 +91,9 @@ public class Clock extends Actor {
 
     public void updateFace() {
 
-        // turning 4 days per level
-        if (degrees > 90.0) {
-            day++;
-            updateLabel();
-        }
+        // turning 2 days per level
 
         if (degrees > 180.0) {
-            day++;
-            updateLabel();
-        }
-
-        if (degrees > 270.0) {
             day++;
             updateLabel();
         }

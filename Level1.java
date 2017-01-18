@@ -20,13 +20,13 @@ public class Level1 extends LevelBase {
      * Constructor for objects of class Level1.
      */
     public Level1() {
-        super(1, 150, new TentState(), "levels/MyWorld.xml");
+        super(1, 100, new TentState(), "levels/MyWorld.xml");
 
         tutorialStage = 1;
         setMinPerLevel(1);
-        setMaxPeople(10);
-        setMinPeople(2);
-        setInterval(5);
+        setMaxPeople(5);
+        setMinPeople(1);
+        setInterval(9);
         if (tutorialActive) {
             sausageBoy = new SausageBoy();
             addObject(sausageBoy, 640, 370);

@@ -115,7 +115,7 @@ public class LevelBase extends World {
         stupidTimer++;
 
         if (stupidTimer >= minPerLevel * 60 * 60) {
-            if (day == 13) {
+            if (day == 15) {
                 Ending ending = new Ending(levelmap.getMoney().getMoney());
                 Greenfoot.setWorld(ending);
             }

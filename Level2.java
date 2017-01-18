@@ -12,12 +12,12 @@ public class Level2 extends LevelBase {
      */
 
     public Level2(TentState state) {
-        super(5, 300, state, "levels/MyWorld.xml");
+        super(3, 200, state, "levels/MyWorld.xml");
 
-        setMinPerLevel(2);
-        setMaxPeople(20);
-        setMinPeople(3);
-        setInterval(5);
+        setMinPerLevel(1);
+        setMaxPeople(10);
+        setMinPeople(2);
+        setInterval(8);
     }
 
     public void act() {
