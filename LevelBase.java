@@ -57,7 +57,6 @@ public class LevelBase extends World {
     public void act() {
         baseLevelAct();
         clickControl();
-
         cheatControl();
     }
 

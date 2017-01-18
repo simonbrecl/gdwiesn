@@ -13,9 +13,9 @@ public class Level4 extends LevelBase {
 
     public Level4(TentState state) {
         super(13, 600, state, "levels/MyWorld.xml");
-        setMinPerLevel(1);
+        setMinPerLevel(2);
         setMaxPeople(30);
-        setMinPeople(1);
+        setMinPeople(3);
         setInterval(2);
     }
 

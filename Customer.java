@@ -169,7 +169,6 @@ public class Customer extends MovableActor {
         moveTo(350, 570);
         LevelBase w = (LevelBase) getWorld();
         w.removeObject(cs);
-
     }
 
 

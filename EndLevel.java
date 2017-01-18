@@ -68,7 +68,6 @@ public class EndLevel extends World {
         }
         rent = new GreenfootImage("200€", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(rent, 401 + offset, 540);
-        money += moneyCount - 200;
 
         total = new GreenfootImage(money + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(total, 414 + offset, 568);

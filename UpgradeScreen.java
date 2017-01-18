@@ -1,3 +1,4 @@
+import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.World;
 
@@ -34,27 +35,22 @@ public class UpgradeScreen extends World {
 
     public void goToNextDay() {
         tentState.increaseDay();
-        if (tentState.getDay() == 2) {
-            Level2 level = new Level2(tentState);
-            Greenfoot.setWorld(level);
-            level.getHeart2().getImage().setTransparency(255);
-            level.getHeart3().getImage().setTransparency(255);
-            Customer.counter1 = 0;
-        } else if (tentState.getDay() == 3) {
 
-            Customer.counter1 = 0;
-            Level3 level3 = new Level3(tentState);
-            Greenfoot.setWorld(level3);
-            level3.getHeart2().getImage().setTransparency(255);
-            level3.getHeart3().getImage().setTransparency(255);
-        }
-        else if (tentState.getDay() == 4) {
+        Customer.counter1 = 0;
 
-            Customer.counter1 = 0;
-            Level4 level4 = new Level4(tentState);
-            level4.getHeart2().getImage().setTransparency(255);
-            level4.getHeart3().getImage().setTransparency(255);
-            Greenfoot.setWorld(level4);
+        switch (tentState.getDay()) {
+            case 2:
+                Greenfoot.setWorld(new Level2(tentState));
+                break;
+
+            case 3:
+                Greenfoot.setWorld(new Level3(tentState));
+                break;
+
+            case 4:
+                Greenfoot.setWorld(new Level4(tentState));
+                break;
+
         }
     }
 }
