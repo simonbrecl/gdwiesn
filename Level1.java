@@ -1,3 +1,5 @@
+import greenfoot.World;
+
 import java.util.List;
 
 /**
@@ -8,7 +10,8 @@ import java.util.List;
  */
 public class Level1 extends LevelBase {
 
-    private boolean tutorialActive = true;
+    static boolean tutorialActive = true;
+    static int repeat = 1;
     private int tutorialStage;
     private int tutorialTimer = 0;
     private SausageBoy sausageBoy = new SausageBoy();
@@ -28,7 +31,13 @@ public class Level1 extends LevelBase {
             sausageBoy = new SausageBoy();
             addObject(sausageBoy, 640, 370);
         }
+
+        if (repeat > 1) {
+            tutorialActive = false;
+        }
+
     }
+
 
     public boolean isTutorialActive() {
         return tutorialActive;
@@ -83,6 +92,7 @@ public class Level1 extends LevelBase {
             } else if (tutorialStage == 9) {
                 removeObject(sausageBoy);
                 tutorialActive = false;
+                repeat++;
             }
 
         } else {

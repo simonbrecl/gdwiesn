@@ -18,10 +18,16 @@ public class EndLevel extends World {
      */
     private GreenfootImage moneyImage;
     private GreenfootImage dayImage;
-    private GreenfootImage lostCostum;
+    private GreenfootImage goal;
     private GreenfootImage rent;
     private GreenfootImage total;
+    private GreenfootImage savings;
+    private GreenfootImage goalreached;
+
+    private int i = 1;
+
     private int offset;
+    private int money1;
     private TentState tentState;
 
 
@@ -35,27 +41,41 @@ public class EndLevel extends World {
         this.tentState.updateMoney(money);
 
         setBackground("levelend.jpg");
-        int i = Customer.counter1;
-        // new greenfoot image, draw image then addObject. 
-        dayImage = new GreenfootImage(day + "/14", 26, Color.BLACK, new Color(0, 0, 0, 0));
-        getBackground().drawImage(dayImage, 366, 380);
-        moneyImage = new GreenfootImage(moneyCount + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
-        getBackground().drawImage(moneyImage, 413 + offset, 479);
-        lostCostum = new GreenfootImage(i + "", 26, Color.BLACK, new Color(0, 0, 0, 0));
-        getBackground().drawImage(lostCostum, 366 + offset, 420);
-        rent = new GreenfootImage("200€", 26, Color.BLACK, new Color(0, 0, 0, 0));
-        getBackground().drawImage(rent, 413 + offset, 517);
-        total = new GreenfootImage(money + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
-        getBackground().drawImage(total, 411 + offset, 553);
 
-        // make sure displayed money is centred in the box
-        if (moneyCount > 99) {
-            offset = 0;
-        } else if (moneyCount > 9) {
-            offset = 5;
-        } else {
-            offset = 10;
+        // new greenfoot image, draw image then addObject. 
+        dayImage = new GreenfootImage(day+3 + "/16", 26, Color.BLACK, new Color(0, 0, 0, 0));
+        getBackground().drawImage(dayImage, 315, 419);
+        moneyImage = new GreenfootImage(moneyCount + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
+        getBackground().drawImage(moneyImage, 401 + offset, 512);
+        if (day>1) {
+            savings = new GreenfootImage(money + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
+            getBackground().drawImage(savings, 401 + offset, 483);
         }
+        else {
+            savings = new GreenfootImage("0€", 26, Color.BLACK, new Color(0, 0, 0, 0));
+            getBackground().drawImage(savings, 406 + offset, 480);
+        }
+        goal = new GreenfootImage(i*150 + "", 26, Color.BLACK, new Color(0, 0, 0, 0));
+        getBackground().drawImage(goal, 403 + offset, 419);
+
+        if (moneyCount>i*150) {
+            goalreached = new GreenfootImage("Goal reached", 15, Color.green, new Color(0, 0, 0, 0));
+            getBackground().drawImage(goalreached, 390 + offset, 443);
+        }
+        else {
+            goalreached = new GreenfootImage("Goal not reached", 15, Color.RED, new Color(0, 0, 0, 0));
+            getBackground().drawImage(goalreached, 380 + offset, 443);
+        }
+        rent = new GreenfootImage("200€", 26, Color.BLACK, new Color(0, 0, 0, 0));
+        getBackground().drawImage(rent, 401 + offset, 540);
+        money += moneyCount - 200;
+
+        total = new GreenfootImage(money + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
+        getBackground().drawImage(total, 414 + offset, 568);
+
+        this.tentState = state;
+        state.updateMoney(money);
+        i++;
     }
 
     public void act() {

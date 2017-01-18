@@ -20,7 +20,7 @@ public class LevelBase extends World {
     //Interval of spawning customers
     public int interval = 5;
     //Money goal.
-    public int goal = 200;
+    public int goal = 150;
 
     public Levelmap levelmap;
     public TentState tent;
@@ -129,9 +129,14 @@ public class LevelBase extends World {
         stupidTimer++;
 
         if (stupidTimer >= minPerLevel * 60 * 60) {
-            EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
-            Greenfoot.setWorld(endLevel);
-
+            if (day == 13) {
+                Ending ending = new Ending(levelmap.getMoney().getMoney());
+                Greenfoot.setWorld(ending);
+            }
+            else {
+                EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
+                Greenfoot.setWorld(endLevel);
+            }
         }
     }
 

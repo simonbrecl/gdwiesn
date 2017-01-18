@@ -1,5 +1,6 @@
 import greenfoot.Greenfoot;
 import greenfoot.World;
+import greenfoot.GreenfootSound;
 
 import java.util.logging.Level;
 
@@ -160,12 +161,15 @@ public class Customer extends MovableActor {
         leaving = true;
         if (angry) {
             setImage("customer/model/walkerAngry.png");
+            GreenfootSound sound = new GreenfootSound("angry.wav");
+            sound.play();
         } else {
             setImage("customer/model/walker.png");
         }
         moveTo(350, 570);
         LevelBase w = (LevelBase) getWorld();
         w.removeObject(cs);
+
     }
 
 
