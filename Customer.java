@@ -112,7 +112,7 @@ public class Customer extends MovableActor {
                     world.seatsTaken--;
                     if (Greenfoot.getRandomNumber(10) == 5) {     // how frequent you want customers to throw up
                         seat.getTable().puke();
-                        Greenfoot.playSound("vomit.wav");
+                        Greenfoot.playSound("vomit.mp3");
                     }
                     leaveToDoor(false);
                 }
