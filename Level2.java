@@ -8,7 +8,7 @@
 public class Level2 extends LevelBase {
 
     /**
-     * Constructor for objects of class Level2.
+     * Constructor for objects of clas Level2.
      */
 
     public Level2(TentState state) {
