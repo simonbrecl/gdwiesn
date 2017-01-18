@@ -29,8 +29,10 @@ public class BandUpgrade extends Actor {
     private boolean boxShowing = false;
     private UpgradeScreen world;
 
-    public BandUpgrade() {
-
+    public BandUpgrade(int level) {
+        if(level > 0) {
+            upgradeBought = true;
+        }
         prepare();
     }
 

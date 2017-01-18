@@ -67,7 +67,7 @@ class Upgrademap {
 
                 switch (value.getTextContent()) {
                     case "BarUpgrade":
-                        bar = new BarUpgrade();
+                        bar = new BarUpgrade(tentState.getBarLevel());
                         world.addObject(bar, x, y);
 
                         break;
@@ -104,7 +104,7 @@ class Upgrademap {
                         break;
                         
                     case "KitchenUpgrade":
-                        kitchen = new KitchenUpgrade();
+                        kitchen = new KitchenUpgrade(tentState.getKitchenLevel());
 
 
                         world.addObject(kitchen, x, y);
@@ -129,7 +129,7 @@ class Upgrademap {
                         break;
 
                     case "BandUpgrade":
-                        band = new BandUpgrade();
+                        band = new BandUpgrade(tentState.getBandLevel());
 
                         world.addObject(band, x, y);
 

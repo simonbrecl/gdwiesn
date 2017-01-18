@@ -30,7 +30,10 @@ public class BarUpgrade extends Actor {
     private UpgradeScreen world;
 
 
-    public BarUpgrade() {
+    public BarUpgrade(int level) {
+        if(level > 1) {
+            upgradeBought = true;
+        }
         prepare();
     }
 

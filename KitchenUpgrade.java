@@ -18,6 +18,7 @@ public class KitchenUpgrade extends Actor{
 
     private boolean pretzelBought = false;
     private boolean sausageBought = false;
+    private boolean sausageDisabled = true;
     private int nextUpgradeCost = 100;
 
     private GreenfootImage upgrade1 = new GreenfootImage("kitchen-upgrade1.png");
@@ -27,7 +28,7 @@ public class KitchenUpgrade extends Actor{
     private GreenfootImage upgrade2Overlay = new GreenfootImage("kitchen-upgrade2-overlay.png");
 
     //Add text box here
-    String text = "Purchase the kitchen so customers can buy yummy snacks such as pretzels and sausages." +
+    String text = "Purchase the kitchen so customers can buy yummy pretzels." +
             "\nCost: " + nextUpgradeCost + "€";
     String clickToBuy = "\n\nClick to buy!";
     String moneyExtra = "\n\nSorry, you need more money!";
@@ -41,7 +42,10 @@ public class KitchenUpgrade extends Actor{
 
 
 
-    public KitchenUpgrade() {
+    public KitchenUpgrade(int level) {
+        if(level > 0) {
+            pretzelBought = true;
+        }
         prepare();
     }
 
@@ -54,9 +58,16 @@ public class KitchenUpgrade extends Actor{
         readyToBuyBox.setReadOnly(true);
         notEnoughMoneyBox.setReadOnly(true);
 
-        if (pretzelBought) {
-            this.setImage(upgrade2Overlay);
-            nextUpgradeCost = SAUSAGE_PRICE;
+        if (pretzelBought && sausageDisabled) {
+            if(!sausageDisabled) {
+                this.setImage(upgrade2Overlay);
+            }
+            else {
+                nextUpgradeCost = SAUSAGE_PRICE;
+                this.setImage(upgrade1);
+            }
+
+
         }
         else if (sausageBought) {
             this.setImage(upgrade2);
@@ -99,11 +110,14 @@ public class KitchenUpgrade extends Actor{
         if(!pretzelBought) {
             this.setImage(upgrade1Overlay);
         }
-        else if(pretzelBought && !sausageBought) {
+        else if(pretzelBought && !sausageBought && !sausageDisabled) {
             this.setImage(upgrade2Overlay);
         }
         else {
-            this.setImage(upgrade2);
+            if(!sausageDisabled) {
+                this.setImage(upgrade2);
+            }
+
         }
 
         if (mouseInfo != null) {
@@ -116,7 +130,10 @@ public class KitchenUpgrade extends Actor{
                         this.setImage(upgrade1);
                     }
                     else {
-                        this.setImage(upgrade2);
+                        if(!sausageDisabled) {
+                            this.setImage(upgrade2);
+                        }
+
                     }
 
                     if(world.getTentState().getMoney() < nextUpgradeCost) {
@@ -125,9 +142,11 @@ public class KitchenUpgrade extends Actor{
                     else {
                         currentBox = readyToBuyBox;
                     }
+                    if(!pretzelBought) {
+                        world.addObject(currentBox, 600, 100);
+                        boxShowing = true;
+                    }
 
-                    world.addObject(currentBox, 600, 100);
-                    boxShowing = true;
                 }
             }
 
@@ -137,9 +156,9 @@ public class KitchenUpgrade extends Actor{
                     if(!pretzelBought) {
                         buyPretzel();
                     }
-                    else if(pretzelBought && !sausageBought) {
+                    /*else if(pretzelBought && !sausageBought) {
                         buySausage();
-                    }
+                    }*/
                 }
             }
         }
