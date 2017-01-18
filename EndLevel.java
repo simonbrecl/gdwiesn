@@ -23,8 +23,7 @@ public class EndLevel extends World {
     private GreenfootImage total;
     private GreenfootImage savings;
     private GreenfootImage goalreached;
-
-    private int i = 1;
+    static int i = 1;
 
     private int offset;
     private TentState tentState;
@@ -35,12 +34,9 @@ public class EndLevel extends World {
         super(800, 600, 1);
 
         money = state.getMoney() + moneyCount - 150;
-
         this.tentState = state;
         this.tentState.updateMoney(money);
-
         setBackground("levelend.jpg");
-
         // new greenfoot image, draw image then addObject. 
         dayImage = new GreenfootImage(day+1 + "/16", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(dayImage, 315, 419);
@@ -54,6 +50,7 @@ public class EndLevel extends World {
             savings = new GreenfootImage("0€", 26, Color.BLACK, new Color(0, 0, 0, 0));
             getBackground().drawImage(savings, 406 + offset, 480);
         }
+        System.out.print(i);
         goal = new GreenfootImage(i*100 + "", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(goal, 403 + offset, 419);
 
@@ -85,6 +82,7 @@ public class EndLevel extends World {
             offset = 10;
         }
     }
+
 
     public void act() {
         if (Greenfoot.mouseClicked(this)) {

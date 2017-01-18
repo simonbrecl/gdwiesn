@@ -130,7 +130,7 @@ public class LevelBase extends World {
 
         if (stupidTimer >= minPerLevel * 60 * 60) {
             if (day == 15) {
-                Ending ending = new Ending(levelmap.getMoney().getMoney());
+                Ending ending = new Ending(levelmap.getMoney().getMoney(), tent);
                 Greenfoot.setWorld(ending);
             }
             else {
@@ -205,4 +205,5 @@ public class LevelBase extends World {
     public void setInterval(int interval) {
         this.interval = interval;
     }
+
 }

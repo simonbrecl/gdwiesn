@@ -25,7 +25,7 @@ public class Level1 extends LevelBase {
         tutorialStage = 1;
         setMinPerLevel(1);
         setMaxPeople(10);
-        setMinPeople(2);
+        setMinPeople(5);
         setInterval(8);
         if (tutorialActive) {
             sausageBoy = new SausageBoy();
