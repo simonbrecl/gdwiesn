@@ -140,7 +140,6 @@ public class LevelBase extends World {
 
     private void updateClock() {
         stupidTimer++;
-
         if (stupidTimer >= minPerLevel * 60 * 60) {
             if (day == 15) {
                 Ending ending = new Ending(levelmap.getMoney().getMoney(), tent);
