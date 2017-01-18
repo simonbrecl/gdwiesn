@@ -27,7 +27,6 @@ public class EndLevel extends World {
     private int i = 1;
 
     private int offset;
-    private int money1;
     private TentState tentState;
 
 
