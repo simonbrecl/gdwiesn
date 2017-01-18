@@ -5,23 +5,19 @@
  * @version (a version number or a date)
  */
 
-public class Level3 extends LevelBase {
+public class Level8 extends LevelBase {
 
     /**
      * Constructor for objects of class Level2.
      */
 
-    public Level3(TentState state) {
-        super(5, 300, state, "levels/MyWorld.xml");
-        setMinPerLevel(2);
-        setMaxPeople(25);
-        setMinPeople(3);
-        setInterval(4);
+    public Level8(TentState state) {
+        super(15, 800, state, "levels/MyWorld.xml");
 
-        //setMinPerLevel(1);
-        //setMaxPeople(13);
-        //setMinPeople(3);
-        //setInterval(7);
+        setMinPerLevel(2);
+        setMaxPeople(20);
+        setMinPeople(5);
+        setInterval(4);
     }
 
     public void act() {

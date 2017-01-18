@@ -15,7 +15,7 @@ public class Boss extends MovableActor {
 
     public Boss(String pathmap, LevelIntro levelIntro) {
         super(pathmap, 5);
-        setImage(new GreenfootImage("waitress.png"));
+        setImage(new GreenfootImage("boss.png"));
         bubble = new SpeechBubble(this);
         this.levelIntro = levelIntro;
     }

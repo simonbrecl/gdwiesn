@@ -11,17 +11,18 @@ import greenfoot.World;
  */
 public class NoLives extends World
 {
-
+    LevelBase previousLevel;
     /**
      * Constructor for objects of class NoLives.
      * 
      */
-    public NoLives()
+    public NoLives(LevelBase previousLevel)
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
         GreenfootSound sound = new GreenfootSound("fail.wav");
         sound.play();
+        this.previousLevel = previousLevel;
     }
     
     public void act () {
@@ -30,8 +31,7 @@ public class NoLives extends World
             int x = mouse.getX();
             int y = mouse.getY();
             if (x > 231 && x < 532 && y > 375 && y < 442) {
-                Level1 myworld = new Level1();
-                Greenfoot.setWorld(myworld);
+                Greenfoot.setWorld(previousLevel);
             }
         }
     }

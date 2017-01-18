@@ -1,6 +1,6 @@
 import greenfoot.Greenfoot;
-import greenfoot.World;
 import greenfoot.GreenfootSound;
+import greenfoot.World;
 
 import java.util.logging.Level;
 
@@ -23,14 +23,20 @@ public class Customer extends MovableActor {
     private boolean reachedDestination = false;
     private boolean leaving = false;
     private int order = 0;
+    private boolean isGirl = false;
 
 
     public Customer(int id) {
         super("levels/CustomerPathmap.xml", 5);
-        setImage("customer/model/walker.png");
+        if (Greenfoot.getRandomNumber(2) == 1) {
+            setImage("customer/model/girlwalker.png");
+            isGirl = true;
+        } else {
+            setImage("customer/model/walker.png");
+        }
         this.id = id;
         currentWaitingTime = Greenfoot.getRandomNumber(500) + 1000;
-        currentDrinkingTime = Greenfoot.getRandomNumber(500) + 2500;
+        currentDrinkingTime = Greenfoot.getRandomNumber(500) + 1250;
         TOTAL_WAITINGTIME = currentWaitingTime;
         TOTAL_DRINKINGTIME = currentDrinkingTime;
     }
@@ -97,6 +103,8 @@ public class Customer extends MovableActor {
                 if (currentDrinkingTime == 0) {
                     Greenfoot.playSound("drunk-up.wav");
                     leaveToDoor(false);
+                    LevelBase world = (LevelBase)getWorld();
+                    world.seatsTaken--;
                 }
             }
         } else if (reachedDestination) {
@@ -135,6 +143,7 @@ public class Customer extends MovableActor {
                 seat.getTable().cancelOrder(Pretzel.class);
             }
             leaveToDoor(true);
+            world.seatsTaken--;
             counter1++;
             if (counter1 == 1) {
                 world.getHeart3().getImage().setTransparency(100);
@@ -148,7 +157,34 @@ public class Customer extends MovableActor {
                 counter1 = 0;
                 world.getHeart2().getImage().setTransparency(255);
                 world.getHeart3().getImage().setTransparency(255);
-                NoLives dead = new NoLives();
+
+                LevelBase newWorld;
+
+                if(world instanceof Level2) {
+                    newWorld = new Level2(world.getTentState());
+                }
+                else if(world instanceof Level3) {
+                    newWorld = new Level3(world.getTentState());
+                }
+                else if(world instanceof Level4) {
+                    newWorld = new Level4(world.getTentState());
+                }
+                else if(world instanceof Level5) {
+                    newWorld = new Level5(world.getTentState());
+                }
+                else if(world instanceof Level6) {
+                    newWorld = new Level6(world.getTentState());
+                }
+                else if(world instanceof Level7) {
+                    newWorld = new Level7(world.getTentState());
+                }
+                else if(world instanceof Level8) {
+                    newWorld = new Level8(world.getTentState());
+                }
+                else {
+                    newWorld = new Level1();
+                }
+                NoLives dead = new NoLives(newWorld);
                 Greenfoot.setWorld(dead);
             }
         }
@@ -160,11 +196,19 @@ public class Customer extends MovableActor {
         reachedDestination = false;
         leaving = true;
         if (angry) {
-            setImage("customer/model/walkerAngry.png");
-            GreenfootSound sound = new GreenfootSound("angry.wav");
-            sound.play();
+            if (isGirl) {
+                setImage("customer/model/girlwalkerAngry.png");
+            } else {
+                setImage("customer/model/walkerAngry.png");
+                GreenfootSound sound = new GreenfootSound("angry.wav");
+                sound.play();
+            }
         } else {
-            setImage("customer/model/walker.png");
+            if (isGirl) {
+                setImage("customer/model/girlwalker.png");
+            } else {
+                setImage("customer/model/walker.png");
+            }
         }
         moveTo(350, 570);
         LevelBase w = (LevelBase) getWorld();
@@ -179,11 +223,19 @@ public class Customer extends MovableActor {
         if (seat.isUpperRow()) {
             posX = seat.getX();
             posY = seat.getY() - 10;
-            setImage("customer/model/walkerSittingFront.png");
+            if (isGirl) {
+                setImage("customer/model/girlwalkerSittingFront.png");
+            } else {
+                setImage("customer/model/walkerSittingFront.png");
+            }
         } else {
             posX = seat.getX();
             posY = seat.getY() - 20;
-            setImage("customer/model/walkerSittingBack.png");
+            if (isGirl) {
+                setImage("customer/model/girlwalkerSittingBack.png");
+            } else {
+                setImage("customer/model/walkerSittingBack.png");
+            }
         }
         setLocation(posX, posY);
 
