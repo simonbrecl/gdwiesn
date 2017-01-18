@@ -22,7 +22,7 @@ public class Ending extends World {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
         setBackground("final.jpg");
-        money += moneyCount - 200;
+        money += moneyCount- 200;
         total = new GreenfootImage(money + "€", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(total, 434, 280);
     }
