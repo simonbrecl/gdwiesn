@@ -20,7 +20,4 @@ public class Level2 extends LevelBase {
         setInterval(7);
     }
 
-    public void act() {
-        super.act();
-    }
 }

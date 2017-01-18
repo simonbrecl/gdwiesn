@@ -28,8 +28,8 @@ public class Waitress extends MovableActor {
     private GreenfootImage originalImage = new GreenfootImage("oktoberfest-waitress.png");
     private GreenfootImage newImage = new GreenfootImage("oktoberfest-waitress.png");
 
-    public Waitress(World world) {
-        super("levels/MyWorld.xml", 5);
+    public Waitress(World world, String pathmap) {
+        super(pathmap, 5);
         this.world = (LevelBase) world;
         originalImage = getImage();
     }

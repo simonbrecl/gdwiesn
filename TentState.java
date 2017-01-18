@@ -76,11 +76,16 @@ public class TentState {
     }
 
     public boolean upgradeBand() {
-        if(bandLevel < 3) {
+        if(bandLevel == 0) {
+            if(money < BandUpgrade.BAND_COST) {
+                return false;
+            }
+            money -= BandUpgrade.BAND_COST;
             bandLevel++;
             return true;
         }
         return false;
+
     }
 
     public boolean upgradeSecurity() {

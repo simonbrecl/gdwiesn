@@ -2,6 +2,8 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootSound;
 import greenfoot.World;
 
+import java.util.logging.Level;
+
 public class Customer extends MovableActor {
 
     static int counter = 0;
@@ -82,10 +84,12 @@ public class Customer extends MovableActor {
                     if (!world.isTutorialActive()) {
                         normalAct();
                     }
-                } else {
+                }
+                else {
                     normalAct();
                 }
-            } else {
+            }
+            else {
                 if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
                     cs.setProgress(2);
                 }
@@ -105,7 +109,8 @@ public class Customer extends MovableActor {
             }
         } else if (reachedDestination) {
             if (leaving) {
-                getWorld().removeObject(this);
+                LevelBase w = (LevelBase) getWorld();
+                w.removeCustomer(this);
             } else {
                 tryToSitDown();
             }
@@ -152,7 +157,34 @@ public class Customer extends MovableActor {
                 counter1 = 0;
                 world.getHeart2().getImage().setTransparency(255);
                 world.getHeart3().getImage().setTransparency(255);
-                NoLives dead = new NoLives();
+
+                LevelBase newWorld;
+
+                if(world instanceof Level2) {
+                    newWorld = new Level2(world.getTentState());
+                }
+                else if(world instanceof Level3) {
+                    newWorld = new Level3(world.getTentState());
+                }
+                else if(world instanceof Level4) {
+                    newWorld = new Level4(world.getTentState());
+                }
+                else if(world instanceof Level5) {
+                    newWorld = new Level5(world.getTentState());
+                }
+                else if(world instanceof Level6) {
+                    newWorld = new Level6(world.getTentState());
+                }
+                else if(world instanceof Level7) {
+                    newWorld = new Level7(world.getTentState());
+                }
+                else if(world instanceof Level8) {
+                    newWorld = new Level8(world.getTentState());
+                }
+                else {
+                    newWorld = new Level1();
+                }
+                NoLives dead = new NoLives(newWorld);
                 Greenfoot.setWorld(dead);
             }
         }
@@ -179,7 +211,7 @@ public class Customer extends MovableActor {
             }
         }
         moveTo(350, 570);
-        World w = getWorld();
+        LevelBase w = (LevelBase) getWorld();
         w.removeObject(cs);
     }
 
@@ -211,8 +243,8 @@ public class Customer extends MovableActor {
 
         int order = 0;
 
-        if(getWorld() instanceof Level2) {
-            Level2 w = (Level2) getWorld();
+        if(!(getWorld() instanceof Level1)) {
+            LevelBase w = (LevelBase) getWorld();
             order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions() * 5);
         }
 
@@ -237,6 +269,15 @@ public class Customer extends MovableActor {
 
         setWaiting(true);
         return true;
+    }
+
+    public void resetPatienceLevel() {
+
+        if(sitting) {
+            currentWaitingTime = TOTAL_WAITINGTIME;
+            cs.setMood(2);
+        }
+
     }
 
     public boolean isSitting() {

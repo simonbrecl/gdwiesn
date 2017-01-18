@@ -71,16 +71,6 @@ public class EndLevel extends World {
         this.tentState = state;
         state.updateMoney(money);
         i++;
-        //getBackground().drawImage(total, 411 + offset, 553);
-
-        // make sure displayed money is centred in the box
-        if (moneyCount > 99) {
-            offset = 0;
-        } else if (moneyCount > 9) {
-            offset = 5;
-        } else {
-            offset = 10;
-        }
     }
 
 

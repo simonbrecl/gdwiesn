@@ -1,7 +1,5 @@
 #Greenfoot project file
 =\=\=\=\=\=\=
-<<<<<<<=HEAD
->>>>>>>=refs/remotes/origin/master
 class.AbstractLevel.superclass=greenfoot.World
 class.BandUpgrade.superclass=greenfoot.Actor
 class.Bar.image=bar-for-barrel.png

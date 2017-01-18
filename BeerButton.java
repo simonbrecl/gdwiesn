@@ -69,7 +69,7 @@ public class BeerButton extends Actor {
         }
 
         // flash the barrel for tutorial mode
-        if (barrelFlash) {
+        if (barrelFlash && getWorld() instanceof Level1) {
             counter++;
             if (counter % 25 == 0) {
                 setImage("barrelGlow.png");
