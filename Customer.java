@@ -8,6 +8,7 @@ public class Customer extends MovableActor {
 
     static int counter = 0;
     static int counter1 = 0;
+    static boolean puked;
     private final int id;
     private final int TOTAL_WAITINGTIME;
     private final int TOTAL_DRINKINGTIME;
@@ -108,10 +109,10 @@ public class Customer extends MovableActor {
                 }
                 if (currentDrinkingTime == 0) {
                     Greenfoot.playSound("drunk-up.wav");
-                    LevelBase world = (LevelBase)getWorld();
-                    world.seatsTaken--;
-                    if (Greenfoot.getRandomNumber(10) == 5) {     // how frequent you want customers to throw up
+
+                    if (!puked && Greenfoot.getRandomNumber(10) == 5) {     // how frequent you want customers to throw up
                         seat.getTable().puke();
+                        puked = true;
                         Greenfoot.playSound("vomit.mp3");
                     }
                     leaveToDoor(false);
@@ -146,14 +147,7 @@ public class Customer extends MovableActor {
             cs.setMood(0);
         }
         if (currentWaitingTime == 0) {
-            if(order < BEER_CUTOFF) {
-                seat.getTable().cancelOrder(Beer.class);
-            }
-            else if(order < PRETZEL_CUTOFF) {
-                seat.getTable().cancelOrder(Pretzel.class);
-            }
             leaveToDoor(true);
-            world.seatsTaken--;
             counter1++;
             if (counter1 == 1) {
                 world.getHeart3().getImage().setTransparency(100);
@@ -201,6 +195,18 @@ public class Customer extends MovableActor {
     }
 
     private void leaveToDoor(boolean angry) {
+        if (isSitting()) {
+            ((LevelBase) getWorld()).seatsTaken--;
+
+            if (isWaiting()) {
+                if (order < BEER_CUTOFF) {
+                    seat.getTable().cancelOrder(Beer.class);
+                } else if (order < PRETZEL_CUTOFF) {
+                    seat.getTable().cancelOrder(Pretzel.class);
+                }
+            }
+        }
+
         seat.setTaken(false);
         setSitting(false);
         reachedDestination = false;

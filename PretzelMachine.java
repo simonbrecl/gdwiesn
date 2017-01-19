@@ -50,7 +50,6 @@ public class PretzelMachine extends Actor {
     public void makePretzel() {
 
         if (Greenfoot.mouseClicked(this) && kitchen.foodCount < kitchen.FOOD_MAX) {
-            System.out.println("Mouse has been clicked");
             making = true;
             //this.setImage(new GreenfootImage("barrel-empty-beer1.png"));
         }

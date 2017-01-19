@@ -33,6 +33,8 @@ public class EndLevel extends World {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1);
 
+        System.out.println("Money made: " + moneyCount);
+
         money = state.getMoney() + moneyCount - 150;
         this.tentState = state;
         this.tentState.updateMoney(money);
@@ -50,7 +52,6 @@ public class EndLevel extends World {
             savings = new GreenfootImage("0€", 26, Color.BLACK, new Color(0, 0, 0, 0));
             getBackground().drawImage(savings, 406 + offset, 480);
         }
-        System.out.print(i);
         goal = new GreenfootImage(i*100 + "", 26, Color.BLACK, new Color(0, 0, 0, 0));
         getBackground().drawImage(goal, 403 + offset, 419);
 
