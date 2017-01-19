@@ -127,7 +127,7 @@ public class Level1 extends LevelBase {
     private void addTutorialCustomer() {
         TutorialCustomer c = new TutorialCustomer(obsID++);
         addObject(c, 350, 550);
-        Seat s = allSeats.get(15);
+        Seat s = allSeats.get(19);
         s.setTaken(true);
         c.setSeat(s);
         c.moveTo(s.getX(), s.getY());
