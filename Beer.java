@@ -3,22 +3,17 @@ import greenfoot.Greenfoot;
 import greenfoot.World;
 
 /**
- * Write a description of class Beer here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The beer while its poured.
  */
 
 public class Beer extends Actor {
 	private static final int POUR_TIME = 2000;
 
-	static boolean isPoured = false;
+	private static boolean isPoured = false;
 
-	static boolean isFlashing = false;
+	private static boolean isFlashing = false;
 
-	public long pourTimer = System.currentTimeMillis();
-
-	public boolean isClicked = false;
+	private long pourTimer = System.currentTimeMillis();
 
 	private Bar bar;
 
@@ -26,7 +21,7 @@ public class Beer extends Actor {
 
 	public void act() {
 		// pour();
-		if (isFlashing == true) {
+		if (isFlashing) {
 			counter++;
 			if (counter % 25 == 0) {
 				setImage("new-beer-glow.png");
@@ -41,7 +36,7 @@ public class Beer extends Actor {
 		}
 	}
 
-	public void pour() {
+	void pour() {
 		//setImage("beer.png");
 		isPoured = true;
 
@@ -51,7 +46,7 @@ public class Beer extends Actor {
 		}
 	}
 
-	public boolean isPoured() {
+	boolean isPoured() {
 		//lets the waitress check if the beer is poured
 		return isPoured;
 	}
@@ -73,7 +68,7 @@ public class Beer extends Actor {
 		}
 	}
 
-	public void beerFlash() {
+	void beerFlash() {
 		isFlashing = true;
 	}
 }

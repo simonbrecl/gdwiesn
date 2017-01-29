@@ -1,7 +1,3 @@
-/**
- * Created by ericasolum on 12/1/16.
- */
-
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
@@ -11,16 +7,19 @@ import greenfoot.World;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * The band upgrade.
+ */
 public class BandUpgrade extends Actor {
-	public static final int BAND_COST = 300;
+	static final int BAND_COST = 300;
 
 	//Add text box here
-	String text = "Click on the band to play \"Sweet Caroline\", which will reset every customer's patience level. Use when angry customers are about to leave to avoid losing a life." +
+	private String text = "Click on the band to play \"Sweet Caroline\", which will reset every customer's patience level. Use when angry customers are about to leave to avoid losing a life." +
 			"\nCost: " + BAND_COST + "€";
 
-	String clickToBuy = "\n\nClick to buy!";
+	private String clickToBuy = "\n\nClick to buy!";
 
-	String moneyExtra = "\n\nSorry, you need more money!";
+	private String moneyExtra = "\n\nSorry, you need more money!";
 
 	private int nextUpgradeCost;
 
@@ -47,7 +46,7 @@ public class BandUpgrade extends Actor {
 		prepare();
 	}
 
-	public void prepare() {
+	private void prepare() {
 		if (upgradeBought) {
 			this.setImage(band);
 		} else {
@@ -65,7 +64,7 @@ public class BandUpgrade extends Actor {
 		this.world = (UpgradeScreen)getWorld();
 	}
 
-	public void buyUpgrade() {
+	private void buyUpgrade() {
 
 		upgradeBought = true;
 		this.setImage(band);

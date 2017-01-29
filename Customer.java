@@ -1,15 +1,16 @@
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootSound;
 
+/**
+ * The customer.
+ */
 public class Customer extends MovableActor {
-
-	static int counter = 0;
 
 	static int counter1 = 0;
 
-	static boolean puked;
+	private static int counter = 0;
 
-	private final int id;
+	private static boolean puked;
 
 	private final int TOTAL_WAITINGTIME;
 
@@ -45,13 +46,14 @@ public class Customer extends MovableActor {
 
 	public Customer(int id) {
 		super("levels/CustomerPathmap.xml", 5);
+
 		if (Greenfoot.getRandomNumber(2) == 1) {
 			setImage("customer/model/girlwalker.png");
 			isGirl = true;
 		} else {
 			setImage("customer/model/walker.png");
 		}
-		this.id = id;
+
 		currentWaitingTime = Greenfoot.getRandomNumber(500) + 1000;
 		currentDrinkingTime = Greenfoot.getRandomNumber(500) + 1250;
 		TOTAL_WAITINGTIME = currentWaitingTime;
@@ -61,6 +63,7 @@ public class Customer extends MovableActor {
 	public void act() {
 		super.act();
 		moveAround();
+
 		if (getWorld() instanceof Level1) {
 			if (isFlashing) {
 				counter++;
@@ -113,13 +116,17 @@ public class Customer extends MovableActor {
 				if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
 					cs.setProgress(2);
 				}
+
 				currentDrinkingTime--;
+
 				if (currentDrinkingTime < TOTAL_DRINKINGTIME - TOTAL_DRINKINGTIME / 3) {
 					cs.setProgress(1);
 				}
+
 				if (currentDrinkingTime < TOTAL_DRINKINGTIME - 2 * TOTAL_DRINKINGTIME / 3) {
 					cs.setProgress(0);
 				}
+
 				if (currentDrinkingTime == 0) {
 					Greenfoot.playSound("drunk-up.wav");
 
@@ -143,6 +150,7 @@ public class Customer extends MovableActor {
 
 	private void normalAct() {
 		LevelBase world = (LevelBase)getWorld();
+
 		if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
 			setWaiting(false);
 			return;
@@ -150,17 +158,21 @@ public class Customer extends MovableActor {
 			setWaiting(false);
 			return;
 		}
+
 		currentWaitingTime--;
 
 		if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
 			cs.setMood(1);
 		}
+
 		if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
 			cs.setMood(0);
 		}
+
 		if (currentWaitingTime == 0) {
 			leaveToDoor(true);
 			counter1++;
+
 			if (counter1 == 1) {
 				world.getHeart3().getImage().setTransparency(100);
 			}
@@ -193,6 +205,7 @@ public class Customer extends MovableActor {
 				} else {
 					newWorld = new Level1();
 				}
+
 				NoLives dead = new NoLives(newWorld);
 				Greenfoot.setWorld(dead);
 			}
@@ -216,6 +229,7 @@ public class Customer extends MovableActor {
 		setSitting(false);
 		reachedDestination = false;
 		leaving = true;
+
 		if (angry) {
 			if (isGirl) {
 				setImage("customer/model/girlwalkerAngry.png");
@@ -231,6 +245,7 @@ public class Customer extends MovableActor {
 				setImage("customer/model/walker.png");
 			}
 		}
+
 		moveTo(350, 570);
 		LevelBase w = (LevelBase)getWorld();
 		w.removeObject(cs);
@@ -240,9 +255,11 @@ public class Customer extends MovableActor {
 		setSitting(true);
 		int posX;
 		int posY;
+
 		if (seat.isUpperRow()) {
 			posX = seat.getX();
 			posY = seat.getY() - 10;
+
 			if (isGirl) {
 				setImage("customer/model/girlwalkerSittingFront.png");
 			} else {
@@ -251,6 +268,7 @@ public class Customer extends MovableActor {
 		} else {
 			posX = seat.getX();
 			posY = seat.getY() - 20;
+
 			if (isGirl) {
 				setImage("customer/model/girlwalkerSittingBack.png");
 			} else {
@@ -286,10 +304,11 @@ public class Customer extends MovableActor {
 		w.addObject(cs, this.getX() + 10, this.getY() - 30);
 
 		setWaiting(true);
+
 		return true;
 	}
 
-	public void resetPatienceLevel() {
+	void resetPatienceLevel() {
 
 		if (sitting) {
 			currentWaitingTime = TOTAL_WAITINGTIME;
@@ -297,31 +316,23 @@ public class Customer extends MovableActor {
 		}
 	}
 
-	public boolean isSitting() {
+	private boolean isSitting() {
 		return sitting;
 	}
 
-	public void setSitting(boolean flag) {
+	private void setSitting(boolean flag) {
 		this.sitting = flag;
 	}
 
-	public boolean isWaiting() {
+	private boolean isWaiting() {
 		return waiting;
 	}
 
-	public void setWaiting(boolean waiting) {
+	private void setWaiting(boolean waiting) {
 		this.waiting = waiting;
 	}
 
-	public void flashTrue() {
-		isFlashing = true;
-	}
-
-	public void flashFalse() {
-		isFlashing = false;
-	}
-
-	public void setSeat(Seat seat) {
+	void setSeat(Seat seat) {
 		this.seat = seat;
 	}
 }

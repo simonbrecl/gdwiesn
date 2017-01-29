@@ -3,6 +3,9 @@ import greenfoot.GreenfootImage;
 
 import java.awt.*;
 
+/**
+ * The message popup.
+ */
 public class Message extends Actor {
 	public Message() {
 		updateImage("");
@@ -12,7 +15,7 @@ public class Message extends Actor {
 		updateImage(text);
 	}
 
-	public void setText(String text) {
+	void setText(String text) {
 		updateImage(text);
 	}
 

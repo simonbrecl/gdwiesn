@@ -1,6 +1,5 @@
 /**
  * Class for storing the current state of the tent, including upgrades and additional areas.
- * Created by ericasolum on 12/11/16.
  */
 public class TentState {
 
@@ -29,17 +28,17 @@ public class TentState {
 		day = 1;
 	}
 
-	public void updateMoney(int m) {
+	void updateMoney(int m) {
 		money = m;
 	}
 
 	/**
 	 * UPGRADE METHODS
-	 **/
+	 */
 
     /* Upgrade the kitchen level.
 	Returns true if successful, false otherwise. */
-	public boolean upgradeKitchen() {
+	boolean upgradeKitchen() {
 		//Buy pretzels
 		if (kitchenLevel == 0) {
 			if (money < KitchenUpgrade.PRETZEL_PRICE) {
@@ -63,7 +62,7 @@ public class TentState {
 	}
 
 	/* Upgrade the bar level */
-	public boolean upgradeBar() {
+	boolean upgradeBar() {
 		if (barLevel < 2 && money >= BarUpgrade.SECOND_TAP_PRICE) {
 			barLevel++;
 			money -= BarUpgrade.SECOND_TAP_PRICE;
@@ -81,7 +80,7 @@ public class TentState {
 		return false;
 	}
 
-	public boolean upgradeBand() {
+	boolean upgradeBand() {
 		if (bandLevel == 0) {
 			if (money < BandUpgrade.BAND_COST) {
 				return false;
@@ -101,7 +100,7 @@ public class TentState {
 		return false;
 	}
 
-	public boolean increaseDay() {
+	boolean increaseDay() {
 		if (day < 16) {
 			day++;
 			return true;
@@ -111,14 +110,14 @@ public class TentState {
 
 	/**
 	 * GET METHODS
-	 **/
+	 */
 
     /* Get the level of the kitchen.
-        0 - no kitchen
+		0 - no kitchen
         1 - kitchen only sells pretzels
         2 - kitchen sells sausages and pretzels
      */
-	public int getKitchenLevel() {
+	int getKitchenLevel() {
 		return kitchenLevel;
 	}
 
@@ -126,7 +125,7 @@ public class TentState {
 		1 - bar only has one tap
 		2 - bar has two barrels
 	 */
-	public int getBarLevel() {
+	int getBarLevel() {
 		return barLevel;
 	}
 
@@ -145,7 +144,7 @@ public class TentState {
 		1 - band only plays annoying music?
 		2 - band plays nice music and switches up the songs?
 	 */
-	public int getBandLevel() {
+	int getBandLevel() {
 		return bandLevel;
 	}
 
@@ -155,7 +154,7 @@ public class TentState {
 		2 - beer and pretzels
 		3 - beer, pretzels, and sausages
 	 */
-	public int getNumOrderOptions() {
+	int getNumOrderOptions() {
 		return kitchenLevel + 1;
 	}
 
@@ -163,7 +162,7 @@ public class TentState {
 		return money;
 	}
 
-	public int getDay() {
+	int getDay() {
 		return day;
 	}
 }

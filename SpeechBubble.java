@@ -2,7 +2,7 @@ import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 
 /**
- * Created by Daniel on 19.12.2016.
+ * The speech bubble.
  */
 public class SpeechBubble extends Actor {
 
@@ -29,18 +29,23 @@ public class SpeechBubble extends Actor {
 				wasteCounter--;
 				return;
 			}
+
 			part++;
+
 			if (part >= 7) {
-				boss.setfinishedTalking(true);
+				boss.setfinishedTalking();
 				getWorld().removeObject(this);
 				return;
 			}
+
 			bubble1 = new GifImage("introBubbles/bubble" + part + ".gif");
 			wasteCounter = 100;
 			lastWasShown = false;
 		}
+
 		image = bubble1.getCurrentImage();
 		setImage(image);
+
 		//Checks if the last image of the gif was shown.
 		if (image.equals(bubble1.getImages().get(bubble1.getImages().size() - 1))) {
 			lastWasShown = true;

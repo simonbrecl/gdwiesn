@@ -18,7 +18,7 @@ import java.util.List;
  * @author Neil Brown
  */
 public class GifImage {
-    /**
+	/**
 	 * The images used in the animation.
 	 */
 	private GreenfootImage[] images;
@@ -449,9 +449,9 @@ public class GifImage {
 		public int read(InputStream is) {
 			init();
 			if (is != null) {
-                if (!(is instanceof BufferedInputStream)) {
-                    is = new BufferedInputStream(is);
-                }
+				if (!(is instanceof BufferedInputStream)) {
+					is = new BufferedInputStream(is);
+				}
 				in = (BufferedInputStream)is;
 				readHeader();
 				if (!err()) {
@@ -510,15 +510,15 @@ public class GifImage {
 			if ((pixels == null) || (pixels.length < npix)) {
 				pixels = new byte[npix]; // allocate new pixel array
 			}
-            if (prefix == null) {
-                prefix = new short[MaxStackSize];
-            }
-            if (suffix == null) {
-                suffix = new byte[MaxStackSize];
-            }
-            if (pixelStack == null) {
-                pixelStack = new byte[MaxStackSize + 1];
-            }
+			if (prefix == null) {
+				prefix = new short[MaxStackSize];
+			}
+			if (suffix == null) {
+				suffix = new byte[MaxStackSize];
+			}
+			if (pixelStack == null) {
+				pixelStack = new byte[MaxStackSize + 1];
+			}
 
 			// Initialize GIF data stream decoder.
 
@@ -545,9 +545,9 @@ public class GifImage {
 						if (count == 0) {
 							// Read a new data block.
 							count = readBlock();
-                            if (count <= 0) {
-                                break;
-                            }
+							if (count <= 0) {
+								break;
+							}
 							bi = 0;
 						}
 						datum += (((int)block[bi]) & 0xff) << bits;
@@ -565,9 +565,9 @@ public class GifImage {
 
 					// Interpret the code
 
-                    if ((code > available) || (code == end_of_information)) {
-                        break;
-                    }
+					if ((code > available) || (code == end_of_information)) {
+						break;
+					}
 					if (code == clear) {
 						// Reset decoder.
 						code_size = data_size + 1;
@@ -595,9 +595,9 @@ public class GifImage {
 
 					// Add a new string to the string table,
 
-                    if (available >= MaxStackSize) {
-                        break;
-                    }
+					if (available >= MaxStackSize) {
+						break;
+					}
 					pixelStack[top++] = (byte)first;
 					prefix[available] = (short)old_code;
 					suffix[available] = (byte)first;
@@ -665,9 +665,9 @@ public class GifImage {
 					int count = 0;
 					while (n < blockSize) {
 						count = in.read(block, n, blockSize - n);
-                        if (count == -1) {
-                            break;
-                        }
+						if (count == -1) {
+							break;
+						}
 						n += count;
 					}
 				} catch (IOException e) {
@@ -739,11 +739,11 @@ public class GifImage {
 								for (int i = 0; i < 11; i++) {
 									app += (char)block[i];
 								}
-                                if (app.equals("NETSCAPE2.0")) {
-                                    readNetscapeExt();
-                                } else {
-                                    skip(); // don't care
-                                }
+								if (app.equals("NETSCAPE2.0")) {
+									readNetscapeExt();
+								} else {
+									skip(); // don't care
+								}
 								break;
 
 							default: // uninteresting extension
@@ -821,9 +821,9 @@ public class GifImage {
 				act = lct; // make local table active
 			} else {
 				act = gct; // make global table active
-                if (bgIndex == transIndex) {
-                    bgColor = 0;
-                }
+				if (bgIndex == transIndex) {
+					bgColor = 0;
+				}
 			}
 			int save = 0;
 			if (transparency) {
@@ -835,16 +835,16 @@ public class GifImage {
 				status = STATUS_FORMAT_ERROR; // no color table defined
 			}
 
-            if (err()) {
-                return;
-            }
+			if (err()) {
+				return;
+			}
 
 			decodeImageData(); // decode pixel data
 			skip();
 
-            if (err()) {
-                return;
-            }
+			if (err()) {
+				return;
+			}
 
 			frameCount++;
 

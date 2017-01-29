@@ -4,12 +4,8 @@ import greenfoot.GreenfootImage;
 import java.awt.*;
 
 /**
- * Write a description of class Money here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The money notice.
  */
-
 public class Money extends Actor {
 
 	private int money = 0;
@@ -19,8 +15,6 @@ public class Money extends Actor {
 	private GreenfootImage sb;
 
 	private GreenfootImage board;
-
-	private Message msgbox;
 
 	public Money(int width, int height) {
 		int boardTransparency = 150;
@@ -35,6 +29,7 @@ public class Money extends Actor {
 	public void act() {
 		timer++;
 		Message msgbox = ((LevelBase)getWorld()).messagebox;
+
 		if (timer > 180) {
 			getWorld().removeObject(msgbox);
 			timer = 0;
@@ -49,7 +44,7 @@ public class Money extends Actor {
 		this.money = money;
 	}
 
-	public synchronized void addMoney(int money, int x, int y) {
+	synchronized void addMoney(int money, int x, int y) {
 		this.money += money;
 		update();
 		Message msgbox = ((LevelBase)getWorld()).messagebox;

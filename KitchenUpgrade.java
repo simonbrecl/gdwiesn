@@ -8,17 +8,16 @@ import java.awt.*;
 import java.util.List;
 
 /**
- * Created by ericasolum on 12/1/16.
+ * The kitchen upgrade.
  */
-
 public class KitchenUpgrade extends Actor {
-	public static final int PRETZEL_PRICE = 100;
+	static final int PRETZEL_PRICE = 100;
 
-	public static final int SAUSAGE_PRICE = 50;
+	static final int SAUSAGE_PRICE = 50;
 
-	String clickToBuy = "\n\nClick to buy!";
+	private String clickToBuy = "\n\nClick to buy!";
 
-	String moneyExtra = "\n\nSorry, you need more money!";
+	private String moneyExtra = "\n\nSorry, you need more money!";
 
 	private boolean pretzelBought = false;
 
@@ -29,7 +28,7 @@ public class KitchenUpgrade extends Actor {
 	private int nextUpgradeCost = 100;
 
 	//Add text box here
-	String text = "Purchase the kitchen so customers can buy yummy pretzels." +
+	private String text = "Purchase the kitchen so customers can buy yummy pretzels." +
 			"\nCost: " + nextUpgradeCost + "€";
 
 	private GreenfootImage upgrade1 = new GreenfootImage("kitchen-upgrade1.png");
@@ -61,7 +60,7 @@ public class KitchenUpgrade extends Actor {
 		this.world = (UpgradeScreen)getWorld();
 	}
 
-	public void prepare() {
+	private void prepare() {
 		//Set the text boxes to read-only
 		readyToBuyBox.setReadOnly(true);
 		notEnoughMoneyBox.setReadOnly(true);
@@ -80,7 +79,7 @@ public class KitchenUpgrade extends Actor {
 		}
 	}
 
-	public void buyPretzel() {
+	private void buyPretzel() {
 		pretzelBought = true;
 		nextUpgradeCost = SAUSAGE_PRICE;
 		this.setImage(new GreenfootImage("kitchen-upgrade2-overlay.png"));
@@ -148,7 +147,7 @@ public class KitchenUpgrade extends Actor {
 						buyPretzel();
 					}
 					/*else if(pretzelBought && !sausageBought) {
-                        buySausage();
+						buySausage();
                     }*/
 				}
 			}

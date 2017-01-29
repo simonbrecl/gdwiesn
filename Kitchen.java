@@ -4,21 +4,14 @@ import greenfoot.GreenfootImage;
 import greenfoot.World;
 
 /**
- * Write a description of class Bar here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The kitchen.
  */
 public class Kitchen extends Actor {
 	static final int FOOD_MAX = 4;
 
 	int foodCount = 0;
 
-	/**
-	 * Act - do whatever the Bar wants to do. This method is called whenever
-	 * the 'Act' or 'Run' button gets pressed in the environment.
-	 */
-	boolean mouseOver = false;
+	private boolean mouseOver = false;
 
 	private int level = 1;
 

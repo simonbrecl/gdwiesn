@@ -1,5 +1,4 @@
 #Greenfoot project file
-class.AbstractLevel.superclass=greenfoot.World
 class.Band.superclass=greenfoot.Actor
 class.BandUpgrade.superclass=greenfoot.Actor
 class.Bar.image=bar-for-barrel.png
@@ -226,7 +225,6 @@ dependency139.type=UsesDependency
 dependency14.from=Waitress
 dependency14.to=Beer
 dependency14.type=UsesDependency
-dependency140.from=AbstractLevel
 dependency140.to=TentState
 dependency140.type=UsesDependency
 dependency141.from=MoneyLeft
@@ -1088,7 +1086,6 @@ target8.width=80
 target8.x=120
 target8.y=1030
 target9.height=50
-target9.name=AbstractLevel
 target9.showInterface=false
 target9.type=AbstractTarget
 target9.typeParameters=

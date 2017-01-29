@@ -6,46 +6,46 @@ import greenfoot.World;
 import java.util.ArrayList;
 
 /**
- * Created by Daniel on 19.12.2016.
+ * The level base class.
  */
 public class LevelBase extends World {
-
-	//Duration of a level
-	public int minPerLevel = 5;
-
-	//Maximum amount of customers
-	public int maxPeople = 30;
-
-	//Minimum amount of customers
-	public int minPeople = 1;
-
-	//Interval of spawning customers
-	public int interval = 5;
 
 	//Money goal.
 	public int goal = 150;
 
-	public Levelmap levelmap;
-
-	public TentState tent;
-
-	public ArrayList<Seat> allSeats = new ArrayList<>();
-
-	public ArrayList<Customer> customers = new ArrayList<>();
-
-	public int stupidTimer = 0;
-
-	public int day = 1;
-
-	public int obsID = 0;
-
-	public int seatsTaken = 0;
-
 	public int numSeatsTotal = 32;
 
-	public int minPeopleBase = 0;
+	TentState tent;
+
+	ArrayList<Seat> allSeats = new ArrayList<>();
+
+	int obsID = 0;
+
+	int seatsTaken = 0;
 
 	Message messagebox = new Message("");
+
+	//Duration of a level
+	private int minPerLevel = 5;
+
+	//Maximum amount of customers
+	private int maxPeople = 30;
+
+	//Minimum amount of customers
+	private int minPeople = 1;
+
+	//Interval of spawning customers
+	private int interval = 5;
+
+	private Levelmap levelmap;
+
+	private ArrayList<Customer> customers = new ArrayList<>();
+
+	private int stupidTimer = 0;
+
+	private int day = 1;
+
+	private int minPeopleBase = 0;
 
 	private Lives heart1 = new Lives();
 
@@ -63,7 +63,7 @@ public class LevelBase extends World {
 		this.goal = goal;
 		this.day = day;
 		/*if(day > 4) {
-            minPeopleBase = 1;
+			minPeopleBase = 1;
         }
         if(day > 8) {
             minPeopleBase = 2;
@@ -107,14 +107,14 @@ public class LevelBase extends World {
 	}
 
 	//Made a separate function for this so we can add a different pathmap for the band upgrade
-	public void loadLevelMap(String pathToLevelmap) {
+	private void loadLevelMap(String pathToLevelmap) {
 		levelmap = new Levelmap(pathToLevelmap, this, tent);
 		for (Table t : levelmap.getTables()) {
 			allSeats.addAll(t.getSeats());
 		}
 	}
 
-	public void baseLevelAct() {
+	void baseLevelAct() {
 		levelmap.getClock().startClock(minPerLevel, day);
 		spawnCustomers();
 		updateClock();
@@ -168,7 +168,7 @@ public class LevelBase extends World {
 		}
 	}
 
-	public void clickControl() {
+	void clickControl() {
 		greenfoot.MouseInfo mouseInfo = Greenfoot.getMouseInfo();
 
 		if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
@@ -191,7 +191,7 @@ public class LevelBase extends World {
 		}
 	}
 
-	public void removeCustomer(Customer c) {
+	void removeCustomer(Customer c) {
 		boolean success = customers.remove(c);
 		if (!success) {
 			System.out.println("Error removing customer");
@@ -199,7 +199,7 @@ public class LevelBase extends World {
 		removeObject(c);
 	}
 
-	public void resetCustomerMoods() {
+	void resetCustomerMoods() {
 		for (Customer c : customers) {
 			c.resetPatienceLevel();
 		}
@@ -209,11 +209,11 @@ public class LevelBase extends World {
 		return heart1;
 	}
 
-	public Lives getHeart2() {
+	Lives getHeart2() {
 		return heart2;
 	}
 
-	public Lives getHeart3() {
+	Lives getHeart3() {
 		return heart3;
 	}
 
@@ -221,23 +221,23 @@ public class LevelBase extends World {
 		tent = state;
 	}
 
-	public TentState getTentState() {
+	TentState getTentState() {
 		return tent;
 	}
 
-	public void setMinPerLevel(int minPerLevel) {
+	void setMinPerLevel(int minPerLevel) {
 		this.minPerLevel = minPerLevel;
 	}
 
-	public void setMaxPeople(int maxPeople) {
+	void setMaxPeople(int maxPeople) {
 		this.maxPeople = maxPeople;
 	}
 
-	public void setMinPeople(int minPeople) {
+	void setMinPeople(int minPeople) {
 		this.minPeople = minPeople;
 	}
 
-	public void setInterval(int interval) {
+	void setInterval(int interval) {
 		this.interval = interval;
 	}
 }

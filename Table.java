@@ -7,15 +7,12 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Write a description of class Table here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * A table.
  */
 public class Table extends Actor {
 	private static final int CLEANING_TIME = 300;
 
-	boolean mouseOver = false;
+	private boolean mouseOver = false;
 
 	private Levelmap levelmap;
 
@@ -84,7 +81,7 @@ public class Table extends Actor {
 		}
 	}
 
-	public synchronized boolean incrementBeer() {
+	synchronized boolean incrementBeer() {
 		if (wantBeer <= 0) {
 			return false;
 		}
@@ -97,7 +94,7 @@ public class Table extends Actor {
 		return true;
 	}
 
-	public synchronized boolean incrementPretzel() {
+	synchronized boolean incrementPretzel() {
 		if (wantPretzel <= 0) {
 
 			return false;
@@ -110,7 +107,7 @@ public class Table extends Actor {
 		return true;
 	}
 
-	public void glow() {
+	private void glow() {
 		if (!isDirty()) {
 			if (!mouseOver && Greenfoot.mouseMoved(this)) {
 				setImage("table-object1.png");
@@ -163,20 +160,20 @@ public class Table extends Actor {
 		getImage().drawImage(new GreenfootImage(String.valueOf(wantBeer), 20, Color.WHITE, Color.BLACK), 70, 20);
 	}
 
-	public synchronized void wantBeer() {
+	synchronized void wantBeer() {
 		wantBeer++;
 		//updateWantBeerCount();
 	}
 
-	public synchronized void wantPretzel() {
+	synchronized void wantPretzel() {
 		wantPretzel++;
 	}
 
-	public synchronized void wantSausage() {
+	synchronized void wantSausage() {
 		wantPretzel++;
 	}
 
-	public synchronized boolean takeBeer(int mood) {
+	synchronized boolean takeBeer(int mood) {
 		if (beer > 0) {
 			beer--;
 			updateBeerCount();
@@ -189,7 +186,7 @@ public class Table extends Actor {
 		}
 	}
 
-	public synchronized boolean takePretzel(int mood) {
+	synchronized boolean takePretzel(int mood) {
 		if (pretzel > 0) {
 			pretzel--;
 			updatePretzelCount();
@@ -202,7 +199,7 @@ public class Table extends Actor {
 		}
 	}
 
-	public synchronized void cancelOrder(Class<?> cls) {
+	synchronized void cancelOrder(Class<?> cls) {
 		if (cls == Beer.class) {
 			wantBeer--;
 		} else if (cls == Pretzel.class) {
@@ -212,7 +209,7 @@ public class Table extends Actor {
 		//updateWantBeerCount();
 	}
 
-	public ArrayList<Seat> getSeats() {
+	ArrayList<Seat> getSeats() {
 		return seats;
 	}
 
@@ -230,20 +227,16 @@ public class Table extends Actor {
 		levelmap.getMoney().addMoney(money, getX() + (getX() > getWorld().getWidth() / 2 ? 100 : -100), getY());
 	}
 
-	public void puke() {
+	void puke() {
 		setImage("table-object-puke.png");
 		puke = true;
 	}
 
-	public boolean isDirty() {
-		if (puke == true) {
-			return true;
-		} else {
-			return false;
-		}
+	boolean isDirty() {
+		return puke;
 	}
 
-	public void clean() {
+	void clean() {
 		cleanCounter++;
 		if (cleanCounter % 20 == 0) {
 			if (imageMarker == 0) {
@@ -268,7 +261,7 @@ public class Table extends Actor {
 			}
 		}
 		/*while (cleanCounter < CLEANING_TIME) {
-            if (cleanCounter % 20 == 0) {
+			if (cleanCounter % 20 == 0) {
                 setImage("table-object-clean.png");
             } else if(cleanCounter % 10 == 0) {
                 setImage("table-object-puke.png");

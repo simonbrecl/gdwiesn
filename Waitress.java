@@ -1,12 +1,8 @@
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import greenfoot.World;
 
 /**
- * Write a description of class Waitress here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The waitress.
  */
 public class Waitress extends MovableActor {
 	private static final int PICKUP_RADIUS = 125;
@@ -33,19 +29,14 @@ public class Waitress extends MovableActor {
 
 	private int foodCount = 0;
 
-	private int beerTimer = 0;
-
-	private LevelBase world;
-
 	private boolean cleaning = false;
 
 	private GreenfootImage originalImage = new GreenfootImage("oktoberfest-waitress.png");
 
 	private GreenfootImage newImage = new GreenfootImage("oktoberfest-waitress.png");
 
-	public Waitress(World world, String pathmap) {
+	public Waitress(String pathmap) {
 		super(pathmap, 5);
-		this.world = (LevelBase)world;
 		originalImage = getImage();
 	}
 
@@ -213,7 +204,7 @@ public class Waitress extends MovableActor {
 		}
 	}
 
-	public int getItemCount() {
+	int getItemCount() {
 		return itemCount;
 	}
 
@@ -224,7 +215,7 @@ public class Waitress extends MovableActor {
 				cleaning = true; // commence clean
 				Greenfoot.playSound("cleaning.wav");
 			}
-			if (table.isDirty() && cleaning == true) {
+			if (table.isDirty() && cleaning) {
 				//currentImage = getImage();
 				//setImage("oktoberfest-waitress-sponge.png");
 				table.clean();
@@ -234,7 +225,7 @@ public class Waitress extends MovableActor {
 		}
 	}
 
-	public void changeCleaningStatus() {
+	void changeCleaningStatus() {
 		cleaning = !cleaning;
 	}
 }

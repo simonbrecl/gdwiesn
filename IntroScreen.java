@@ -4,15 +4,10 @@ import greenfoot.MouseInfo;
 import greenfoot.World;
 
 /**
- * Write a description of class IntroScreen here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The intro screen.
  */
 public class IntroScreen extends World {
 	private GreenfootSound introSound1 = new GreenfootSound("intro.mp3");
-
-	private int i;
 
 	/**
 	 * Constructor for objects of class IntroScreen.

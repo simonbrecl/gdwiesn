@@ -3,20 +3,13 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 
 /**
- * Write a description of class BeerButton here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The beer button.
  */
 public class BeerButton extends Actor {
 
-	static boolean barrelFlash;
+	private static boolean barrelFlash;
 
-	/**
-	 * Act - do whatever the BeerButton wants to do. This method is called whenever
-	 * the 'Act' or 'Run' button gets pressed in the environment.
-	 */
-	boolean mouseOver = false;
+	private boolean mouseOver = false;
 
 	private Bar bar;
 
@@ -32,10 +25,6 @@ public class BeerButton extends Actor {
 
 	public BeerButton() {
 		barrelFlash = false;
-	}
-
-	static boolean isFlashing() {
-		return barrelFlash;
 	}
 
 	public void act() {
@@ -89,8 +78,8 @@ public class BeerButton extends Actor {
 		}
 	}
 
-	public void pourBeer() {
-		if (Greenfoot.mouseClicked(this) && bar.beerCount < bar.beerMaximum) {
+	private void pourBeer() {
+		if (Greenfoot.mouseClicked(this) && bar.beerCount < Bar.beerMaximum) {
 
 			filling = true;
 			if (mouseOver) {

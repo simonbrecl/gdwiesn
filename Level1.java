@@ -3,16 +3,13 @@ import greenfoot.Greenfoot;
 import java.util.List;
 
 /**
- * Write a description of class Level1 here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The first level.
  */
 public class Level1 extends LevelBase {
 
-	static boolean tutorialActive = true;
+	private static boolean tutorialActive = true;
 
-	static int repeat = 1;
+	private static int repeat = 1;
 
 	private int tutorialStage;
 
@@ -22,9 +19,6 @@ public class Level1 extends LevelBase {
 
 	private ClickToContinue ctc = new ClickToContinue();
 
-	/**
-	 * Constructor for objects of class Level1.
-	 */
 	public Level1() {
 		super(1, 100, new TentState(), "levels/MyWorld.xml");
 
@@ -43,15 +37,15 @@ public class Level1 extends LevelBase {
 		}
 	}
 
-	public boolean isTutorialActive() {
+	boolean isTutorialActive() {
 		return tutorialActive;
 	}
 
-	public void incrementTutorialStage() {
+	void incrementTutorialStage() {
 		tutorialStage++;
 	}
 
-	public int getTutorialStage() {
+	int getTutorialStage() {
 		return tutorialStage;
 	}
 

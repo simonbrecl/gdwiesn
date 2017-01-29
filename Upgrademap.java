@@ -122,7 +122,7 @@ class Upgrademap {
 						break;
 
 					case "DecorationsUpgrade":
-                        /* Comment out until this is implemented*/
+						/* Comment out until this is implemented*/
 						//decorations = new DecorationsUpgrade();
 
 						//world.addObject(decorations, x, y);

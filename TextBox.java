@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * @version November 2010 - April 2014
  */
 public class TextBox extends WindowComponent {
-    public static final String LOWERCASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
+	public static final String LOWERCASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
 	public static final String UPPERCASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -121,15 +121,15 @@ public class TextBox extends WindowComponent {
 	 * @param font The Font for the text.
 	 */
 	public TextBox(Point size, String text, Font font) {
-        if (font != null) {
-            this.font = font;
-        }
-        if (size.getX() < 15) {
-            size = new Point(15, (int)size.getY());
-        }
-        if (size.getY() < this.font.getSize() + 6) {
-            size = new Point((int)size.getX(), this.font.getSize() + 6);
-        }
+		if (font != null) {
+			this.font = font;
+		}
+		if (size.getX() < 15) {
+			size = new Point(15, (int)size.getY());
+		}
+		if (size.getY() < this.font.getSize() + 6) {
+			size = new Point((int)size.getX(), this.font.getSize() + 6);
+		}
 		this.size = size;
 		this.text = text;
 		caret = text.length();
@@ -153,11 +153,11 @@ public class TextBox extends WindowComponent {
 	 * @return Whethor or not there exists a TextBox that has focus, within the World.
 	 */
 	public static boolean textBoxHasFocus() {
-        for (Object o : WorldHandler.getInstance().getWorld().getObjects(TextBox.class)) {
-            if (((TextBox)o).hasFocus()) {
-                return true;
-            }
-        }
+		for (Object o : WorldHandler.getInstance().getWorld().getObjects(TextBox.class)) {
+			if (((TextBox)o).hasFocus()) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -168,9 +168,9 @@ public class TextBox extends WindowComponent {
 	@Override
 	public void act() {
 		super.act();
-        if (!focusable && hasFocus()) {
-            removeFocus();
-        }
+		if (!focusable && hasFocus()) {
+			removeFocus();
+		}
 
 		oldCaret = caret;
 
@@ -178,24 +178,24 @@ public class TextBox extends WindowComponent {
 
 		if (hasFocus()) {
 			// Progress caret blinking animation.
-            if (++blink == 20) {
-                blink = -20;
-            }
+			if (++blink == 20) {
+				blink = -20;
+			}
 
 			handleCopyCutPaste();
 
-            if (Greenfoot.isKeyDown("control") && Greenfoot.isKeyDown("t")) {
-                if (!ctrTab) {
-                    deleteSelected();
-                    text = text.substring(0, caret) + "    " + text.substring(caret);
-                    changed = true;
-                    // Increment caret pass inserted character.
-                    caret += 4;
-                    ctrTab = true;
-                }
-            } else {
-                ctrTab = false;
-            }
+			if (Greenfoot.isKeyDown("control") && Greenfoot.isKeyDown("t")) {
+				if (!ctrTab) {
+					deleteSelected();
+					text = text.substring(0, caret) + "    " + text.substring(caret);
+					changed = true;
+					// Increment caret pass inserted character.
+					caret += 4;
+					ctrTab = true;
+				}
+			} else {
+				ctrTab = false;
+			}
 
 			if (Greenfoot.isKeyDown("control") && Greenfoot.isKeyDown("a")) {
 				selectingPivot = 0;
@@ -207,9 +207,9 @@ public class TextBox extends WindowComponent {
 			handleArrowKeys();
 		}
 
-        if (oldCaret != caret) {
-            lastCursorX = null;
-        }
+		if (oldCaret != caret) {
+			lastCursorX = null;
+		}
 
 		drawFunction.paint();
 	}
@@ -217,88 +217,88 @@ public class TextBox extends WindowComponent {
 	private void handleCopyCutPaste() {
 		if (!password) {
 			boolean cDown = Greenfoot.isKeyDown("c");
-            if (!cDown) {
-                pressedC = false;
-            }
+			if (!cDown) {
+				pressedC = false;
+			}
 			boolean vDown = Greenfoot.isKeyDown("v");
-            if (!vDown) {
-                pressedV = false;
-            }
+			if (!vDown) {
+				pressedV = false;
+			}
 			boolean xDown = Greenfoot.isKeyDown("x");
-            if (!xDown) {
-                pressedX = false;
-            }
+			if (!xDown) {
+				pressedX = false;
+			}
 
-            if (hasFocus()) {
-                if (Greenfoot.isKeyDown("control")) {
-                    if (cDown && !pressedC) {
-                        if (selectingPivot != -1 && selectingPivot != caret) {
-                            textTransfer.setClipboardContents(text.substring(Math.min(caret, selectingPivot), Math.max(caret, selectingPivot)));
-                        }
-                        pressedC = true;
-                    }
-                    if (!readOnly) {
-                        if (vDown && !pressedV) {
-                            deleteSelected();
-                            String s = textTransfer.getClipboardContents();
-                            for (int i = 0; i < s.length(); i++) {
-                                if ((s.charAt(i) == '\n' || (s.charAt(i) >= 32 && s.charAt(i) < 127)) && (maxLength == -1 || text.length() < maxLength) && (accept.equals("") || accept.contains(s.substring(i, i + 1)) && !dontAccept.contains(s.substring(i, i + 1)))) {
-                                    text = text.substring(0, caret) + s.charAt(i) + text.substring(caret);
-                                    changed = true;
-                                    // Increment caret pass inserted character.
-                                    caret++;
-                                }
-                            }
-                            pressedV = true;
-                        }
-                        if (xDown && !pressedX) {
-                            if (selectingPivot != -1 && selectingPivot != caret) {
-                                textTransfer.setClipboardContents(text.substring(Math.min(caret, selectingPivot), Math.max(caret, selectingPivot)));
-                                deleteSelected();
-                            }
-                            pressedX = true;
-                        }
-                    }
-                }
-            }
+			if (hasFocus()) {
+				if (Greenfoot.isKeyDown("control")) {
+					if (cDown && !pressedC) {
+						if (selectingPivot != -1 && selectingPivot != caret) {
+							textTransfer.setClipboardContents(text.substring(Math.min(caret, selectingPivot), Math.max(caret, selectingPivot)));
+						}
+						pressedC = true;
+					}
+					if (!readOnly) {
+						if (vDown && !pressedV) {
+							deleteSelected();
+							String s = textTransfer.getClipboardContents();
+							for (int i = 0; i < s.length(); i++) {
+								if ((s.charAt(i) == '\n' || (s.charAt(i) >= 32 && s.charAt(i) < 127)) && (maxLength == -1 || text.length() < maxLength) && (accept.equals("") || accept.contains(s.substring(i, i + 1)) && !dontAccept.contains(s.substring(i, i + 1)))) {
+									text = text.substring(0, caret) + s.charAt(i) + text.substring(caret);
+									changed = true;
+									// Increment caret pass inserted character.
+									caret++;
+								}
+							}
+							pressedV = true;
+						}
+						if (xDown && !pressedX) {
+							if (selectingPivot != -1 && selectingPivot != caret) {
+								textTransfer.setClipboardContents(text.substring(Math.min(caret, selectingPivot), Math.max(caret, selectingPivot)));
+								deleteSelected();
+							}
+							pressedX = true;
+						}
+					}
+				}
+			}
 		}
 	}
 
 	private void handleMouse() {
 		MouseInfo mouse = Greenfoot.getMouseInfo();
-        if (Greenfoot.mousePressed(this))
-        // Pressed somewhere in the text.
-        {
-            if (mouse.getX() - (getX() - size.getX() / 2) < size.getX() - (strs.size() * font.getSize() > size.getY() ? SCROLL_WIDTH - 3 : 0)) {
-                if (focusable) {
-                    clickedAt = new Point(mouse.getX() - (getX() - (int)size.getX() / 2), mouse.getY() - (getY() - (int)size.getY() / 2));
+		if (Greenfoot.mousePressed(this))
+		// Pressed somewhere in the text.
+		{
+			if (mouse.getX() - (getX() - size.getX() / 2) < size.getX() - (strs.size() * font.getSize() > size.getY() ? SCROLL_WIDTH - 3 : 0)) {
+				if (focusable) {
+					clickedAt = new Point(mouse.getX() - (getX() - (int)size.getX() / 2), mouse.getY() - (getY() - (int)size.getY() / 2));
 
-                    handleForSelecting();
+					handleForSelecting();
 
-                    lastCursorX = null;
+					lastCursorX = null;
 
-                    selecting = true;
-                }
-            } else {
-                int scroll = (int)(scrollValue / (double)(font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3) * (size.getY() - scrollBar));
-                // Pressed on scroll bar.
-                if (strs.size() * font.getSize() > (int)size.getY() && mouse.getX() - (getX() - size.getX() / 2) > (int)size.getX() - 15 && mouse.getY() - (getY() - (int)size.getY() / 2) > scroll && mouse.getY() - (getY() - (int)size.getY() / 2) < scroll + scrollBar) {
-                    draggingScrollBar = true;
-                    mouseDrag_yOffsetOnScrollBar = mouse.getY() - (getY() - (int)size.getY() / 2) - scroll;
-                }
-            }
-        }
-        if (focusable && Greenfoot.mouseClicked(this)) {
-            if ((clickCount = mouse.getClickCount()) >= 2) {
-                clickedAt = new Point(mouse.getX() - (getX() - (int)size.getX() / 2), mouse.getY() - (getY() - (int)size.getY() / 2));
-            }
-        } else {
-            clickCount = 0;
-        }
+					selecting = true;
+				}
+			} else {
+				int scroll = (int)(scrollValue / (double)(font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3) * (size.getY() - scrollBar));
+				// Pressed on scroll bar.
+				if (strs.size() * font.getSize() > (int)size.getY() && mouse.getX() - (getX() - size.getX() / 2) > (int)size.getX() - 15 && mouse.getY() - (getY() - (int)size.getY() / 2) > scroll && mouse.getY() - (getY() - (int)size.getY() / 2) < scroll + scrollBar) {
+					draggingScrollBar = true;
+					mouseDrag_yOffsetOnScrollBar = mouse.getY() - (getY() - (int)size.getY() / 2) - scroll;
+				}
+			}
+		}
+		if (focusable && Greenfoot.mouseClicked(this)) {
+			if ((clickCount = mouse.getClickCount()) >= 2) {
+				clickedAt = new Point(mouse.getX() - (getX() - (int)size.getX() / 2), mouse.getY() - (getY() - (int)size.getY() / 2));
+			}
+		} else {
+			clickCount = 0;
+		}
 
-        if (Greenfoot.mouseMoved(null) || Greenfoot.mouseDragged(null)) {
-            lastMouse.setLocation(mouse.getX(), mouse.getY());
-        }
+		if (Greenfoot.mouseMoved(null) || Greenfoot.mouseDragged(null)) {
+			lastMouse.setLocation(mouse.getX(), mouse.getY());
+		}
 
 		// Listen to end dragging of scroll bar and selecting.
 		if (Greenfoot.mouseClicked(null) || Greenfoot.mouseDragEnded(null)) {
@@ -308,31 +308,31 @@ public class TextBox extends WindowComponent {
 
 		if (selecting && clickedAt == null && blink % 6 == 0) {
 			clickedAt = new Point((int)lastMouse.getX() - (getX() - (int)size.getX() / 2), (int)lastMouse.getY() - (getY() - (int)size.getY() / 2));
-            if (selectingPivot == -1) {
-                selectingPivot = caret;
-            }
+			if (selectingPivot == -1) {
+				selectingPivot = caret;
+			}
 		}
 
-        if (Greenfoot.mouseDragged(null)) {
-            if (draggingScrollBar) {
-                int topOfScrollBar = (mouse.getY() - (getY() - (int)size.getY() / 2)) - mouseDrag_yOffsetOnScrollBar;
-                if (topOfScrollBar < 0) {
-                    topOfScrollBar = 0;
-                } else if (mouse.getY() - (getY() - (int)size.getY() / 2) + (scrollBar - mouseDrag_yOffsetOnScrollBar) > size.getY()) {
-                    topOfScrollBar = (int)size.getY() - scrollBar;
-                }
-                scrollValue = (int)(topOfScrollBar / (double)(size.getY() - scrollBar) * (font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3));
-            }
-        }
+		if (Greenfoot.mouseDragged(null)) {
+			if (draggingScrollBar) {
+				int topOfScrollBar = (mouse.getY() - (getY() - (int)size.getY() / 2)) - mouseDrag_yOffsetOnScrollBar;
+				if (topOfScrollBar < 0) {
+					topOfScrollBar = 0;
+				} else if (mouse.getY() - (getY() - (int)size.getY() / 2) + (scrollBar - mouseDrag_yOffsetOnScrollBar) > size.getY()) {
+					topOfScrollBar = (int)size.getY() - scrollBar;
+				}
+				scrollValue = (int)(topOfScrollBar / (double)(size.getY() - scrollBar) * (font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3));
+			}
+		}
 	}
 
 	private boolean deleteSelected() {
 		if (selectingPivot != -1) {
 			text = text.substring(0, Math.min(caret, selectingPivot)) + text.substring(Math.max(caret, selectingPivot));
 			changed = true;
-            if (selectingPivot < caret) {
-                caret = selectingPivot;
-            }
+			if (selectingPivot < caret) {
+				caret = selectingPivot;
+			}
 			selectingPivot = -1;
 			return true;
 		}
@@ -341,75 +341,75 @@ public class TextBox extends WindowComponent {
 
 	private void handleInput() {
 		String s = Greenfoot.getKey();
-        if (s != null && s.length() == 1 && treatAllAsUpperCase) {
-            s = s.toUpperCase();
-        }
+		if (s != null && s.length() == 1 && treatAllAsUpperCase) {
+			s = s.toUpperCase();
+		}
 
 		if (s != null && !readOnly && s.charAt(0) >= 32 && s.charAt(0) <= 127) {
 			if (s.charAt(0) == 127) {
-                if (!deleteSelected()) {
-                    if (caret < text.length()) {
-                        // Remove character to left of caret position.
-                        text = text.substring(0, ++caret - 1) + text.substring(caret);
-                        changed = true;
-                        // Decrement caret to position of removed character.
-                        caret--;
-                        // Reset caret blinking, to show solid.
-                        blink = 1;
-                    }
-                }
+				if (!deleteSelected()) {
+					if (caret < text.length()) {
+						// Remove character to left of caret position.
+						text = text.substring(0, ++caret - 1) + text.substring(caret);
+						changed = true;
+						// Decrement caret to position of removed character.
+						caret--;
+						// Reset caret blinking, to show solid.
+						blink = 1;
+					}
+				}
 			} else if (s.equals("backspace"))// || s.equals("\\"))
 			{
-                if (!deleteSelected())
-                // If there is something to the left of the caret.
-                {
-                    if (caret > 0) {
-                        // Remove character to left of caret position.
-                        text = text.substring(0, caret - 1) + text.substring(caret);
-                        changed = true;
-                        // Decrement caret to position of removed character.
-                        caret--;
-                        // Reset caret blinking, to show solid.
-                        blink = 1;
-                    }
-                }
+				if (!deleteSelected())
+				// If there is something to the left of the caret.
+				{
+					if (caret > 0) {
+						// Remove character to left of caret position.
+						text = text.substring(0, caret - 1) + text.substring(caret);
+						changed = true;
+						// Decrement caret to position of removed character.
+						caret--;
+						// Reset caret blinking, to show solid.
+						blink = 1;
+					}
+				}
 			} else if (s.equals("escape"))// || s.equals("`"))
-            {
-                removeFocus();
-            } else {
-                // Substitute names for their characters.
-                if (s.equals("space")) {
-                    s = " ";
-                } else if (s.equals("enter") && !password) {
-                    s = "\n";
-                }
+			{
+				removeFocus();
+			} else {
+				// Substitute names for their characters.
+				if (s.equals("space")) {
+					s = " ";
+				} else if (s.equals("enter") && !password) {
+					s = "\n";
+				}
 
-                int newLength = text.length();
-                if (selectingPivot != -1) {
-                    newLength -= Math.abs(caret - selectingPivot);
-                }
+				int newLength = text.length();
+				if (selectingPivot != -1) {
+					newLength -= Math.abs(caret - selectingPivot);
+				}
 
-                if (!Greenfoot.isKeyDown("control")) // Attempt to accomodate for behavior on Gallery.
-                // Insert character, if it is a character, text is not at max length, the character is among accepted, and the character is not among unaccepted.
-                {
-                    if (s.length() == 1 && (maxLength == -1 || newLength < maxLength) && (accept.equals("") || accept.contains(s)) && !dontAccept.contains(s)) {
-                        if (selectingPivot != -1) {
-                            text = text.substring(0, Math.min(caret, selectingPivot)) + text.substring(Math.max(caret, selectingPivot));
+				if (!Greenfoot.isKeyDown("control")) // Attempt to accomodate for behavior on Gallery.
+				// Insert character, if it is a character, text is not at max length, the character is among accepted, and the character is not among unaccepted.
+				{
+					if (s.length() == 1 && (maxLength == -1 || newLength < maxLength) && (accept.equals("") || accept.contains(s)) && !dontAccept.contains(s)) {
+						if (selectingPivot != -1) {
+							text = text.substring(0, Math.min(caret, selectingPivot)) + text.substring(Math.max(caret, selectingPivot));
 
-                            if (selectingPivot < caret) {
-                                caret = selectingPivot;
-                            }
-                            selectingPivot = -1;
-                        }
+							if (selectingPivot < caret) {
+								caret = selectingPivot;
+							}
+							selectingPivot = -1;
+						}
 
-                        // At index of caret.
-                        text = text.substring(0, caret) + s + text.substring(caret);
-                        changed = true;
-                        // Increment caret pass inserted character.
-                        caret++;
-                    }
-                }
-            }
+						// At index of caret.
+						text = text.substring(0, caret) + s + text.substring(caret);
+						changed = true;
+						// Increment caret pass inserted character.
+						caret++;
+					}
+				}
+			}
 		}
 	}
 
@@ -420,54 +420,54 @@ public class TextBox extends WindowComponent {
 
 		if (Greenfoot.isKeyDown("up")) {
 			if (++presses[0] == 25) {
-                if (caret >= strs.get(0).length()) {
-                    int l = 0;
-                    for (int i = 0; i < strs.size(); i++) {
-                        if (l + strs.get(i).length() > caret) {
-                            int cur;
-                            if (lastCursorX == null) {
-                                cur = 4 + fm.stringWidth(strs.get(i).substring(0, caret - l));
-                                lastCursorX = cur;
-                            } else {
-                                cur = lastCursorX;
-                            }
-                            clickedAt = new Point(cur, i * font.getSize() - scrollValue);
-                            handleForSelecting();
+				if (caret >= strs.get(0).length()) {
+					int l = 0;
+					for (int i = 0; i < strs.size(); i++) {
+						if (l + strs.get(i).length() > caret) {
+							int cur;
+							if (lastCursorX == null) {
+								cur = 4 + fm.stringWidth(strs.get(i).substring(0, caret - l));
+								lastCursorX = cur;
+							} else {
+								cur = lastCursorX;
+							}
+							clickedAt = new Point(cur, i * font.getSize() - scrollValue);
+							handleForSelecting();
 
-                            blink = 1;
-                            break;
-                        }
-                        l += strs.get(i).length();
-                    }
-                } else {
-                    caret = 0;
-                }
+							blink = 1;
+							break;
+						}
+						l += strs.get(i).length();
+					}
+				} else {
+					caret = 0;
+				}
 				presses[0] = 20;
 			}
 		} else {
 			if (presses[0] > 0 && presses[0] < 20) {
-                if (!strs.isEmpty() && caret >= strs.get(0).length()) {
-                    int l = 0;
-                    for (int i = 0; i < strs.size(); i++) {
-                        if (l + strs.get(i).length() > caret) {
-                            int cur;
-                            if (lastCursorX == null) {
-                                cur = 4 + fm.stringWidth(strs.get(i).substring(0, caret - l));
-                                lastCursorX = cur;
-                            } else {
-                                cur = lastCursorX;
-                            }
-                            clickedAt = new Point(cur, i * font.getSize() - scrollValue);
-                            handleForSelecting();
+				if (!strs.isEmpty() && caret >= strs.get(0).length()) {
+					int l = 0;
+					for (int i = 0; i < strs.size(); i++) {
+						if (l + strs.get(i).length() > caret) {
+							int cur;
+							if (lastCursorX == null) {
+								cur = 4 + fm.stringWidth(strs.get(i).substring(0, caret - l));
+								lastCursorX = cur;
+							} else {
+								cur = lastCursorX;
+							}
+							clickedAt = new Point(cur, i * font.getSize() - scrollValue);
+							handleForSelecting();
 
-                            blink = 1;
-                            break;
-                        }
-                        l += strs.get(i).length();
-                    }
-                } else {
-                    caret = 0;
-                }
+							blink = 1;
+							break;
+						}
+						l += strs.get(i).length();
+					}
+				} else {
+					caret = 0;
+				}
 			}
 			presses[0] = 0;
 		}
@@ -478,12 +478,12 @@ public class TextBox extends WindowComponent {
 				for (int i = 0; i < strs.size(); i++) {
 					if (l + strs.get(i).length() > caret) {
 						int cur;
-                        if (lastCursorX == null) {
-                            cur = 4 + fm.stringWidth(strs.get(i).substring(0, caret - l));
-                            lastCursorX = cur;
-                        } else {
-                            cur = lastCursorX;
-                        }
+						if (lastCursorX == null) {
+							cur = 4 + fm.stringWidth(strs.get(i).substring(0, caret - l));
+							lastCursorX = cur;
+						} else {
+							cur = lastCursorX;
+						}
 						clickedAt = new Point(cur, (i + 2) * font.getSize() - scrollValue - 2);
 						handleForSelecting();
 						blink = 1;
@@ -499,12 +499,12 @@ public class TextBox extends WindowComponent {
 				for (int i = 0; i < strs.size(); i++) {
 					if (l + strs.get(i).length() > caret) {
 						int cur;
-                        if (lastCursorX == null) {
-                            cur = 4 + fm.stringWidth(strs.get(i).substring(0, caret - l));
-                            lastCursorX = cur;
-                        } else {
-                            cur = lastCursorX;
-                        }
+						if (lastCursorX == null) {
+							cur = 4 + fm.stringWidth(strs.get(i).substring(0, caret - l));
+							lastCursorX = cur;
+						} else {
+							cur = lastCursorX;
+						}
 						clickedAt = new Point(cur, (i + 2) * font.getSize() - scrollValue - 2);
 						handleForSelecting();
 						blink = 1;
@@ -559,15 +559,15 @@ public class TextBox extends WindowComponent {
 	}
 
 	private void handleForSelecting() {
-        if (Greenfoot.isKeyDown("shift")) {
-            if (selectingPivot == caret) {
-                selectingPivot = -1;
-            } else if (selectingPivot == -1) {
-                selectingPivot = caret;
-            }
-        } else {
-            selectingPivot = -1;
-        }
+		if (Greenfoot.isKeyDown("shift")) {
+			if (selectingPivot == caret) {
+				selectingPivot = -1;
+			} else if (selectingPivot == -1) {
+				selectingPivot = caret;
+			}
+		} else {
+			selectingPivot = -1;
+		}
 	}
 
 	/**
@@ -775,9 +775,9 @@ public class TextBox extends WindowComponent {
 	 * @see setMessage(String)
 	 */
 	public void setMessageColor(Color c) {
-        if (c != null) {
-            messageColor = c;
-        }
+		if (c != null) {
+			messageColor = c;
+		}
 	}
 
 	/**
@@ -799,9 +799,9 @@ public class TextBox extends WindowComponent {
 	 * @see setMessageColor(Color)
 	 */
 	public void setMessage(String m) {
-        if (m != null) {
-            message = m;
-        }
+		if (m != null) {
+			message = m;
+		}
 	}
 
 	/**
@@ -871,17 +871,17 @@ public class TextBox extends WindowComponent {
 			// If password status, substitute characters for password character.
 			if (password) {
 				String s_password = "";
-                for (int i = 0; i < text.length(); i++) {
-                    s_password += "" + (char)8226;
-                }
+				for (int i = 0; i < text.length(); i++) {
+					s_password += "" + (char)8226;
+				}
 				remainingBeforeN = s_password + " ";
 			}
 
 			// If text is empty and do not have focus, will draw message (if it contains anything).
 			boolean showingMessage = message != null && text.isEmpty();// && !hasFocus();
-            if (showingMessage) {
-                remainingBeforeN = message + " ";
-            }
+			if (showingMessage) {
+				remainingBeforeN = message + " ";
+			}
 
 			// Break up text according to new line characters.
 			String remainingAfterN = "";
@@ -916,16 +916,16 @@ public class TextBox extends WindowComponent {
 
 					// If next string's width added to current width reaches past right side bound.
 					if (currentWidth + nextWidth > size.getX() - SCROLL_WIDTH - 3) {
-                        if (current.isEmpty()) {
-                            for (int i = 1; i <= next.length(); i++) {
-                                if (fm.stringWidth(remainingBeforeN.substring(0, i)) > size.getX() - SCROLL_WIDTH - 3) {
-                                    current = remainingBeforeN.substring(0, i - 1);
-                                    remainingBeforeN = remainingBeforeN.substring(i - 1);
-                                    needToUpdateRemaining = false;
-                                    break;
-                                }
-                            }
-                        }
+						if (current.isEmpty()) {
+							for (int i = 1; i <= next.length(); i++) {
+								if (fm.stringWidth(remainingBeforeN.substring(0, i)) > size.getX() - SCROLL_WIDTH - 3) {
+									current = remainingBeforeN.substring(0, i - 1);
+									remainingBeforeN = remainingBeforeN.substring(i - 1);
+									needToUpdateRemaining = false;
+									break;
+								}
+							}
+						}
 
 						addCurrent_drawHighlight_rememberCaret();
 
@@ -933,41 +933,41 @@ public class TextBox extends WindowComponent {
 					}
 
 					// If haven't already updated remainings.
-                    if (needToUpdateRemaining)
-                    // If the next String is bigger than bound.
-                    {
-                        if (current.isEmpty() && nextWidth > size.getX() - SCROLL_WIDTH - 3) {
-                            for (int i = 1; i <= next.length(); i++) {
-                                if (fm.stringWidth(next.substring(0, i)) > size.getX() - SCROLL_WIDTH - 3) {
-                                    current = next.substring(0, i - 1);
-                                    remainingBeforeN = remainingBeforeN.substring(i - 1);
-                                    break;
-                                }
-                            }
-                        } else {
-                            // Add next String to currently looked at string.
-                            current += next;
-                            // Pass over the visited next String.
-                            remainingBeforeN = remainingBeforeN.substring(remainingBeforeN.indexOf(" ") + 1);
-                        }
-                    }
+					if (needToUpdateRemaining)
+					// If the next String is bigger than bound.
+					{
+						if (current.isEmpty() && nextWidth > size.getX() - SCROLL_WIDTH - 3) {
+							for (int i = 1; i <= next.length(); i++) {
+								if (fm.stringWidth(next.substring(0, i)) > size.getX() - SCROLL_WIDTH - 3) {
+									current = next.substring(0, i - 1);
+									remainingBeforeN = remainingBeforeN.substring(i - 1);
+									break;
+								}
+							}
+						} else {
+							// Add next String to currently looked at string.
+							current += next;
+							// Pass over the visited next String.
+							remainingBeforeN = remainingBeforeN.substring(remainingBeforeN.indexOf(" ") + 1);
+						}
+					}
 				}
 
-                if (current.length() > 1 || current.charAt(0) != ' ' || !remainingAfterN.isEmpty() || !remainingAfterN.isEmpty()) {
-                    addCurrent_drawHighlight_rememberCaret();
-                }
+				if (current.length() > 1 || current.charAt(0) != ' ' || !remainingAfterN.isEmpty() || !remainingAfterN.isEmpty()) {
+					addCurrent_drawHighlight_rememberCaret();
+				}
 
 				handleCaret_finishCurrent(showingMessage);
 
-                if (!remainingAfterN.isEmpty()) {
-                    if (remainingAfterN.indexOf("\n") != -1) {
-                        remainingBeforeN = remainingAfterN.substring(0, remainingAfterN.indexOf("\n")) + " ";
-                        remainingAfterN = remainingAfterN.substring(remainingAfterN.indexOf("\n") + 1);
-                    } else {
-                        remainingBeforeN = remainingAfterN + " ";
-                        remainingAfterN = "";
-                    }
-                }
+				if (!remainingAfterN.isEmpty()) {
+					if (remainingAfterN.indexOf("\n") != -1) {
+						remainingBeforeN = remainingAfterN.substring(0, remainingAfterN.indexOf("\n")) + " ";
+						remainingAfterN = remainingAfterN.substring(remainingAfterN.indexOf("\n") + 1);
+					} else {
+						remainingBeforeN = remainingAfterN + " ";
+						remainingAfterN = "";
+					}
+				}
 			}
 
 			// If still haven't found position for caret, place at end of text.
@@ -984,13 +984,13 @@ public class TextBox extends WindowComponent {
 				int y = font.getSize() * (caretLine - 1) + font.getSize() / 5 - scrollValue - 3;
 
 				// If above top.
-                if (y < 0) {
-                    scrollValue = font.getSize() * (caretLine - 1) + font.getSize() / 5 - 3;
-                }
-                // If below bottom.
-                else if (y + font.getSize() + 6 > size.getY()) {
-                    scrollValue = font.getSize() * (caretLine - 1) + font.getSize() / 5 + font.getSize() - (int)size.getY() + 3;
-                }
+				if (y < 0) {
+					scrollValue = font.getSize() * (caretLine - 1) + font.getSize() / 5 - 3;
+				}
+				// If below bottom.
+				else if (y + font.getSize() + 6 > size.getY()) {
+					scrollValue = font.getSize() * (caretLine - 1) + font.getSize() / 5 + font.getSize() - (int)size.getY() + 3;
+				}
 			}
 
 			// Listen for mouse scroll wheel.
@@ -1004,11 +1004,11 @@ public class TextBox extends WindowComponent {
 					scrollValue += n;
 
 					// Adjust scroll amount if out of bounds.
-                    if (scrollValue < 0) {
-                        scrollValue = 0;
-                    } else if (scrollValue > font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3) {
-                        scrollValue = font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3;
-                    }
+					if (scrollValue < 0) {
+						scrollValue = 0;
+					} else if (scrollValue > font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3) {
+						scrollValue = font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3;
+					}
 				}
 
 				// Y-coordinate relatvie to image, of where top of scroll bar will be.
@@ -1022,31 +1022,31 @@ public class TextBox extends WindowComponent {
 			}
 
 			// Adjust scroll amount if out of bounds.
-            if (scrollValue < 0 || strs.size() * font.getSize() <= size.getY()) {
-                scrollValue = 0;
-            } else if (scrollValue > font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3) {
-                scrollValue = font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3;
-            }
+			if (scrollValue < 0 || strs.size() * font.getSize() <= size.getY()) {
+				scrollValue = 0;
+			} else if (scrollValue > font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3) {
+				scrollValue = font.getSize() * strs.size() + font.getSize() / 5 - (int)size.getY() + 3;
+			}
 
 			// Draw lines of text.
 			g.setColor(showingMessage ? messageColor : textColor);
-            for (int i = 0; i < strs.size(); i++) {
-                g.drawString(strs.get(i), 4, font.getSize() * (i + 1) - scrollValue);
-            }
+			for (int i = 0; i < strs.size(); i++) {
+				g.drawString(strs.get(i), 4, font.getSize() * (i + 1) - scrollValue);
+			}
 			g.dispose();
 
 			// Draw blinking caret.
-            if (blink > 0 && hasFocus()) {
-                if (caretLine != -1 && caretX > 3) {
-                    pic.setColor(blinkColor);
-                    pic.fillRect(caretX, font.getSize() * (caretLine - 1) + font.getSize() / 5 - scrollValue, 2, font.getSize());
-                }
-                // If no text, has focus, draw caret bar blinking animation.
-                else if (text.isEmpty()) {
-                    pic.setColor(blinkColor);
-                    pic.fillRect(4, font.getSize() / 5 + 1, 2, font.getSize());
-                }
-            }
+			if (blink > 0 && hasFocus()) {
+				if (caretLine != -1 && caretX > 3) {
+					pic.setColor(blinkColor);
+					pic.fillRect(caretX, font.getSize() * (caretLine - 1) + font.getSize() / 5 - scrollValue, 2, font.getSize());
+				}
+				// If no text, has focus, draw caret bar blinking animation.
+				else if (text.isEmpty()) {
+					pic.setColor(blinkColor);
+					pic.fillRect(4, font.getSize() / 5 + 1, 2, font.getSize());
+				}
+			}
 
 			GreenfootImage p = getImage();
 			p.clear();
@@ -1076,13 +1076,13 @@ public class TextBox extends WindowComponent {
 				int maxC = Math.max(selectingPivot, caret);
 				if (maxC > count && minC < count + current.length()) {
 					minC -= count;
-                    if (minC < 0) {
-                        minC = 0;
-                    }
+					if (minC < 0) {
+						minC = 0;
+					}
 					maxC -= count;
-                    if (maxC > current.length()) {
-                        maxC = current.length();
-                    }
+					if (maxC > current.length()) {
+						maxC = current.length();
+					}
 					int hBegin = fm.stringWidth(current.substring(0, minC)) + 4;
 					int hLength = fm.stringWidth(current.substring(minC, maxC));
 					pic.setColor(selectColor);
@@ -1099,13 +1099,14 @@ public class TextBox extends WindowComponent {
 
 		private void handleCaret_finishCurrent(boolean showingMessage) {
 			if (!showingMessage)
-				// If looking to place caret and location is before this line, then set caret to beginning of text. (Only occur when iterating first line).
+			// If looking to place caret and location is before this line, then set caret to beginning of text. (Only occur when iterating first line).
+			{
 				if (clickedAt != null && clickedAt.getY() <= font.getSize() * (strs.size() - 1) - scrollValue) {
 					caret = 0;
 					clickedAt = null;
-                    if (caret == selectingPivot) {
-                        selectingPivot = -1;
-                    }
+					if (caret == selectingPivot) {
+						selectingPivot = -1;
+					}
 					caretLine = strs.size();
 				}
 
@@ -1117,51 +1118,54 @@ public class TextBox extends WindowComponent {
 						clickedAt = null;
 					} else {
 						// Step to the right, one character at a time.
-                        for (int i = 1; i < current.length() - 1; i++)
-                        // If to the left of index.
-                        {
-                            if (clickedAt.getX() >= 4 + fm.stringWidth(current.substring(0, i - 1)) + fm.stringWidth(current.substring(i - 1, i)) / 2 && clickedAt.getX() < 4 + fm.stringWidth(current.substring(0, i)) + fm.stringWidth(current.substring(i, i + 1)) / 2) {
-                                if (clickCount < 2 || (clickCount - 1) % 3 == 0) {
-                                    caret = count + i;
-                                } else if ((clickCount - 1) % 3 == 1) {
-                                    int charType = getCharType(current.charAt(i - 1));
-                                    int k;
-                                    for (k = i - 2; k >= 0; k--) {
-                                        if (getCharType(current.charAt(k)) != charType) {
-                                            break;
-                                        }
-                                    }
-                                    selectingPivot = count + k + 1;
-                                    for (k = i; k < current.length(); k++) {
-                                        if (getCharType(current.charAt(k)) != charType) {
-                                            break;
-                                        }
-                                    }
-                                    caret = count + k;
-                                } else if ((clickCount - 1) % 3 == 2) {
-                                    selectingPivot = count;
-                                    caret = count + current.length() - 1;
-                                }
-                                clickedAt = null;
-                                break;
-                            }
-                        }
+						for (int i = 1; i < current.length() - 1; i++)
+						// If to the left of index.
+						{
+							if (clickedAt.getX() >= 4 + fm.stringWidth(current.substring(0, i - 1)) + fm.stringWidth(current.substring(i - 1, i)) / 2 && clickedAt.getX() < 4 + fm.stringWidth(current.substring(0, i)) + fm.stringWidth(current.substring(i, i + 1)) / 2) {
+								if (clickCount < 2 || (clickCount - 1) % 3 == 0) {
+									caret = count + i;
+								} else if ((clickCount - 1) % 3 == 1) {
+									int charType = getCharType(current.charAt(i - 1));
+									int k;
+									for (k = i - 2; k >= 0; k--) {
+										if (getCharType(current.charAt(k)) != charType) {
+											break;
+										}
+									}
+									selectingPivot = count + k + 1;
+									for (k = i; k < current.length(); k++) {
+										if (getCharType(current.charAt(k)) != charType) {
+											break;
+										}
+									}
+									caret = count + k;
+								} else if ((clickCount - 1) % 3 == 2) {
+									selectingPivot = count;
+									caret = count + current.length() - 1;
+								}
+								clickedAt = null;
+								break;
+							}
+						}
 						// If haven't found position for caret yet, place at end of this line of text.
 						if (clickedAt != null) {
 							caret = count + current.length() - 1;
 
 							// Since text has ' ' added to end for iterating, caret might get placed at end of it. (Occurs if last line).
-							if (caret > text.length())
+							if (caret > text.length()) {
 								caret = text.length();
+							}
 
 							clickedAt = null;
 						}
 					}
-					if (caret == selectingPivot)
+					if (caret == selectingPivot) {
 						selectingPivot = -1;
+					}
 					// Record which line of text the caret position is in.
 					caretLine = strs.size();
 				}
+			}
 
 			// Update how many characters have been drawn.
 			count += current.length();
@@ -1171,10 +1175,12 @@ public class TextBox extends WindowComponent {
 		}
 
 		private int getCharType(char ch) {
-			if (Character.isAlphabetic(ch))
+			if (Character.isAlphabetic(ch)) {
 				return 0;
-			if (Character.isDigit(ch))
+			}
+			if (Character.isDigit(ch)) {
 				return 1;
+			}
 			return 2;
 		}
 

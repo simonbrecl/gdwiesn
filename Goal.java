@@ -4,15 +4,12 @@ import greenfoot.GreenfootImage;
 import java.awt.*;
 
 /**
- * Write a description of class Money here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The goal notice.
  */
 
 public class Goal extends Actor {
 
-	static int goal = 0;
+	private static int goal = 0;
 
 	private GreenfootImage sb;
 
@@ -37,7 +34,7 @@ public class Goal extends Actor {
 	}
 
 	public synchronized void setGoal(int goal) {
-		this.goal = goal;
+		Goal.goal = goal;
 		update();
 	}
 
@@ -47,7 +44,7 @@ public class Goal extends Actor {
 		this.setImage(sb);
 	}
 
-	public void goalReached() {
+	void goalReached() {
 		sb = new GreenfootImage(board);
 		sb.drawImage(new GreenfootImage("Goal: " + goal + "€", 18, new Color(2, 149, 55), Color.white), 25, 5);
 		this.setImage(sb);

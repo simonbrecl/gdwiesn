@@ -1,10 +1,9 @@
 import greenfoot.GreenfootImage;
 
 /**
- * Created by Daniel on 19.12.2016.
+ * The boss.
  */
 public class Boss extends MovableActor {
-
 	//Flag if boss is entering the tent.
 	private boolean coming = true;
 
@@ -41,12 +40,12 @@ public class Boss extends MovableActor {
 			levelIntro.addObject(bubble, getX() - 70, getY() - 70);
 			coming = false;
 		} else {
-			levelIntro.setBossLeft(true);
+			levelIntro.setBossLeft();
 			levelIntro.removeObject(this);
 		}
 	}
 
-	public void setfinishedTalking(boolean finishedTalking) {
-		this.finishedTalking = finishedTalking;
+	void setfinishedTalking() {
+		this.finishedTalking = true;
 	}
 }

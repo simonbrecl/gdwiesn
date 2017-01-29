@@ -3,7 +3,7 @@ import greenfoot.GreenfootImage;
 import greenfoot.World;
 
 /**
- * Created by Daniel on 19.12.2016.
+ * The intro level.
  */
 public class LevelIntro extends LevelBase {
 
@@ -33,7 +33,7 @@ public class LevelIntro extends LevelBase {
 		}
 	}
 
-	public void setBossLeft(boolean bossLeft) {
-		this.bossLeft = bossLeft;
+	void setBossLeft() {
+		this.bossLeft = true;
 	}
 }

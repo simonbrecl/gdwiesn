@@ -5,10 +5,7 @@ import greenfoot.World;
 import java.awt.*;
 
 /**
- * Write a description of class LevelEnd here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The screen after each level.
  */
 public class EndLevel extends World {
 

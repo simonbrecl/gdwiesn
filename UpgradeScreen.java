@@ -2,14 +2,13 @@ import greenfoot.Greenfoot;
 import greenfoot.World;
 
 /**
- * Created by ericasolum on 12/1/16.
+ * The upgrade screen.
  */
-
 public class UpgradeScreen extends World {
 
-	public TentState tentState;
+	TentState tentState;
 
-	public Upgrademap upgrademap;
+	Upgrademap upgrademap;
 
 	public UpgradeScreen(TentState state) {
 		super(800, 600, 1);
@@ -17,7 +16,7 @@ public class UpgradeScreen extends World {
 		prepare();
 	}
 
-	public void prepare() {
+	private void prepare() {
 		upgrademap = new Upgrademap("levels/Upgrade-Screen.xml", this, tentState);
 	}
 
@@ -25,11 +24,11 @@ public class UpgradeScreen extends World {
 
 	}
 
-	public TentState getTentState() {
+	TentState getTentState() {
 		return tentState;
 	}
 
-	public void goToNextDay() {
+	void goToNextDay() {
 		tentState.increaseDay();
 
 		Customer.counter1 = 0;

@@ -2,10 +2,7 @@ import greenfoot.Actor;
 import greenfoot.Greenfoot;
 
 /**
- * Write a description of class SausageBoy here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The sausage boy.
  */
 public class SausageBoy extends Actor {
 	public SausageBoy() {
@@ -27,7 +24,7 @@ public class SausageBoy extends Actor {
 		}
 	}
 
-	public void updateImage(int tutorialStage) {
+	void updateImage(int tutorialStage) {
 		setImage("sausage_" + tutorialStage + ".png");
 	}
 }

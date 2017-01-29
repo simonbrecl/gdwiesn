@@ -1,15 +1,11 @@
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Arc2D;
 
 /**
- * Write a description of class Timer here. Nope.
- *
- * @author Erica Solum
- * @version (a version number or a date)
+ * The clock.
  */
 public class Clock extends Actor {
 
@@ -17,39 +13,27 @@ public class Clock extends Actor {
 
 	private double degrees = 0.0;
 
-	private int minutesPerLevel;
-
 	private double decreaseVal;
 
-	private Timer timer;
-
-	private int delay;
-
 	private double countsPerLevel;
-
-	private int stupidTimer;
 
 	private boolean started = false;
 
 	private int day = 1;
 
 	public Clock(int minutes) {
-		minutesPerLevel = minutes;
 		countsPerLevel = (double)minutes * 60 * 60; // convert to seconds and convert to avg 60fps
 		//decreaseVal = 360.0 / (double)(60 * minutes);
 		decreaseVal = 360.0 / countsPerLevel;
-		delay = minutes * 60 * 1000; // milliseconds
-		stupidTimer = 0;
 		drawClockFace();
 	}
 
-	/* Starts the clock */
-	public void startClock(int minutes, int day) {
-		minutesPerLevel = minutes;
+	/**
+	 * Starts the clock
+	 */
+	void startClock(int minutes, int day) {
 		countsPerLevel = (double)minutes * 60 * 60;
 		decreaseVal = 360.0 / countsPerLevel;
-		delay = minutes * 60 * 1000; // milliseconds
-		stupidTimer = 0;
 		started = true;
 		this.day = day;
 		//timer.start();
@@ -60,7 +44,7 @@ public class Clock extends Actor {
 		started = false;
 	}
 
-	public void drawClockFace() {
+	private void drawClockFace() {
 
 		face = new GreenfootImage(100, 100);
 		face.setColor(Color.BLACK);
@@ -82,18 +66,12 @@ public class Clock extends Actor {
 	 */
 	public void act() {
 		if (started) {
-			stupidTimer++;
 			decreaseClock();
 			updateLabel();
 		}
-
-        /*if (stupidTimer > countsPerLevel) {
-			Greenfoot.stop();
-        }*/
-
 	}
 
-	public void updateFace() {
+	private void updateFace() {
 
 		// turning 2 days per level
 
@@ -157,11 +135,11 @@ public class Clock extends Actor {
 	}
 
 	// update label
-	public void updateLabel() {
+	private void updateLabel() {
 		face.drawString("Day " + day, 30, 55);
 	}
 
-	public void decreaseClock() {
+	private void decreaseClock() {
 		degrees += decreaseVal;
 		updateFace();
 	}

@@ -1,5 +1,8 @@
 import greenfoot.Actor;
 
+/**
+ * The customers smiley.
+ */
 public class CustomerSmiley extends Actor {
 
 	private final int initialPosX;
@@ -32,11 +35,12 @@ public class CustomerSmiley extends Actor {
 	 *
 	 * @param moodLevel level of mood. as described in the variable.
 	 */
-	public void setMood(int moodLevel) {
+	void setMood(int moodLevel) {
 		mood = moodLevel;
 
 		setLocation(initialPosX, initialPosY);
 		String path = "customer/mood/";
+
 		switch (choice) {
 			case BEER: {
 				path += "beer/";
@@ -51,6 +55,7 @@ public class CustomerSmiley extends Actor {
 				break;
 			}
 		}
+
 		switch (moodLevel) {
 			case 2: {
 				path += "2.png";
@@ -65,6 +70,7 @@ public class CustomerSmiley extends Actor {
 				break;
 			}
 		}
+
 		setImage(path);
 	}
 
@@ -73,9 +79,10 @@ public class CustomerSmiley extends Actor {
 	 *
 	 * @param progress progress to set. 2 for just started. 1 for 1/3 done. 0 for 2/3 done
 	 */
-	public void setProgress(int progress) {
+	void setProgress(int progress) {
 		setLocation(initialPosX - 7, initialPosY - 8);
 		String path = "customer/progress/";
+
 		switch (choice) {
 			case BEER: {
 				path += "beer/";
@@ -90,6 +97,7 @@ public class CustomerSmiley extends Actor {
 				break;
 			}
 		}
+
 		switch (progress) {
 			case 2: {
 				path += "2.png";
@@ -104,6 +112,7 @@ public class CustomerSmiley extends Actor {
 				break;
 			}
 		}
+
 		setImage(path);
 	}
 }

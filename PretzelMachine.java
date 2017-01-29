@@ -3,10 +3,10 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 
 /**
- * Created by ericasolum on 12/24/16.
+ * The pretzel machine.
  */
 public class PretzelMachine extends Actor {
-	public boolean mouseOver = false;
+	private boolean mouseOver = false;
 
 	private Kitchen kitchen;
 
@@ -48,9 +48,9 @@ public class PretzelMachine extends Actor {
 		}
 	}
 
-	public void makePretzel() {
+	private void makePretzel() {
 
-		if (Greenfoot.mouseClicked(this) && kitchen.foodCount < kitchen.FOOD_MAX) {
+		if (Greenfoot.mouseClicked(this) && kitchen.foodCount < Kitchen.FOOD_MAX) {
 			making = true;
 			//this.setImage(new GreenfootImage("barrel-empty-beer1.png"));
 		}
@@ -83,12 +83,7 @@ public class PretzelMachine extends Actor {
 
 	public void machineFlash() {
 		//change from true to false or vice versa.
-		if (machineFlash == true) {
-			machineFlash = false;
-		}
-		if (machineFlash == false) {
-			machineFlash = true;
-		}
+		machineFlash = !machineFlash;
 	}
 
 	public boolean isFlashing() {

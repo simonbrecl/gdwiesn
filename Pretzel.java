@@ -2,26 +2,19 @@ import greenfoot.Actor;
 import greenfoot.World;
 
 /**
- * Created by ericasolum on 12/24/16.
+ * A pretzel.
  */
 public class Pretzel extends Actor {
-	private static final int POUR_TIME = 2000;
 
-	static boolean isMade = true;
-
-	public long pourTimer = System.currentTimeMillis();
-
-	public boolean isClicked = false;
+	private static boolean isMade = true;
 
 	private Kitchen kitchen;
-
-	private int counter = 0;
 
 	public Pretzel() {
 		this.setImage("plate-pretzel.png");
 	}
 
-	public void pickUp() {
+	void pickUp() {
 		if (kitchen != null) kitchen.foodCount--;
 
 		getWorld().removeObject(this);
@@ -37,7 +30,7 @@ public class Pretzel extends Actor {
 		}
 	}
 
-	public boolean isMade() {
+	boolean isMade() {
 		//setImage("beer.png");
 		return isMade;
 	}

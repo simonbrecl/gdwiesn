@@ -26,7 +26,7 @@ import java.util.List;
  * @version March 2013 - April 2014
  */
 public abstract class GUI_Component extends Actor {
-    protected final static TextTransfer textTransfer = new TextTransfer();
+	protected final static TextTransfer textTransfer = new TextTransfer();
 
 	public static Color defaultBackColor = Color.WHITE;
 
@@ -161,12 +161,12 @@ public abstract class GUI_Component extends Actor {
 	@Override
 	public void act() {
 		if (overThis) {
-            if (Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
-                overThis = false;
-            }
+			if (Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
+				overThis = false;
+			}
 		} else if (Greenfoot.mouseMoved(this)) {
-            overThis = true;
-        }
+			overThis = true;
+		}
 
 		if (Greenfoot.mousePressed(this)) {
 			if (!focus) {
@@ -174,8 +174,8 @@ public abstract class GUI_Component extends Actor {
 				gainedFocus();
 			}
 		} else if (Greenfoot.mousePressed(null)) {
-            focus = false;
-        }
+			focus = false;
+		}
 	}
 
 	/**
@@ -207,12 +207,12 @@ public abstract class GUI_Component extends Actor {
 	 * Force this GUI_Component to steal focus. (Removing focus from all others).
 	 */
 	public void giveFocus() {
-        if (getWorld() == null) {
-            return;
-        }
-        for (GUI_Component component : (List<GUI_Component>)getWorld().getObjects(GUI_Component.class)) {
-            component.removeFocus();
-        }
+		if (getWorld() == null) {
+			return;
+		}
+		for (GUI_Component component : (List<GUI_Component>)getWorld().getObjects(GUI_Component.class)) {
+			component.removeFocus();
+		}
 		if (!focus) {
 			focus = true;
 			gainedFocus();
@@ -361,16 +361,16 @@ public abstract class GUI_Component extends Actor {
 			String result = "";
 			Transferable contents = clipboard.getContents(null);
 			boolean hasTransferableText = contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
-            if (hasTransferableText) {
-                try {
-                    result = (String)contents.getTransferData(DataFlavor.stringFlavor);
-                } catch (UnsupportedFlavorException ex) {
-                    // highly unlikely since we are using a standard DataFlavor
-                    ex.printStackTrace();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
+			if (hasTransferableText) {
+				try {
+					result = (String)contents.getTransferData(DataFlavor.stringFlavor);
+				} catch (UnsupportedFlavorException ex) {
+					// highly unlikely since we are using a standard DataFlavor
+					ex.printStackTrace();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
 			return result;
 		}
 

@@ -2,6 +2,10 @@ import greenfoot.Actor;
 
 import java.util.List;
 
+/**
+ * The movable actor base class.
+ * Uses a pathmap to move around.
+ */
 class MovableActor extends Actor {
 	private final int moveDelta;
 

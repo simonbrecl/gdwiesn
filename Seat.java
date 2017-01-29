@@ -1,18 +1,15 @@
 import greenfoot.Actor;
 
 /**
- * Write a description of class Seat here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * A seat.
  */
 public class Seat extends Actor {
 
 	public final Table table;
 
-	public final boolean upperRow;
+	private final boolean upperRow;
 
-	public boolean isTaken = false;
+	private boolean isTaken = false;
 
 	public Seat(Table table, boolean upperRow) {
 		this.table = table;
@@ -27,11 +24,11 @@ public class Seat extends Actor {
 		// Add your action code here.
 	}
 
-	public boolean isTaken() {
+	boolean isTaken() {
 		return isTaken;
 	}
 
-	public void setTaken(boolean flag) {
+	void setTaken(boolean flag) {
 		this.isTaken = flag;
 	}
 
@@ -39,7 +36,7 @@ public class Seat extends Actor {
 		return table;
 	}
 
-	public boolean isUpperRow() {
+	boolean isUpperRow() {
 		return upperRow;
 	}
 }

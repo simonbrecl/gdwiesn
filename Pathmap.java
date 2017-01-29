@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The pathmap generator.
+ */
 public class Pathmap {
 	private final static int I = 999;
 

@@ -8,6 +8,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The level map.
+ */
 class Levelmap {
 	private LevelBase level;
 
@@ -102,7 +105,7 @@ class Levelmap {
 						break;
 
 					case "Waitress":
-						waitress = new Waitress(level, file);
+						waitress = new Waitress(file);
 						level.addObject(waitress, x, y);
 
 						break;
@@ -140,7 +143,7 @@ class Levelmap {
 		return bar;
 	}
 
-	public Clock getClock() {
+	Clock getClock() {
 		return clock;
 	}
 
@@ -156,7 +159,7 @@ class Levelmap {
 		return goal;
 	}
 
-	public List<Table> getTables() {
+	List<Table> getTables() {
 		return tables;
 	}
 }

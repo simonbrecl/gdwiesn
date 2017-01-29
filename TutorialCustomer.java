@@ -1,13 +1,14 @@
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootSound;
 
+/**
+ * The tutorial customer.
+ */
 public class TutorialCustomer extends MovableActor {
 
-	static int counter = 0;
+	private static int counter = 0;
 
-	static int counter1 = 0;
-
-	private final int id;
+	private static int counter1 = 0;
 
 	private final int TOTAL_WAITINGTIME;
 
@@ -47,7 +48,6 @@ public class TutorialCustomer extends MovableActor {
 		//must be the man for the glow
 		setImage("customer/model/walker.png");
 
-		this.id = id;
 		currentWaitingTime = Greenfoot.getRandomNumber(500) + 10000; // lots of patience
 		currentDrinkingTime = 250; // drinks quick
 		TOTAL_WAITINGTIME = currentWaitingTime;
@@ -57,12 +57,14 @@ public class TutorialCustomer extends MovableActor {
 	public void act() {
 		super.act();
 		moveAround();
+
 		if (getWorld() instanceof Level1) {
 			if (isFlashing) {
 				counter++;
 				if (counter % 25 == 0) {
 					setImage("walkerSittingBack_glow.png");
 				}
+
 				if (counter % 50 == 0) {
 					setImage("walkerSittingBack.png");
 					counter = 0;
@@ -85,13 +87,16 @@ public class TutorialCustomer extends MovableActor {
 
 				if (getWorld() instanceof Level1) {
 					Level1 world = (Level1)getWorld();
+
 					if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
 						setWaiting(false);
+
 						if (world.isTutorialActive()) {
 							isFlashing = false;
 							setImage("walkerSittingBack.png");
 							world.incrementTutorialStage();
 						}
+
 						return;
 					}
 
@@ -105,18 +110,23 @@ public class TutorialCustomer extends MovableActor {
 				if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
 					cs.setProgress(2);
 				}
+
 				currentDrinkingTime--;
+
 				if (currentDrinkingTime < TOTAL_DRINKINGTIME - TOTAL_DRINKINGTIME / 3) {
 					cs.setProgress(1);
 				}
+
 				if (currentDrinkingTime < TOTAL_DRINKINGTIME - 2 * TOTAL_DRINKINGTIME / 3) {
 					cs.setProgress(0);
 				}
+
 				if (currentDrinkingTime == 0) {
 					Greenfoot.playSound("drunk-up.wav");
 
 					finished = true;
 				}
+
 				if (finished && world1.getTutorialStage() == 8) {
 					seat.getTable().puke();
 					Greenfoot.playSound("vomit.wav");
@@ -136,6 +146,7 @@ public class TutorialCustomer extends MovableActor {
 
 	private void normalAct() {
 		LevelBase world = (LevelBase)getWorld();
+
 		if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
 			setWaiting(false);
 			return;
@@ -143,23 +154,28 @@ public class TutorialCustomer extends MovableActor {
 			setWaiting(false);
 			return;
 		}
+
 		currentWaitingTime--;
 
 		if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
 			cs.setMood(1);
 		}
+
 		if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
 			cs.setMood(0);
 		}
+
 		if (currentWaitingTime == 0) {
 			if (order < BEER_CUTOFF) {
 				seat.getTable().cancelOrder(Beer.class);
 			} else if (order < PRETZEL_CUTOFF) {
 				seat.getTable().cancelOrder(Pretzel.class);
 			}
+
 			leaveToDoor(true);
 			world.seatsTaken--;
 			counter1++;
+
 			if (counter1 == 1) {
 				world.getHeart3().getImage().setTransparency(100);
 			}
@@ -192,6 +208,7 @@ public class TutorialCustomer extends MovableActor {
 				} else {
 					newWorld = new Level1();
 				}
+
 				NoLives dead = new NoLives(newWorld);
 				Greenfoot.setWorld(dead);
 			}
@@ -219,9 +236,11 @@ public class TutorialCustomer extends MovableActor {
 		setSitting(true);
 		int posX;
 		int posY;
+
 		if (seat.isUpperRow()) {
 			posX = seat.getX();
 			posY = seat.getY() - 10;
+
 			if (isGirl) {
 				setImage("customer/model/girlwalkerSittingFront.png");
 			} else {
@@ -230,6 +249,7 @@ public class TutorialCustomer extends MovableActor {
 		} else {
 			posX = seat.getX();
 			posY = seat.getY() - 20;
+
 			if (isGirl) {
 				setImage("customer/model/girlwalkerSittingBack.png");
 			} else {
@@ -276,23 +296,23 @@ public class TutorialCustomer extends MovableActor {
 		}
 	}
 
-	public boolean isSitting() {
+	private boolean isSitting() {
 		return sitting;
 	}
 
-	public void setSitting(boolean flag) {
+	private void setSitting(boolean flag) {
 		this.sitting = flag;
 	}
 
-	public boolean isWaiting() {
+	private boolean isWaiting() {
 		return waiting;
 	}
 
-	public void setWaiting(boolean waiting) {
+	private void setWaiting(boolean waiting) {
 		this.waiting = waiting;
 	}
 
-	public void flashTrue() {
+	void flashTrue() {
 		isFlashing = true;
 	}
 
@@ -300,7 +320,7 @@ public class TutorialCustomer extends MovableActor {
 		isFlashing = false;
 	}
 
-	public void setSeat(Seat seat) {
+	void setSeat(Seat seat) {
 		this.seat = seat;
 	}
 }

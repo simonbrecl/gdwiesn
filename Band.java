@@ -4,14 +4,10 @@ import greenfoot.GreenfootImage;
 import greenfoot.GreenfootSound;
 
 /**
- * Created by ericasolum on 1/16/17.
+ * The band.
  */
 public class Band extends Actor {
-	/**
-	 * Act - do whatever the Bar wants to do. This method is called whenever
-	 * the 'Act' or 'Run' button gets pressed in the environment.
-	 */
-	boolean mouseOver = false;
+	private boolean mouseOver = false;
 
 	private GreenfootImage band = new GreenfootImage("band.png");
 
@@ -60,7 +56,6 @@ public class Band extends Actor {
 			}
 
 			//Animation here
-
 			if (counter % 80 == 0) {
 				getImage().drawImage(new GreenfootImage("timer/3.png"), timerX, timerY);
 			} else if (counter % 60 == 0) {
@@ -76,8 +71,8 @@ public class Band extends Actor {
 	private void playSong() {
 		song.play();
 		waiting = true;
-		//Do some crazy customer patience magic here
 
+		//Do some crazy customer patience magic here
 		LevelBase world = (LevelBase)getWorld();
 		world.resetCustomerMoods();
 	}

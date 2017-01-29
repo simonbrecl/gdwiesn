@@ -4,13 +4,10 @@ import greenfoot.MouseInfo;
 import greenfoot.World;
 
 /**
- * Write a description of class NoLives here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The no lives left screen.
  */
 public class NoLives extends World {
-	LevelBase previousLevel;
+	private LevelBase previousLevel;
 
 	/**
 	 * Constructor for objects of class NoLives.

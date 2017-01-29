@@ -8,19 +8,19 @@ import java.awt.*;
 import java.util.List;
 
 /**
- * Created by ericasolum on 12/1/16.
+ * The bar upgrade.
  */
 public class BarUpgrade extends Actor {
-	public static final int SECOND_TAP_PRICE = 100;
+	static final int SECOND_TAP_PRICE = 100;
 
-	String clickToBuy = "\n\nClick to buy!";
+	private String clickToBuy = "\n\nClick to buy!";
 
-	String moneyExtra = "\n\nSorry, you need more money!";
+	private String moneyExtra = "\n\nSorry, you need more money!";
 
 	private int nextUpgradeCost = 100;
 
 	//Add text box here
-	String text = "Purchase the bar upgrade for a second beer tap and the ability to keep up to 10 beers on the counter." +
+	private String text = "Purchase the bar upgrade for a second beer tap and the ability to keep up to 10 beers on the counter." +
 			"\nCost: " + nextUpgradeCost + "€";
 
 	private boolean upgradeBought = false;
@@ -43,10 +43,11 @@ public class BarUpgrade extends Actor {
 		if (level > 1) {
 			upgradeBought = true;
 		}
+
 		prepare();
 	}
 
-	public void prepare() {
+	private void prepare() {
 		//Set the text boxes to read-only
 		readyToBuyBox.setReadOnly(true);
 		notEnoughMoneyBox.setReadOnly(true);
@@ -62,10 +63,10 @@ public class BarUpgrade extends Actor {
 		this.world = (UpgradeScreen)getWorld();
 	}
 
-	public void buyUpgrade() {
-
+	private void buyUpgrade() {
 		upgradeBought = true;
 		this.setImage(upgrade);
+
 		if (world != null) {
 			boolean success = world.tentState.upgradeBar();
 			if (success) {
@@ -89,18 +90,20 @@ public class BarUpgrade extends Actor {
 				List objects = getWorld().getObjectsAt(mouseInfo.getX(), mouseInfo.getY(), BarUpgrade.class);
 				for (Object object : objects) {
 					if (object == this) {
-
 						this.setImage(upgrade);
+
 						//Add text box here
 						if (world.getTentState().getMoney() < nextUpgradeCost) {
 							currentBox = notEnoughMoneyBox;
 						} else {
 							currentBox = readyToBuyBox;
 						}
+
 						this.getWorld().addObject(currentBox, 200, 100);
 						boxShowing = true;
 					}
 				}
+
 				// Buy upgrade
 				if (Greenfoot.mouseClicked(this)) {
 					if (world.getTentState().getMoney() >= nextUpgradeCost) {

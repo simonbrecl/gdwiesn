@@ -1,12 +1,11 @@
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import greenfoot.MouseInfo;
 
 import java.awt.*;
 
 /**
- * Created by ericasolum on 12/1/16.
+ * The upgrade screen done button.
  */
 public class DoneButton extends Actor {
 
@@ -25,9 +24,6 @@ public class DoneButton extends Actor {
 	}
 
 	public void act() {
-
-		MouseInfo mouseInfo = Greenfoot.getMouseInfo();
-
 		if (Greenfoot.mouseClicked(this)) {
 			//SAVE TENT STATE HERE
 			UpgradeScreen world = (UpgradeScreen)getWorld();

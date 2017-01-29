@@ -1,7 +1,7 @@
 import greenfoot.Actor;
 
 /**
- * Created by ericasolum on 12/1/16.
+ * ToDo: The security upgrade.
  */
 public class SecurityUpgrade extends Actor {
 	public SecurityUpgrade() {

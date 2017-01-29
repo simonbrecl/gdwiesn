@@ -6,23 +6,15 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Write a description of class Moneyleft here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The money left notice.
  */
-
 public class MoneyLeft extends Actor {
-
-	private int timer = 0;
 
 	private GreenfootImage sb;
 
 	private GreenfootImage board;
 
 	private int money = 0;
-
-	private Message msgbox;
 
 	private int width;
 
@@ -45,7 +37,7 @@ public class MoneyLeft extends Actor {
 		return money;
 	}
 
-	public void updateMoney(int amount) {
+	void updateMoney(int amount) {
 		money = amount;
 		update();
 	}
@@ -62,7 +54,7 @@ public class MoneyLeft extends Actor {
 
 		sb.drawImage(new GreenfootImage("Money Left: " + money + "€", 18, Color.black, Color.white), (width - (int)bounds.getWidth()) / 2, 5);
 		/*
-        getImage().setColor(Color.black);
+		getImage().setColor(Color.black);
         LineMetrics lm = getImage().getFont().getLineMetrics(text, frc);
         sb.drawImage(new GreenfootImage(text, 18, Color.black, Color.white), 1, Math.round(height + lm.getStrikethroughOffset() + lm.getStrikethroughThickness() - 1));*/
 

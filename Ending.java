@@ -5,18 +5,12 @@ import greenfoot.World;
 import java.awt.*;
 
 /**
- * Write a description of class LevelEnd here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The end screen.
  */
 public class Ending extends World {
 
 	static int money;
 
-	/**
-	 * Constructor for objects of class LevelEnd.
-	 */
 	private GreenfootImage total;
 
 	private TentState tentState;

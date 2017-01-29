@@ -1,16 +1,7 @@
 /**
- * Write a description of class Level2 here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * The sixth level.
  */
-
 public class Level6 extends LevelBase {
-
-	/**
-	 * Constructor for objects of class Level2.
-	 */
-
 	public Level6(TentState state) {
 		super(11, 600, state, "levels/MyWorld.xml");
 
