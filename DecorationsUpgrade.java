@@ -5,8 +5,7 @@ import greenfoot.Actor;
  */
 public class DecorationsUpgrade extends Actor {
 
-    public DecorationsUpgrade() {
+	public DecorationsUpgrade() {
 
-
-    }
+	}
 }

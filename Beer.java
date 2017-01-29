@@ -10,67 +10,70 @@ import greenfoot.World;
  */
 
 public class Beer extends Actor {
-    private static final int POUR_TIME = 2000;
-    static boolean isPoured = false;
-    static boolean isFlashing = false;
-    public long pourTimer = System.currentTimeMillis();
-    public boolean isClicked = false;
-    private Bar bar;
-    private int counter = 0;
+	private static final int POUR_TIME = 2000;
 
-    public void act() {
-        // pour();
-        if (isFlashing == true) {
-            counter++;
-            if (counter%25==0) {
-                setImage("new-beer-glow.png");
-            }
-            if (counter%50==0) {
-                setImage("new-beer.png");
-                counter = 0;
-            }
-            if (Greenfoot.mouseClicked(this)) {
-                isFlashing = false;
-            }
-        }
+	static boolean isPoured = false;
 
-    }
+	static boolean isFlashing = false;
 
-    public void pour() {
-        //setImage("beer.png");
-        isPoured = true;
+	public long pourTimer = System.currentTimeMillis();
 
+	public boolean isClicked = false;
 
-        if ((System.currentTimeMillis() - pourTimer) > POUR_TIME) {
-            setImage("beer.png");
-            isPoured = true;
-        }
+	private Bar bar;
 
+	private int counter = 0;
 
-    }
+	public void act() {
+		// pour();
+		if (isFlashing == true) {
+			counter++;
+			if (counter % 25 == 0) {
+				setImage("new-beer-glow.png");
+			}
+			if (counter % 50 == 0) {
+				setImage("new-beer.png");
+				counter = 0;
+			}
+			if (Greenfoot.mouseClicked(this)) {
+				isFlashing = false;
+			}
+		}
+	}
 
-    public boolean isPoured() {
-        //lets the waitress check if the beer is poured
-        return isPoured;
-    }
+	public void pour() {
+		//setImage("beer.png");
+		isPoured = true;
 
-    void pickUp() {
-        if (bar != null) bar.beerCount--;
+		if ((System.currentTimeMillis() - pourTimer) > POUR_TIME) {
+			setImage("beer.png");
+			isPoured = true;
+		}
+	}
 
-        getWorld().removeObject(this);
-    }
+	public boolean isPoured() {
+		//lets the waitress check if the beer is poured
+		return isPoured;
+	}
 
-    @Override
-    protected void addedToWorld(World world) {
-        Actor bar = getOneIntersectingObject(Bar.class);
+	void pickUp() {
+		if (bar != null) bar.beerCount--;
 
-        if (bar != null) {
-            this.bar = (Bar) bar;
+		getWorld().removeObject(this);
+	}
 
-            this.bar.beerCount++;
-        }
-    }
-    public void beerFlash() {
-        isFlashing = true;
-    }
+	@Override
+	protected void addedToWorld(World world) {
+		Actor bar = getOneIntersectingObject(Bar.class);
+
+		if (bar != null) {
+			this.bar = (Bar)bar;
+
+			this.bar.beerCount++;
+		}
+	}
+
+	public void beerFlash() {
+		isFlashing = true;
+	}
 }

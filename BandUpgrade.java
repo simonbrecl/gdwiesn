@@ -2,120 +2,120 @@
  * Created by ericasolum on 12/1/16.
  */
 
-import greenfoot.*;
+import greenfoot.Actor;
+import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
+import greenfoot.World;
 
 import java.awt.*;
 import java.util.List;
 
-
 public class BandUpgrade extends Actor {
-    public static final int BAND_COST = 300;
-    private int nextUpgradeCost;
-    private boolean upgradeBought = false;
-    private GreenfootImage band = new GreenfootImage("band.png");
-    private GreenfootImage bandOverlay = new GreenfootImage("band-overlay.png");
+	public static final int BAND_COST = 300;
 
-    //Add text box here
-    String text = "Click on the band to play \"Sweet Caroline\", which will reset every customer's patience level. Use when angry customers are about to leave to avoid losing a life." +
-            "\nCost: " + BAND_COST + "€";
-    String clickToBuy = "\n\nClick to buy!";
-    String moneyExtra = "\n\nSorry, you need more money!";
+	//Add text box here
+	String text = "Click on the band to play \"Sweet Caroline\", which will reset every customer's patience level. Use when angry customers are about to leave to avoid losing a life." +
+			"\nCost: " + BAND_COST + "€";
 
-    private TextBox notEnoughMoneyBox = new TextBox(new Point(250, 110), text + moneyExtra, new Font("Helvetica", Font.PLAIN, 15));
-    private TextBox readyToBuyBox = new TextBox(new Point(250, 110), text + clickToBuy, new Font("Helvetica", Font.PLAIN, 15));
-    private TextBox currentBox;
+	String clickToBuy = "\n\nClick to buy!";
 
-    private boolean boxShowing = false;
-    private UpgradeScreen world;
+	String moneyExtra = "\n\nSorry, you need more money!";
 
-    public BandUpgrade(int level) {
-        if(level > 0) {
-            upgradeBought = true;
-        }
-        prepare();
-    }
+	private int nextUpgradeCost;
 
-    public void prepare() {
-        if(upgradeBought) {
-            this.setImage(band);
-        }
-        else {
-            this.setImage(bandOverlay);
-        }
+	private boolean upgradeBought = false;
 
-        nextUpgradeCost = BAND_COST;
+	private GreenfootImage band = new GreenfootImage("band.png");
 
-        //Set the text boxes to read-only
-        readyToBuyBox.setReadOnly(true);
-        notEnoughMoneyBox.setReadOnly(true);
-    }
+	private GreenfootImage bandOverlay = new GreenfootImage("band-overlay.png");
 
-    public void addedToWorld(World world) {
-        this.world = (UpgradeScreen) getWorld();
-    }
+	private TextBox notEnoughMoneyBox = new TextBox(new Point(250, 110), text + moneyExtra, new Font("Helvetica", Font.PLAIN, 15));
 
-    public void buyUpgrade() {
+	private TextBox readyToBuyBox = new TextBox(new Point(250, 110), text + clickToBuy, new Font("Helvetica", Font.PLAIN, 15));
 
-        upgradeBought = true;
-        this.setImage(band);
+	private TextBox currentBox;
 
-        if(world != null) {
-            boolean success = world.tentState.upgradeBand();
-            if(success) {
-                world.upgrademap.money.updateMoney(world.tentState.getMoney());
-            }
-        }
-    }
+	private boolean boxShowing = false;
 
-    public void act() {
-        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
+	private UpgradeScreen world;
 
-        if(boxShowing) {
-            world.removeObject(currentBox);
-            boxShowing = false;
-        }
+	public BandUpgrade(int level) {
+		if (level > 0) {
+			upgradeBought = true;
+		}
+		prepare();
+	}
 
-        if(!upgradeBought) {
-            this.setImage(bandOverlay);
+	public void prepare() {
+		if (upgradeBought) {
+			this.setImage(band);
+		} else {
+			this.setImage(bandOverlay);
+		}
 
-            if(mouseInfo != null) {
-                List objects = getWorld().getObjectsAt(mouseInfo.getX(), mouseInfo.getY(), BandUpgrade.class);
-                for (Object object : objects)
-                {
-                    if (object == this)
-                    {
-                        this.setImage(band);
+		nextUpgradeCost = BAND_COST;
 
-                    }
+		//Set the text boxes to read-only
+		readyToBuyBox.setReadOnly(true);
+		notEnoughMoneyBox.setReadOnly(true);
+	}
 
-                    if(world.getTentState().getMoney() < nextUpgradeCost) {
-                        currentBox = notEnoughMoneyBox;
-                    }
-                    else {
-                        currentBox = readyToBuyBox;
-                    }
+	public void addedToWorld(World world) {
+		this.world = (UpgradeScreen)getWorld();
+	}
 
-                    world.addObject(currentBox, 380, 400);
-                    boxShowing = true;
-                }
-                // Buy upgrade
-                if (Greenfoot.mouseClicked(this)) {
-                    if(world.getTentState().getMoney() >= nextUpgradeCost) {
-                        if(!upgradeBought) {
-                            buyUpgrade();
-                        }
-                    }
-                }
-            }
+	public void buyUpgrade() {
 
-        }
-        else {
-            this.setImage(band);
-        }
+		upgradeBought = true;
+		this.setImage(band);
 
+		if (world != null) {
+			boolean success = world.tentState.upgradeBand();
+			if (success) {
+				world.upgrademap.money.updateMoney(world.tentState.getMoney());
+			}
+		}
+	}
 
+	public void act() {
+		MouseInfo mouseInfo = Greenfoot.getMouseInfo();
 
+		if (boxShowing) {
+			world.removeObject(currentBox);
+			boxShowing = false;
+		}
 
-    }
+		if (!upgradeBought) {
+			this.setImage(bandOverlay);
+
+			if (mouseInfo != null) {
+				List objects = getWorld().getObjectsAt(mouseInfo.getX(), mouseInfo.getY(), BandUpgrade.class);
+				for (Object object : objects) {
+					if (object == this) {
+						this.setImage(band);
+					}
+
+					if (world.getTentState().getMoney() < nextUpgradeCost) {
+						currentBox = notEnoughMoneyBox;
+					} else {
+						currentBox = readyToBuyBox;
+					}
+
+					world.addObject(currentBox, 380, 400);
+					boxShowing = true;
+				}
+				// Buy upgrade
+				if (Greenfoot.mouseClicked(this)) {
+					if (world.getTentState().getMoney() >= nextUpgradeCost) {
+						if (!upgradeBought) {
+							buyUpgrade();
+						}
+					}
+				}
+			}
+		} else {
+			this.setImage(band);
+		}
+	}
 }

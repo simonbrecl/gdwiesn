@@ -10,190 +10,191 @@ import java.util.List;
 import java.util.Set;
 
 public class Pathmap {
-    private final static int I = 999;
+	private final static int I = 999;
 
-    private int[][] coordinates;
-    private int[][] paths;
+	private int[][] coordinates;
 
-    Pathmap(String file) {
-        int[][][] edges = loadEdges(file);
+	private int[][] paths;
 
-        coordinates = distinctCoordinates(edges);
-        paths = FloydAlgorithm(edges);
-    }
+	Pathmap(String file) {
+		int[][][] edges = loadEdges(file);
 
-    private int[][][] loadEdges(String file) {
-        List<int[][]> edges = new ArrayList<>();
+		coordinates = distinctCoordinates(edges);
+		paths = FloydAlgorithm(edges);
+	}
 
-        try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Pathmap.class.getResource(file).openStream());
+	private int[][][] loadEdges(String file) {
+		List<int[][]> edges = new ArrayList<>();
 
-            NodeList cells = doc.getElementsByTagName("mxCell");
+		try {
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Pathmap.class.getResource(file).openStream());
 
-            for (int i = 0; i < cells.getLength(); i++) {
-                Node cell = cells.item(i);
+			NodeList cells = doc.getElementsByTagName("mxCell");
 
-                Node edge = cell.getAttributes().getNamedItem("edge");
+			for (int i = 0; i < cells.getLength(); i++) {
+				Node cell = cells.item(i);
 
-                if (edge == null || !edge.getTextContent().equals("1")) {
-                    continue;
-                }
+				Node edge = cell.getAttributes().getNamedItem("edge");
 
-                int[][] coordinates = new int[2][2];
+				if (edge == null || !edge.getTextContent().equals("1")) {
+					continue;
+				}
 
-                NodeList points = cell.getFirstChild().getChildNodes();
+				int[][] coordinates = new int[2][2];
 
-                for (int j = 0; j < 2; j++) {
-                    NamedNodeMap point = points.item(j).getAttributes();
+				NodeList points = cell.getFirstChild().getChildNodes();
 
-                    coordinates[j] = new int[]{Integer.valueOf(point.getNamedItem("x").getTextContent()), Integer.valueOf(point.getNamedItem("y").getTextContent())};
-                }
+				for (int j = 0; j < 2; j++) {
+					NamedNodeMap point = points.item(j).getAttributes();
 
-                edges.add(coordinates);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+					coordinates[j] = new int[]{Integer.valueOf(point.getNamedItem("x").getTextContent()), Integer.valueOf(point.getNamedItem("y").getTextContent())};
+				}
 
-        return edges.toArray(new int[edges.size()][2][2]);
-    }
+				edges.add(coordinates);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    private int[][] distinctCoordinates(int[][][] edges) {
-        Set<int[]> coordinates = new HashSet<>();
+		return edges.toArray(new int[edges.size()][2][2]);
+	}
 
-        for (int[][] edge : edges) {
-            boolean edge0 = false, edge1 = false;
+	private int[][] distinctCoordinates(int[][][] edges) {
+		Set<int[]> coordinates = new HashSet<>();
 
-            for (int[] coordinate : coordinates) {
-                if (coordinate[0] == edge[0][0] && coordinate[1] == edge[0][1]) {
-                    edge0 = true;
-                }
+		for (int[][] edge : edges) {
+			boolean edge0 = false, edge1 = false;
 
-                if (coordinate[0] == edge[1][0] && coordinate[1] == edge[1][1]) {
-                    edge1 = true;
-                }
+			for (int[] coordinate : coordinates) {
+				if (coordinate[0] == edge[0][0] && coordinate[1] == edge[0][1]) {
+					edge0 = true;
+				}
 
-                if (edge0 && edge1) {
-                    break;
-                }
-            }
+				if (coordinate[0] == edge[1][0] && coordinate[1] == edge[1][1]) {
+					edge1 = true;
+				}
 
-            if (!edge0) {
-                coordinates.add(edge[0]);
-            }
+				if (edge0 && edge1) {
+					break;
+				}
+			}
 
-            if (!edge1) {
-                coordinates.add(edge[1]);
-            }
-        }
+			if (!edge0) {
+				coordinates.add(edge[0]);
+			}
 
-        return coordinates.toArray(new int[coordinates.size()][2]);
-    }
+			if (!edge1) {
+				coordinates.add(edge[1]);
+			}
+		}
 
-    private int[][] FloydAlgorithm(int[][][] edges) {
-        int[][] dist = new int[coordinates.length][coordinates.length];
-        int[][] next = new int[coordinates.length][coordinates.length];
+		return coordinates.toArray(new int[coordinates.size()][2]);
+	}
 
-        // Initialize default values.
-        for (int u = 0; u < dist.length; u++) {
-            for (int v = 0; v < dist.length; v++) {
-                dist[u][v] = I;
-                next[u][v] = -1;
-            }
-        }
+	private int[][] FloydAlgorithm(int[][][] edges) {
+		int[][] dist = new int[coordinates.length][coordinates.length];
+		int[][] next = new int[coordinates.length][coordinates.length];
 
-        // Build distances and next vertex from edges.
-        for (int[][] edge : edges) {
-            int u = findCoordinate(edge[0]);
-            int v = findCoordinate(edge[1]);
+		// Initialize default values.
+		for (int u = 0; u < dist.length; u++) {
+			for (int v = 0; v < dist.length; v++) {
+				dist[u][v] = I;
+				next[u][v] = -1;
+			}
+		}
 
-            dist[u][u] = 0;
-            dist[u][v] = 1;
-            dist[v][v] = 0;
-            dist[v][u] = 1;
+		// Build distances and next vertex from edges.
+		for (int[][] edge : edges) {
+			int u = findCoordinate(edge[0]);
+			int v = findCoordinate(edge[1]);
 
-            next[u][v] = v;
-            next[v][u] = u;
-        }
+			dist[u][u] = 0;
+			dist[u][v] = 1;
+			dist[v][v] = 0;
+			dist[v][u] = 1;
 
-        // Floyd–Warshall algorithm.
-        for (int k = 0; k < dist.length; k++) {
-            for (int i = 0; i < dist.length; i++) {
-                for (int j = 0; j < dist.length; j++) {
-                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
-                        dist[i][j] = dist[i][k] + dist[k][j];
-                        next[i][j] = next[i][k];
-                    }
-                }
-            }
-        }
+			next[u][v] = v;
+			next[v][u] = u;
+		}
 
-        return next;
-    }
+		// Floyd–Warshall algorithm.
+		for (int k = 0; k < dist.length; k++) {
+			for (int i = 0; i < dist.length; i++) {
+				for (int j = 0; j < dist.length; j++) {
+					if (dist[i][k] + dist[k][j] < dist[i][j]) {
+						dist[i][j] = dist[i][k] + dist[k][j];
+						next[i][j] = next[i][k];
+					}
+				}
+			}
+		}
 
-    private int findCoordinate(int[] coordinate) {
-        for (int i = 0; i < coordinates.length; i++) {
-            if (coordinates[i][0] == coordinate[0] && coordinates[i][1] == coordinate[1]) {
-                return i;
-            }
-        }
+		return next;
+	}
 
-        return -1;
-    }
+	private int findCoordinate(int[] coordinate) {
+		for (int i = 0; i < coordinates.length; i++) {
+			if (coordinates[i][0] == coordinate[0] && coordinates[i][1] == coordinate[1]) {
+				return i;
+			}
+		}
 
-    private int closestCoordinate(int x, int y) {
-        int closest = -1;
-        double distance = I;
+		return -1;
+	}
 
-        for (int i = 0; i < coordinates.length; i++) {
-            double d = Math.sqrt(Math.pow(x - coordinates[i][0], 2) + Math.pow(y - coordinates[i][1], 2));
+	private int closestCoordinate(int x, int y) {
+		int closest = -1;
+		double distance = I;
 
-            if (d < distance) {
-                closest = i;
-                distance = d;
-            }
-        }
+		for (int i = 0; i < coordinates.length; i++) {
+			double d = Math.sqrt(Math.pow(x - coordinates[i][0], 2) + Math.pow(y - coordinates[i][1], 2));
 
-        return closest;
-    }
+			if (d < distance) {
+				closest = i;
+				distance = d;
+			}
+		}
 
-    List<int[]> findPath(int fromX, int fromY, int toX, int toY) {
-        int fromIndex = -1, toIndex = -1;
+		return closest;
+	}
 
-        // Check direct coordinate match.
-        for (int i = 0; i < coordinates.length; i++) {
-            if (coordinates[i][0] == fromX && coordinates[i][1] == fromY) {
-                fromIndex = i;
-            }
+	List<int[]> findPath(int fromX, int fromY, int toX, int toY) {
+		int fromIndex = -1, toIndex = -1;
 
-            if (coordinates[i][0] == toX && coordinates[i][1] == toY) {
-                toIndex = i;
-            }
-        }
+		// Check direct coordinate match.
+		for (int i = 0; i < coordinates.length; i++) {
+			if (coordinates[i][0] == fromX && coordinates[i][1] == fromY) {
+				fromIndex = i;
+			}
 
-        List<int[]> path = new ArrayList<>();
+			if (coordinates[i][0] == toX && coordinates[i][1] == toY) {
+				toIndex = i;
+			}
+		}
 
-        // If no from coordinate found, find the closest.
-        if (fromIndex == -1) {
-            fromIndex = closestCoordinate(fromX, fromY);
-        }
+		List<int[]> path = new ArrayList<>();
 
-        // If no to coordinate found, find the closest.
-        if (toIndex == -1) {
-            toIndex = closestCoordinate(toX, toY);
-        }
+		// If no from coordinate found, find the closest.
+		if (fromIndex == -1) {
+			fromIndex = closestCoordinate(fromX, fromY);
+		}
 
-        path.add(coordinates[fromIndex]);
+		// If no to coordinate found, find the closest.
+		if (toIndex == -1) {
+			toIndex = closestCoordinate(toX, toY);
+		}
 
-        // Insert  path coordinates.
-        while (fromIndex != toIndex) {
-            path.add(coordinates[paths[fromIndex][toIndex]]);
+		path.add(coordinates[fromIndex]);
 
-            fromIndex = paths[fromIndex][toIndex];
-        }
+		// Insert  path coordinates.
+		while (fromIndex != toIndex) {
+			path.add(coordinates[paths[fromIndex][toIndex]]);
 
-        path.add(coordinates[toIndex]);
+			fromIndex = paths[fromIndex][toIndex];
+		}
 
-        return path;
-    }
+		path.add(coordinates[toIndex]);
+
+		return path;
+	}
 }

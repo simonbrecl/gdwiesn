@@ -10,154 +10,146 @@ import greenfoot.GreenfootImage;
  */
 public class BeerButton extends Actor {
 
-    static boolean barrelFlash;
-    /**
-     * Act - do whatever the BeerButton wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    boolean mouseOver = false;
-    private Bar bar;
-    private boolean filling;
-    private int fillCounter = 0;
-    private int counter = 0;
+	static boolean barrelFlash;
 
-    BeerButton(Bar bar) {
-        this.bar = bar;
-    }
+	/**
+	 * Act - do whatever the BeerButton wants to do. This method is called whenever
+	 * the 'Act' or 'Run' button gets pressed in the environment.
+	 */
+	boolean mouseOver = false;
 
-    public BeerButton() {
-        barrelFlash = false;
-    }
+	private Bar bar;
 
-    static boolean isFlashing() {
-        return barrelFlash;
-    }
+	private boolean filling;
 
-    public void act() {
-        pourBeer();
-        if (filling) {
-            fillCounter++;
-        }
+	private int fillCounter = 0;
 
-        if (!mouseOver && Greenfoot.mouseMoved(this)) {
-            setImage("barrel1.png");
+	private int counter = 0;
 
-            //Change image for highlighted barrel
-            if(filling) {
-                if(fillCounter < 40) {
-                    this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
-                }
-                else if(fillCounter < 80) {
-                    this.setImage(new GreenfootImage("barrel-full-beer1.png"));
-                }
-            }
-            mouseOver = true;
-        }
-        //Change image for non-highlighted barrel
-        if (mouseOver && Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
-            setImage("barrel.png");
+	BeerButton(Bar bar) {
+		this.bar = bar;
+	}
 
-            if(filling) {
-                if(fillCounter < 40) {
-                    this.setImage(new GreenfootImage("barrel-filling-beer.png"));
-                }
-                else if(fillCounter < 80) {
-                    this.setImage(new GreenfootImage("barrel-full-beer1.png"));
-                }
-            }
-            mouseOver = false;
-        }
+	public BeerButton() {
+		barrelFlash = false;
+	}
 
-        // flash the barrel for tutorial mode
-        if (barrelFlash && getWorld() instanceof Level1) {
-            counter++;
-            if (counter % 25 == 0) {
-                setImage("barrelGlow.png");
-            }
-            if (counter % 50 == 0) {
-                setImage("barrel.png");
-                counter = 0;
-            }
-            if (Greenfoot.mouseClicked(this)) {
-                barrelFlash = false;
-                Level1 world = (Level1) getWorld();
-                // world.incrementTutorialStage();
-            }
-        }
-    }
+	static boolean isFlashing() {
+		return barrelFlash;
+	}
 
-    public void pourBeer() {
-        if (Greenfoot.mouseClicked(this) && bar.beerCount < bar.beerMaximum) {
+	public void act() {
+		pourBeer();
+		if (filling) {
+			fillCounter++;
+		}
 
-            filling = true;
-            if(mouseOver) {
-                this.setImage(new GreenfootImage("barrel-empty-beer1.png"));
-            }
-            else {
-                this.setImage(new GreenfootImage("barrel-empty-beer.png"));
-            }
+		if (!mouseOver && Greenfoot.mouseMoved(this)) {
+			setImage("barrel1.png");
 
-        }
+			//Change image for highlighted barrel
+			if (filling) {
+				if (fillCounter < 40) {
+					this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
+				} else if (fillCounter < 80) {
+					this.setImage(new GreenfootImage("barrel-full-beer1.png"));
+				}
+			}
+			mouseOver = true;
+		}
+		//Change image for non-highlighted barrel
+		if (mouseOver && Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
+			setImage("barrel.png");
 
-        if (filling) {
-            if (fillCounter == 40) {
-                if(mouseOver) {
-                    this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
-                }
-                else {
-                    this.setImage(new GreenfootImage("barrel-filling-beer.png"));
-                }
+			if (filling) {
+				if (fillCounter < 40) {
+					this.setImage(new GreenfootImage("barrel-filling-beer.png"));
+				} else if (fillCounter < 80) {
+					this.setImage(new GreenfootImage("barrel-full-beer1.png"));
+				}
+			}
+			mouseOver = false;
+		}
 
-            }
-            else if (fillCounter == 80) {
-                if(mouseOver) {
-                    this.setImage(new GreenfootImage("barrel-full-beer1.png"));
-                }
-                else {
-                    this.setImage(new GreenfootImage("barrel-full-beer.png"));
-                }
+		// flash the barrel for tutorial mode
+		if (barrelFlash && getWorld() instanceof Level1) {
+			counter++;
+			if (counter % 25 == 0) {
+				setImage("barrelGlow.png");
+			}
+			if (counter % 50 == 0) {
+				setImage("barrel.png");
+				counter = 0;
+			}
+			if (Greenfoot.mouseClicked(this)) {
+				barrelFlash = false;
+				Level1 world = (Level1)getWorld();
+				// world.incrementTutorialStage();
+			}
+		}
+	}
 
-            }
-            else if (fillCounter >= 100) {
-                if(mouseOver) {
-                    this.setImage(new GreenfootImage("barrel1.png"));
-                }
-                else {
-                    this.setImage(new GreenfootImage("barrel.png"));
-                }
+	public void pourBeer() {
+		if (Greenfoot.mouseClicked(this) && bar.beerCount < bar.beerMaximum) {
 
+			filling = true;
+			if (mouseOver) {
+				this.setImage(new GreenfootImage("barrel-empty-beer1.png"));
+			} else {
+				this.setImage(new GreenfootImage("barrel-empty-beer.png"));
+			}
+		}
 
-                Beer newBeer = new Beer();
-                if (getWorld() instanceof Level1) {
-                    Level1 world = (Level1) getWorld();
-                    world.addObject(newBeer, bar.getX() - 40 + (bar.beerCount * 20), bar.getY() - 20);
-                    if (world.isTutorialActive()) {
-                        newBeer.beerFlash();
-                        if (world.getTutorialStage() == 3) {
-                            world.incrementTutorialStage();
-                        }
-                    }
-                } else {
-                    int offset = 40;
-                    if(bar.upgradeLevel > 1) {
-                        offset = 90;
-                    }
-                    LevelBase world = (LevelBase) getWorld();
-                    world.addObject(newBeer, bar.getX() - offset + (bar.beerCount * 20), bar.getY() - 20);
-                }
-                newBeer.pour();
+		if (filling) {
+			if (fillCounter == 40) {
+				if (mouseOver) {
+					this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
+				} else {
+					this.setImage(new GreenfootImage("barrel-filling-beer.png"));
+				}
+			} else if (fillCounter == 80) {
+				if (mouseOver) {
+					this.setImage(new GreenfootImage("barrel-full-beer1.png"));
+				} else {
+					this.setImage(new GreenfootImage("barrel-full-beer.png"));
+				}
+			} else if (fillCounter >= 100) {
+				if (mouseOver) {
+					this.setImage(new GreenfootImage("barrel1.png"));
+				} else {
+					this.setImage(new GreenfootImage("barrel.png"));
+				}
 
+				Beer newBeer = new Beer();
+				if (getWorld() instanceof Level1) {
+					Level1 world = (Level1)getWorld();
+					world.addObject(newBeer, bar.getX() - 40 + (bar.beerCount * 20), bar.getY() - 20);
+					if (world.isTutorialActive()) {
+						newBeer.beerFlash();
+						if (world.getTutorialStage() == 3) {
+							world.incrementTutorialStage();
+						}
+					}
+				} else {
+					int offset = 40;
+					if (bar.upgradeLevel > 1) {
+						offset = 90;
+					}
+					LevelBase world = (LevelBase)getWorld();
+					world.addObject(newBeer, bar.getX() - offset + (bar.beerCount * 20), bar.getY() - 20);
+				}
+				newBeer.pour();
 
-                Greenfoot.playSound("zischen-sprudelwasser.mp3");
+				Greenfoot.playSound("zischen-sprudelwasser.mp3");
 
-                filling = false;
-                fillCounter = 0;
-            }
-        }
-    }
+				filling = false;
+				fillCounter = 0;
+			}
+		}
+	}
 
-    void barrelFlash() {
-        //change from true to false or vice versa.
-        barrelFlash = !barrelFlash;
-    }
+	void barrelFlash() {
+		//change from true to false or vice versa.
+		barrelFlash = !barrelFlash;
+	}
 }

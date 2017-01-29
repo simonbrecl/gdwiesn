@@ -13,252 +13,261 @@ import java.util.ArrayList;
  * @version (a version number or a date)
  */
 public class Table extends Actor {
-    private static final int CLEANING_TIME = 300;
-    
-    private Levelmap levelmap;
-    private ArrayList<Seat> seats = new ArrayList<>();
-    private int beer = 0;
-    private int wantBeer = 0;
-    private int pretzel = 0; //How many pretzels are on the table that are unclaimed?
-    private int wantPretzel = 0; // Customers at table with pretzel orders
-    private int sausage = 0;
-    private int wantSausage = 0;
-    private int cleanCounter = 0;
-    private int imageMarker = 0;
-    private boolean puke = false;
-    boolean mouseOver = false;
+	private static final int CLEANING_TIME = 300;
 
-    private GreenfootImage originalImage;
+	boolean mouseOver = false;
 
-    public Table(World world, int x, int y, Levelmap levelmap) {
-        this.levelmap = levelmap;
+	private Levelmap levelmap;
 
-        originalImage = getImage();
+	private ArrayList<Seat> seats = new ArrayList<>();
 
-        createSeats(world, x, y, true);
-    }
+	private int beer = 0;
 
-    @Override
-    protected void addedToWorld(World world) {
-        createSeats(world, getX(), getY(), false);
-    }
+	private int wantBeer = 0;
 
-    private void createSeats(World world, int x, int y, boolean upperRow) {
-        int seatOffset = -55;
+	private int pretzel = 0; //How many pretzels are on the table that are unclaimed?
 
-        for (int i = 0; i < 4; i++) {
-            Seat s = new Seat(this, upperRow);
-            seats.add(s);
-            world.addObject(s, x + seatOffset, y + (upperRow ? -50 : 40));
+	private int wantPretzel = 0; // Customers at table with pretzel orders
 
-            seatOffset += 37;
-        }
-    }
+	private int sausage = 0;
 
-    /**
-     * Act - do whatever the Table wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+	private int wantSausage = 0;
 
-    public void act() {
-        glow();
+	private int cleanCounter = 0;
 
-        if(beer > 0) {
-            updateBeerCount();
-            //updateWantBeerCount();
-        }
+	private int imageMarker = 0;
 
-        if(pretzel > 0) {
-            updatePretzelCount();
-        }
+	private boolean puke = false;
 
-    }
+	private GreenfootImage originalImage;
 
-    public synchronized boolean incrementBeer() {
-        if (wantBeer <= 0) {
-            return false;
-        }
+	public Table(World world, int x, int y, Levelmap levelmap) {
+		this.levelmap = levelmap;
 
-        beer++;
-        wantBeer--;
-        updateBeerCount();
-        //updateWantBeerCount();
+		originalImage = getImage();
 
-        return true;
-    }
+		createSeats(world, x, y, true);
+	}
 
-    public synchronized boolean incrementPretzel() {
-        if (wantPretzel <= 0) {
+	@Override
+	protected void addedToWorld(World world) {
+		createSeats(world, getX(), getY(), false);
+	}
 
-            return false;
-        }
+	private void createSeats(World world, int x, int y, boolean upperRow) {
+		int seatOffset = -55;
 
-        pretzel++;
-        wantPretzel--;
-        updatePretzelCount();
+		for (int i = 0; i < 4; i++) {
+			Seat s = new Seat(this, upperRow);
+			seats.add(s);
+			world.addObject(s, x + seatOffset, y + (upperRow ? -50 : 40));
 
-        return true;
-    }
+			seatOffset += 37;
+		}
+	}
 
-    public void glow () {
-        if (!isDirty()) {
-             if (!mouseOver && Greenfoot.mouseMoved(this))  
-                   {  
-                        setImage("table-object1.png");  
-                        mouseOver = true;  
-                   }  
-             if (mouseOver && Greenfoot.mouseMoved(null) && ! Greenfoot.mouseMoved(this))  
-                   {  
-                       setImage("table-object.png");  
-                       mouseOver = false;  
-                   }
-        } else {
-            //new glow
-        }
-    }
-    
-    private void updateBeerCount() {
-        int x = 12;
-        int y = 0;
+	/**
+	 * Act - do whatever the Table wants to do. This method is called whenever
+	 * the 'Act' or 'Run' button gets pressed in the environment.
+	 */
 
-        //setImage(new GreenfootImage(originalImage));
+	public void act() {
+		glow();
 
-        for (int i = 0; i < beer; i++) {
-            y = (i % 2 != 0) ? 30 : 0;
+		if (beer > 0) {
+			updateBeerCount();
+			//updateWantBeerCount();
+		}
 
-            getImage().drawImage(new GreenfootImage("new-beer.png"), x, y);
+		if (pretzel > 0) {
+			updatePretzelCount();
+		}
+	}
 
-            if (i % 2 != 0) {
-                x += 37;
-            }
-        }
-    }
+	public synchronized boolean incrementBeer() {
+		if (wantBeer <= 0) {
+			return false;
+		}
 
-    private void updatePretzelCount() {
-        int x = 12;
-        int y = 0;
+		beer++;
+		wantBeer--;
+		updateBeerCount();
+		//updateWantBeerCount();
 
-        //setImage(new GreenfootImage(originalImage));
+		return true;
+	}
 
-        for (int i = 0; i < pretzel; i++) {
-            y = (i % 2 != 0) ? 30 : 0;
+	public synchronized boolean incrementPretzel() {
+		if (wantPretzel <= 0) {
 
-            getImage().drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+			return false;
+		}
 
-            if (i % 2 != 0) {
-                x += 37;
-            }
-        }
-    }
+		pretzel++;
+		wantPretzel--;
+		updatePretzelCount();
 
-    private void updateWantBeerCount() {
-        getImage().drawImage(new GreenfootImage(String.valueOf(wantBeer), 20, Color.WHITE, Color.BLACK), 70, 20);
-    }
+		return true;
+	}
 
-    public synchronized void wantBeer() {
-        wantBeer++;
-        //updateWantBeerCount();
-    }
+	public void glow() {
+		if (!isDirty()) {
+			if (!mouseOver && Greenfoot.mouseMoved(this)) {
+				setImage("table-object1.png");
+				mouseOver = true;
+			}
+			if (mouseOver && Greenfoot.mouseMoved(null) && !Greenfoot.mouseMoved(this)) {
+				setImage("table-object.png");
+				mouseOver = false;
+			}
+		} else {
+			//new glow
+		}
+	}
 
-    public synchronized void wantPretzel() {
-        wantPretzel++;
-    }
+	private void updateBeerCount() {
+		int x = 12;
+		int y = 0;
 
-    public synchronized void wantSausage() {
-        wantPretzel++;
-    }
+		//setImage(new GreenfootImage(originalImage));
 
-    public synchronized boolean takeBeer(int mood) {
-        if (beer > 0) {
-            beer--;
-            updateBeerCount();
+		for (int i = 0; i < beer; i++) {
+			y = (i % 2 != 0) ? 30 : 0;
 
-            pay(10, mood);
+			getImage().drawImage(new GreenfootImage("new-beer.png"), x, y);
 
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public synchronized boolean takePretzel(int mood) {
-        if (pretzel > 0) {
-            pretzel--;
-            updatePretzelCount();
+			if (i % 2 != 0) {
+				x += 37;
+			}
+		}
+	}
 
-            pay(5, mood);
+	private void updatePretzelCount() {
+		int x = 12;
+		int y = 0;
 
-            return true;
-        } else {
-            return false;
-        }
-    }
+		//setImage(new GreenfootImage(originalImage));
 
-    public synchronized void cancelOrder(Class<?> cls) {
-        if(cls == Beer.class ) {
-            wantBeer--;
-        }
-        else if(cls == Pretzel.class) {
-            wantPretzel--;
-        }
+		for (int i = 0; i < pretzel; i++) {
+			y = (i % 2 != 0) ? 30 : 0;
 
-        //updateWantBeerCount();
-    }
+			getImage().drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
 
-    public ArrayList<Seat> getSeats() {
-        return seats;
-    }
+			if (i % 2 != 0) {
+				x += 37;
+			}
+		}
+	}
 
-    private void pay(int money, int mood) {
-        switch (mood) {
-            case 1:
-                money += 2;
-                break;
+	private void updateWantBeerCount() {
+		getImage().drawImage(new GreenfootImage(String.valueOf(wantBeer), 20, Color.WHITE, Color.BLACK), 70, 20);
+	}
 
-            case 2:
-                money += 5;
-                break;
-        }
+	public synchronized void wantBeer() {
+		wantBeer++;
+		//updateWantBeerCount();
+	}
 
-        levelmap.getMoney().addMoney(money, getX() + (getX() > getWorld().getWidth() / 2 ? 100 : -100), getY());
-    }
-    public void puke() {
-        setImage("table-object-puke.png");
-        puke = true; 
-    }
-    
-    public boolean isDirty() {
-        if (puke == true) {
-            return true;
-        } else {
-            return false;
-        }
-    } 
-    public void clean() {
-        cleanCounter++;
-        if (cleanCounter % 20 == 0) {
-            if (imageMarker == 0) {
-                setImage("table-object-clean1.png");
-                imageMarker = 1;
-            } else if (imageMarker == 1) {
-                setImage("table-object-clean.png");
-                imageMarker = 0;
-            }
-        }
-        if (cleanCounter >= CLEANING_TIME) {
-            puke = false;
-            setImage("table-object.png");
-            cleanCounter = 0;
-            Waitress waitress = (Waitress) getOneIntersectingObject(Waitress.class);
-            waitress.changeCleaningStatus();
-            if (getWorld() instanceof Level1) {
-                Level1 world1 = (Level1) getWorld();
-                if(world1.isTutorialActive()) {
-                    world1.incrementTutorialStage();
-                }
-            }
-        
-        }
-        /*while (cleanCounter < CLEANING_TIME) {
+	public synchronized void wantPretzel() {
+		wantPretzel++;
+	}
+
+	public synchronized void wantSausage() {
+		wantPretzel++;
+	}
+
+	public synchronized boolean takeBeer(int mood) {
+		if (beer > 0) {
+			beer--;
+			updateBeerCount();
+
+			pay(10, mood);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public synchronized boolean takePretzel(int mood) {
+		if (pretzel > 0) {
+			pretzel--;
+			updatePretzelCount();
+
+			pay(5, mood);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public synchronized void cancelOrder(Class<?> cls) {
+		if (cls == Beer.class) {
+			wantBeer--;
+		} else if (cls == Pretzel.class) {
+			wantPretzel--;
+		}
+
+		//updateWantBeerCount();
+	}
+
+	public ArrayList<Seat> getSeats() {
+		return seats;
+	}
+
+	private void pay(int money, int mood) {
+		switch (mood) {
+			case 1:
+				money += 2;
+				break;
+
+			case 2:
+				money += 5;
+				break;
+		}
+
+		levelmap.getMoney().addMoney(money, getX() + (getX() > getWorld().getWidth() / 2 ? 100 : -100), getY());
+	}
+
+	public void puke() {
+		setImage("table-object-puke.png");
+		puke = true;
+	}
+
+	public boolean isDirty() {
+		if (puke == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void clean() {
+		cleanCounter++;
+		if (cleanCounter % 20 == 0) {
+			if (imageMarker == 0) {
+				setImage("table-object-clean1.png");
+				imageMarker = 1;
+			} else if (imageMarker == 1) {
+				setImage("table-object-clean.png");
+				imageMarker = 0;
+			}
+		}
+		if (cleanCounter >= CLEANING_TIME) {
+			puke = false;
+			setImage("table-object.png");
+			cleanCounter = 0;
+			Waitress waitress = (Waitress)getOneIntersectingObject(Waitress.class);
+			waitress.changeCleaningStatus();
+			if (getWorld() instanceof Level1) {
+				Level1 world1 = (Level1)getWorld();
+				if (world1.isTutorialActive()) {
+					world1.incrementTutorialStage();
+				}
+			}
+		}
+		/*while (cleanCounter < CLEANING_TIME) {
             if (cleanCounter % 20 == 0) {
                 setImage("table-object-clean.png");
             } else if(cleanCounter % 10 == 0) {
@@ -267,6 +276,6 @@ public class Table extends Actor {
             cleanCounter++;
         }
         */
-    }
+	}
 }
 

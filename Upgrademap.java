@@ -1,143 +1,144 @@
-import greenfoot.*;
+import greenfoot.World;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import java.awt.*;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.List;
 
 class Upgrademap {
-    UpgradeScreen world;
-    BarUpgrade bar;
-    MoneyLeft money;
-    DoneButton doneButton;
-    DecorationsUpgrade decorations;
-    SecurityUpgrade security;
-    BandUpgrade band;
-    KitchenUpgrade kitchen;
-    TentState tentState;
-    
-    List<Table> tables = new ArrayList<>();
+	UpgradeScreen world;
 
-    public Upgrademap(String file, World world, TentState state) {
-        this.world = (UpgradeScreen) world;
-        tentState = state;
-        loadObjects(file);
+	BarUpgrade bar;
 
+	MoneyLeft money;
 
-    }
+	DoneButton doneButton;
 
-    private void loadObjects(String file) {
-        try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Upgrademap.class.getResource(file).openStream());
+	DecorationsUpgrade decorations;
 
-            NodeList cells = doc.getElementsByTagName("mxCell");
+	SecurityUpgrade security;
 
-            for (int i = 0; i < cells.getLength(); i++) {
-                Node cell = cells.item(i);
+	BandUpgrade band;
 
-                NamedNodeMap attributes = cell.getAttributes();
+	KitchenUpgrade kitchen;
 
-                Node vertex = attributes.getNamedItem("vertex");
+	TentState tentState;
 
-                if (vertex == null || !vertex.getTextContent().equals("1")) {
-                    continue;
-                }
+	List<Table> tables = new ArrayList<>();
 
-                Node value = attributes.getNamedItem("value");
+	public Upgrademap(String file, World world, TentState state) {
+		this.world = (UpgradeScreen)world;
+		tentState = state;
+		loadObjects(file);
+	}
 
-                if (value == null || value.getTextContent().equals("")) {
-                    continue;
-                }
+	private void loadObjects(String file) {
+		try {
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Upgrademap.class.getResource(file).openStream());
 
-                NamedNodeMap geometry = cell.getFirstChild().getAttributes();
+			NodeList cells = doc.getElementsByTagName("mxCell");
 
-                Node aX = geometry.getNamedItem("x");
-                Node aY = geometry.getNamedItem("y");
-                Node aWidth = geometry.getNamedItem("width");
-                Node aHeight = geometry.getNamedItem("height");
+			for (int i = 0; i < cells.getLength(); i++) {
+				Node cell = cells.item(i);
 
-                int width = aWidth == null ? 0 : Integer.valueOf(aWidth.getTextContent());
-                int height = aHeight == null ? 0 : Integer.valueOf(aHeight.getTextContent());
+				NamedNodeMap attributes = cell.getAttributes();
 
-                int x = (aX == null ? 0 : Integer.valueOf(aX.getTextContent())) + width / 2;
-                int y = (aY == null ? 0 : Integer.valueOf(aY.getTextContent())) + height / 2;
+				Node vertex = attributes.getNamedItem("vertex");
 
-                switch (value.getTextContent()) {
-                    case "BarUpgrade":
-                        bar = new BarUpgrade(tentState.getBarLevel());
-                        world.addObject(bar, x, y);
+				if (vertex == null || !vertex.getTextContent().equals("1")) {
+					continue;
+				}
 
-                        break;
+				Node value = attributes.getNamedItem("value");
 
-                    case "Table":
-                        Table table = new Table(world, x, y, null);
-                        tables.add(table);
-                        world.addObject(table, x, y);
+				if (value == null || value.getTextContent().equals("")) {
+					continue;
+				}
 
-                        break;
+				NamedNodeMap geometry = cell.getFirstChild().getAttributes();
 
-                    
+				Node aX = geometry.getNamedItem("x");
+				Node aY = geometry.getNamedItem("y");
+				Node aWidth = geometry.getNamedItem("width");
+				Node aHeight = geometry.getNamedItem("height");
 
-                    case "Money":
+				int width = aWidth == null ? 0 : Integer.valueOf(aWidth.getTextContent());
+				int height = aHeight == null ? 0 : Integer.valueOf(aHeight.getTextContent());
 
-                        int amount = ((UpgradeScreen)world).getTentState().getMoney();
-                        int newWidth = 160;
-                        if(amount >= 100) {
-                            newWidth = 180;
-                        }
-                        else if(amount >= 1000) {
-                            newWidth = 200;
-                        }
-                        money = new MoneyLeft(newWidth, height, amount);
-                        world.addObject(money, ((UpgradeScreen)world).getWidth()/2 - newWidth/2, y);
+				int x = (aX == null ? 0 : Integer.valueOf(aX.getTextContent())) + width / 2;
+				int y = (aY == null ? 0 : Integer.valueOf(aY.getTextContent())) + height / 2;
 
-                        break;
+				switch (value.getTextContent()) {
+					case "BarUpgrade":
+						bar = new BarUpgrade(tentState.getBarLevel());
+						world.addObject(bar, x, y);
 
-                    case "DoneButton":
-                        doneButton = new DoneButton(width, height);
+						break;
 
-                        world.addObject(doneButton, x, y);
+					case "Table":
+						Table table = new Table(world, x, y, null);
+						tables.add(table);
+						world.addObject(table, x, y);
 
-                        break;
-                        
-                    case "KitchenUpgrade":
-                        kitchen = new KitchenUpgrade(tentState.getKitchenLevel());
+						break;
 
+					case "Money":
 
-                        world.addObject(kitchen, x, y);
+						int amount = ((UpgradeScreen)world).getTentState().getMoney();
+						int newWidth = 160;
+						if (amount >= 100) {
+							newWidth = 180;
+						} else if (amount >= 1000) {
+							newWidth = 200;
+						}
+						money = new MoneyLeft(newWidth, height, amount);
+						world.addObject(money, ((UpgradeScreen)world).getWidth() / 2 - newWidth / 2, y);
 
-                        break;
-                        
-                    case "SecurityUpgrade":
+						break;
+
+					case "DoneButton":
+						doneButton = new DoneButton(width, height);
+
+						world.addObject(doneButton, x, y);
+
+						break;
+
+					case "KitchenUpgrade":
+						kitchen = new KitchenUpgrade(tentState.getKitchenLevel());
+
+						world.addObject(kitchen, x, y);
+
+						break;
+
+					case "SecurityUpgrade":
+						/* Comment out until this is implemented*/
+						//security = new SecurityUpgrade();
+
+						//world.addObject(security, x, y);
+
+						break;
+
+					case "DecorationsUpgrade":
                         /* Comment out until this is implemented*/
-                        //security = new SecurityUpgrade();
+						//decorations = new DecorationsUpgrade();
 
+						//world.addObject(decorations, x, y);
 
-                        //world.addObject(security, x, y);
+						break;
 
-                        break;
+					case "BandUpgrade":
+						band = new BandUpgrade(tentState.getBandLevel());
 
-                    case "DecorationsUpgrade":
-                        /* Comment out until this is implemented*/
-                        //decorations = new DecorationsUpgrade();
+						world.addObject(band, x, y);
 
-                        //world.addObject(decorations, x, y);
-
-                        break;
-
-                    case "BandUpgrade":
-                        band = new BandUpgrade(tentState.getBandLevel());
-
-                        world.addObject(band, x, y);
-
-                        break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+						break;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

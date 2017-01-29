@@ -1,3 +1,3 @@
 public enum CustomerOrder {
-    BEER, PRETZEL, SAUSAGE
+	BEER, PRETZEL, SAUSAGE
 }

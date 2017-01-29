@@ -9,149 +9,154 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Levelmap {
-    private LevelBase level;
-    private Kitchen kitchen;
-    private Bar bar;
-    private Band band;
-    private Clock clock;
-    private Money money;
-    private Waitress waitress;
-    private Goal goal;
-    private TentState tentState;
+	private LevelBase level;
 
-    private List<Table> tables = new ArrayList<>();
+	private Kitchen kitchen;
 
-    public Levelmap(String file, LevelBase level, TentState state) {
-        this.level = level;
-        tentState = state;
-        loadObjects(file);
-    }
+	private Bar bar;
 
-    private void loadObjects(String file) {
-        try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Levelmap.class.getResource(file).openStream());
+	private Band band;
 
-            NodeList cells = doc.getElementsByTagName("mxCell");
+	private Clock clock;
 
-            for (int i = 0; i < cells.getLength(); i++) {
-                Node cell = cells.item(i);
+	private Money money;
 
-                NamedNodeMap attributes = cell.getAttributes();
+	private Waitress waitress;
 
-                Node vertex = attributes.getNamedItem("vertex");
+	private Goal goal;
 
-                if (vertex == null || !vertex.getTextContent().equals("1")) {
-                    continue;
-                }
+	private TentState tentState;
 
-                Node value = attributes.getNamedItem("value");
+	private List<Table> tables = new ArrayList<>();
 
-                if (value == null || value.getTextContent().equals("")) {
-                    continue;
-                }
+	public Levelmap(String file, LevelBase level, TentState state) {
+		this.level = level;
+		tentState = state;
+		loadObjects(file);
+	}
 
-                NamedNodeMap geometry = cell.getFirstChild().getAttributes();
+	private void loadObjects(String file) {
+		try {
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Levelmap.class.getResource(file).openStream());
 
-                Node aX = geometry.getNamedItem("x");
-                Node aY = geometry.getNamedItem("y");
-                Node aWidth = geometry.getNamedItem("width");
-                Node aHeight = geometry.getNamedItem("height");
+			NodeList cells = doc.getElementsByTagName("mxCell");
 
-                int width = aWidth == null ? 0 : Integer.valueOf(aWidth.getTextContent());
-                int height = aHeight == null ? 0 : Integer.valueOf(aHeight.getTextContent());
+			for (int i = 0; i < cells.getLength(); i++) {
+				Node cell = cells.item(i);
 
-                int x = (aX == null ? 0 : Integer.valueOf(aX.getTextContent())) + width / 2;
-                int y = (aY == null ? 0 : Integer.valueOf(aY.getTextContent())) + height / 2;
+				NamedNodeMap attributes = cell.getAttributes();
 
-                switch (value.getTextContent()) {
-                    case "Bar":
-                        bar = new Bar(tentState.getBarLevel());
-                        level.addObject(bar, x, y);
+				Node vertex = attributes.getNamedItem("vertex");
 
-                        break;
+				if (vertex == null || !vertex.getTextContent().equals("1")) {
+					continue;
+				}
 
-                    case "Band":
-                        if(tentState.getBandLevel() > 0) {
-                            band = new Band();
-                            level.addObject(band, x, y);
-                        }
+				Node value = attributes.getNamedItem("value");
 
+				if (value == null || value.getTextContent().equals("")) {
+					continue;
+				}
 
-                        break;
+				NamedNodeMap geometry = cell.getFirstChild().getAttributes();
 
-                    case "Kitchen":
-                        if(tentState.getKitchenLevel() == 1) {
-                            kitchen = new Kitchen();
-                            level.addObject(kitchen, x, y);
-                        }
+				Node aX = geometry.getNamedItem("x");
+				Node aY = geometry.getNamedItem("y");
+				Node aWidth = geometry.getNamedItem("width");
+				Node aHeight = geometry.getNamedItem("height");
 
+				int width = aWidth == null ? 0 : Integer.valueOf(aWidth.getTextContent());
+				int height = aHeight == null ? 0 : Integer.valueOf(aHeight.getTextContent());
 
-                        break;
+				int x = (aX == null ? 0 : Integer.valueOf(aX.getTextContent())) + width / 2;
+				int y = (aY == null ? 0 : Integer.valueOf(aY.getTextContent())) + height / 2;
 
-                    case "Table":
-                        Table table = new Table(level, x, y, this);
-                        tables.add(table);
-                        level.addObject(table, x, y);
+				switch (value.getTextContent()) {
+					case "Bar":
+						bar = new Bar(tentState.getBarLevel());
+						level.addObject(bar, x, y);
 
-                        break;
+						break;
 
-                    case "Waitress":
-                        waitress = new Waitress(level, file);
-                        level.addObject(waitress, x, y);
+					case "Band":
+						if (tentState.getBandLevel() > 0) {
+							band = new Band();
+							level.addObject(band, x, y);
+						}
 
-                        break;
+						break;
 
-                    case "Clock":
-                        clock = new Clock(2);
-                        level.addObject(clock, x, y);
+					case "Kitchen":
+						if (tentState.getKitchenLevel() == 1) {
+							kitchen = new Kitchen();
+							level.addObject(kitchen, x, y);
+						}
 
-                        break;
+						break;
 
-                    case "Money":
-                        money = new Money(width, height);
-                        level.addObject(money, x, y);
+					case "Table":
+						Table table = new Table(level, x, y, this);
+						tables.add(table);
+						level.addObject(table, x, y);
 
-                        break;
+						break;
 
-                    case "Goal":
-                        goal = new Goal(width, height);
-                        goal.setGoal(level.goal);
-                        level.addObject(goal, x, y);
+					case "Waitress":
+						waitress = new Waitress(level, file);
+						level.addObject(waitress, x, y);
 
-                        break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+						break;
 
+					case "Clock":
+						clock = new Clock(2);
+						level.addObject(clock, x, y);
 
-    public World getWorld() {
-        return level;
-    }
+						break;
 
-    public Bar getBar() {
-        return bar;
-    }
+					case "Money":
+						money = new Money(width, height);
+						level.addObject(money, x, y);
 
-    public Clock getClock() {
-        return clock;
-    }
+						break;
 
-    public Money getMoney() {
-        return money;
-    }
+					case "Goal":
+						goal = new Goal(width, height);
+						goal.setGoal(level.goal);
+						level.addObject(goal, x, y);
 
-    public Waitress getWaitress() {
-        return waitress;
-    }
+						break;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    public Goal getGoal() {
-        return goal;
-    }
+	public World getWorld() {
+		return level;
+	}
 
-    public List<Table> getTables() {
-        return tables;
-    }
+	public Bar getBar() {
+		return bar;
+	}
+
+	public Clock getClock() {
+		return clock;
+	}
+
+	public Money getMoney() {
+		return money;
+	}
+
+	public Waitress getWaitress() {
+		return waitress;
+	}
+
+	public Goal getGoal() {
+		return goal;
+	}
+
+	public List<Table> getTables() {
+		return tables;
+	}
 }

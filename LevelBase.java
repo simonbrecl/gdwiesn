@@ -3,7 +3,6 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootSound;
 import greenfoot.World;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -11,226 +10,234 @@ import java.util.ArrayList;
  */
 public class LevelBase extends World {
 
-    //Duration of a level
-    public int minPerLevel = 5;
-    //Maximum amount of customers
-    public int maxPeople = 30;
-    //Minimum amount of customers
-    public int minPeople = 1;
-    //Interval of spawning customers
-    public int interval = 5;
-    //Money goal.
-    public int goal = 150;
+	//Duration of a level
+	public int minPerLevel = 5;
 
-    public Levelmap levelmap;
-    public TentState tent;
-    public ArrayList<Seat> allSeats = new ArrayList<>();
-    public ArrayList<Customer> customers = new ArrayList<>();
+	//Maximum amount of customers
+	public int maxPeople = 30;
 
-    public int stupidTimer = 0;
-    public int day = 1;
-    public int obsID = 0;
-    public int seatsTaken = 0;
-    public int numSeatsTotal = 32;
-    public int minPeopleBase = 0;
+	//Minimum amount of customers
+	public int minPeople = 1;
 
-    Message messagebox = new Message("");
-    private Lives heart1 = new Lives();
-    private Lives heart2 = new Lives();
-    private Lives heart3 = new Lives();
-    private Long beginTime = System.currentTimeMillis();
-    private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
+	//Interval of spawning customers
+	public int interval = 5;
 
-    public LevelBase(int day, int goal, TentState state, String pathToLevelmap) {
-        super(800, 600, 1);
-        prepare();
-        this.goal = goal;
-        this.day = day;
-        /*if(day > 4) {
+	//Money goal.
+	public int goal = 150;
+
+	public Levelmap levelmap;
+
+	public TentState tent;
+
+	public ArrayList<Seat> allSeats = new ArrayList<>();
+
+	public ArrayList<Customer> customers = new ArrayList<>();
+
+	public int stupidTimer = 0;
+
+	public int day = 1;
+
+	public int obsID = 0;
+
+	public int seatsTaken = 0;
+
+	public int numSeatsTotal = 32;
+
+	public int minPeopleBase = 0;
+
+	Message messagebox = new Message("");
+
+	private Lives heart1 = new Lives();
+
+	private Lives heart2 = new Lives();
+
+	private Lives heart3 = new Lives();
+
+	private Long beginTime = System.currentTimeMillis();
+
+	private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
+
+	public LevelBase(int day, int goal, TentState state, String pathToLevelmap) {
+		super(800, 600, 1);
+		prepare();
+		this.goal = goal;
+		this.day = day;
+		/*if(day > 4) {
             minPeopleBase = 1;
         }
         if(day > 8) {
             minPeopleBase = 2;
         }*/
-        tent = state;
-        if (tent.getBandLevel() > 0) {
-            loadLevelMap("levels/MyWorld-Band.xml");
-        }
-        else {
-            loadLevelMap(pathToLevelmap);
-        }
-        started();
-    }
+		tent = state;
+		if (tent.getBandLevel() > 0) {
+			loadLevelMap("levels/MyWorld-Band.xml");
+		} else {
+			loadLevelMap(pathToLevelmap);
+		}
+		started();
+	}
 
-    @Override
-    public void act() {
-        baseLevelAct();
-        clickControl();
-        cheatControl();
-    }
+	@Override
+	public void act() {
+		baseLevelAct();
+		clickControl();
+		cheatControl();
+	}
 
-    public void started() {
-        ambientSound.playLoop();
-    }
+	public void started() {
+		ambientSound.playLoop();
+	}
 
-    public void stopped() {
-        ambientSound.stop();
-        //Levelmap.clock.stopClock();
-        //levelTimer.stop();
-        stupidTimer = 0;
-    }
+	public void stopped() {
+		ambientSound.stop();
+		//Levelmap.clock.stopClock();
+		//levelTimer.stop();
+		stupidTimer = 0;
+	}
 
+	/**
+	 * Prepare the world for the start of the program.
+	 * That is: create the initial objects and add them to the world.
+	 */
+	private void prepare() {
 
-    /**
-     * Prepare the world for the start of the program.
-     * That is: create the initial objects and add them to the world.
-     */
-    private void prepare() {
+		addObject(heart1, 183, 574);
+		addObject(heart2, 230, 574);
+		addObject(heart3, 277, 574);
+	}
 
-        addObject(heart1, 183, 574);
-        addObject(heart2, 230, 574);
-        addObject(heart3, 277, 574);
+	//Made a separate function for this so we can add a different pathmap for the band upgrade
+	public void loadLevelMap(String pathToLevelmap) {
+		levelmap = new Levelmap(pathToLevelmap, this, tent);
+		for (Table t : levelmap.getTables()) {
+			allSeats.addAll(t.getSeats());
+		}
+	}
 
-    }
+	public void baseLevelAct() {
+		levelmap.getClock().startClock(minPerLevel, day);
+		spawnCustomers();
+		updateClock();
+		updateIfGoalReached();
+	}
 
-    //Made a separate function for this so we can add a different pathmap for the band upgrade
-    public void loadLevelMap(String pathToLevelmap) {
-        levelmap = new Levelmap(pathToLevelmap, this, tent);
-        for (Table t : levelmap.getTables()) {
-            allSeats.addAll(t.getSeats());
-        }
-    }
+	private void spawnCustomers() {
+		if ((System.currentTimeMillis() - beginTime) / 1000 >= interval) {
+			addRandomPeople();
+			beginTime = System.currentTimeMillis();
+		}
+	}
 
+	private void addRandomPeople() {
+		int randomNumberToAdd = minPeopleBase + Greenfoot.getRandomNumber(minPeople + 1);
+		if (seatsTaken < maxPeople) {
+			for (int i = 0; i < randomNumberToAdd; i++) {
+				Customer c = new Customer(obsID++);
+				addObject(c, 350, 580);
+				int seatIndex = Greenfoot.getRandomNumber(allSeats.size());
+				while (allSeats.get(seatIndex).isTaken()) {
+					seatIndex = Greenfoot.getRandomNumber(allSeats.size());
+				}
+				Seat s = allSeats.get(seatIndex);
+				s.setTaken(true);
+				c.setSeat(s);
+				c.moveTo(s.getX(), s.getY());
+				seatsTaken++;
+				customers.add(c);
+			}
+		}
+	}
 
+	private void updateClock() {
+		stupidTimer++;
+		if (stupidTimer >= minPerLevel * 60 * 60) {
+			if (day == 15) {
+				Ending ending = new Ending(levelmap.getMoney().getMoney(), tent);
+				Greenfoot.setWorld(ending);
+			} else {
+				EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
+				Greenfoot.setWorld(endLevel);
+			}
+		}
+	}
 
-    public void baseLevelAct() {
-        levelmap.getClock().startClock(minPerLevel, day);
-        spawnCustomers();
-        updateClock();
-        updateIfGoalReached();
-    }
+	private void updateIfGoalReached() {
+		if (levelmap.getMoney().getMoney() > levelmap.getGoal().getGoal()) {
 
-    private void spawnCustomers() {
-        if ((System.currentTimeMillis() - beginTime) / 1000 >= interval) {
-            addRandomPeople();
-            beginTime = System.currentTimeMillis();
-        }
-    }
+			levelmap.getGoal().goalReached();
+		}
+	}
 
-    private void addRandomPeople() {
-        int randomNumberToAdd = minPeopleBase + Greenfoot.getRandomNumber(minPeople + 1);
-        if(seatsTaken < maxPeople) {
-            for (int i = 0; i < randomNumberToAdd; i++) {
-                Customer c = new Customer(obsID++);
-                addObject(c, 350, 580);
-                int seatIndex = Greenfoot.getRandomNumber(allSeats.size());
-                while (allSeats.get(seatIndex).isTaken()) {
-                    seatIndex = Greenfoot.getRandomNumber(allSeats.size());
-                }
-                Seat s = allSeats.get(seatIndex);
-                s.setTaken(true);
-                c.setSeat(s);
-                c.moveTo(s.getX(), s.getY());
-                seatsTaken++;
-                customers.add(c);
-            }
-        }
+	public void clickControl() {
+		greenfoot.MouseInfo mouseInfo = Greenfoot.getMouseInfo();
 
-    }
+		if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
+			Actor actor = mouseInfo.getActor();
 
-    private void updateClock() {
-        stupidTimer++;
-        if (stupidTimer >= minPerLevel * 60 * 60) {
-            if (day == 15) {
-                Ending ending = new Ending(levelmap.getMoney().getMoney(), tent);
-                Greenfoot.setWorld(ending);
-            }
-            else {
-                EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
-                Greenfoot.setWorld(endLevel);
-            }
-        }
-    }
+			// Exclude other click-areas!
+			if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)
+					&& !(actor instanceof LeftBeerBarrel)) {
+				levelmap.getWaitress().moveTo(mouseInfo.getX(), mouseInfo.getY());
+			}
+		}
+	}
 
-    private void updateIfGoalReached() {
-        if (levelmap.getMoney().getMoney() > levelmap.getGoal().getGoal()) {
+	void cheatControl() {
+		if (Greenfoot.isKeyDown("shift") && Greenfoot.isKeyDown("escape")) {
+			levelmap.getMoney().setMoney(1000);
+			stupidTimer = minPerLevel * 60 * 60;
 
-            levelmap.getGoal().goalReached();
-        }
-    }
+			baseLevelAct();
+		}
+	}
 
-    public void clickControl() {
-        greenfoot.MouseInfo mouseInfo = Greenfoot.getMouseInfo();
+	public void removeCustomer(Customer c) {
+		boolean success = customers.remove(c);
+		if (!success) {
+			System.out.println("Error removing customer");
+		}
+		removeObject(c);
+	}
 
-        if (mouseInfo != null && mouseInfo.getButton() == 1 && mouseInfo.getClickCount() > 0) {
-            Actor actor = mouseInfo.getActor();
+	public void resetCustomerMoods() {
+		for (Customer c : customers) {
+			c.resetPatienceLevel();
+		}
+	}
 
-            // Exclude other click-areas!
-            if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)
-                    && !(actor instanceof LeftBeerBarrel)) {
-                levelmap.getWaitress().moveTo(mouseInfo.getX(), mouseInfo.getY());
-            }
-        }
-    }
+	public Lives getHeart1() {
+		return heart1;
+	}
 
-    void cheatControl() {
-        if (Greenfoot.isKeyDown("shift") && Greenfoot.isKeyDown("escape")) {
-            levelmap.getMoney().setMoney(1000);
-            stupidTimer = minPerLevel * 60 * 60;
+	public Lives getHeart2() {
+		return heart2;
+	}
 
-            baseLevelAct();
-        }
-    }
+	public Lives getHeart3() {
+		return heart3;
+	}
 
-    public void removeCustomer(Customer c) {
-        boolean success = customers.remove(c);
-        if(!success) {
-            System.out.println("Error removing customer");
-        }
-        removeObject(c);
-    }
+	public void updateTentState(TentState state) {
+		tent = state;
+	}
 
-    public void resetCustomerMoods() {
-        for(Customer c: customers) {
-            c.resetPatienceLevel();
-        }
-    }
+	public TentState getTentState() {
+		return tent;
+	}
 
+	public void setMinPerLevel(int minPerLevel) {
+		this.minPerLevel = minPerLevel;
+	}
 
-    public Lives getHeart1() {
-        return heart1;
-    }
+	public void setMaxPeople(int maxPeople) {
+		this.maxPeople = maxPeople;
+	}
 
-    public Lives getHeart2() {
-        return heart2;
-    }
+	public void setMinPeople(int minPeople) {
+		this.minPeople = minPeople;
+	}
 
-    public Lives getHeart3() {
-        return heart3;
-    }
-
-    public void updateTentState(TentState state) {
-        tent = state;
-    }
-
-    public TentState getTentState() {
-        return tent;
-    }
-
-    public void setMinPerLevel(int minPerLevel) {
-        this.minPerLevel = minPerLevel;
-    }
-
-    public void setMaxPeople(int maxPeople) {
-        this.maxPeople = maxPeople;
-    }
-
-    public void setMinPeople(int minPeople) {
-        this.minPeople = minPeople;
-    }
-
-    public void setInterval(int interval) {
-        this.interval = interval;
-    }
-
+	public void setInterval(int interval) {
+		this.interval = interval;
+	}
 }

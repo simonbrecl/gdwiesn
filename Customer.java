@@ -1,327 +1,328 @@
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootSound;
-import greenfoot.World;
-
-import java.util.logging.Level;
 
 public class Customer extends MovableActor {
 
-    static int counter = 0;
-    static int counter1 = 0;
-    static boolean puked;
-    private final int id;
-    private final int TOTAL_WAITINGTIME;
-    private final int TOTAL_DRINKINGTIME;
-    private final int BEER_CUTOFF = 8;
-    private final int PRETZEL_CUTOFF = 12;
-    private boolean waiting = false;
-    private int currentWaitingTime = 0;
-    private int currentDrinkingTime = 0;
-    private boolean sitting = false;
-    private Seat seat = null;
-    private CustomerSmiley cs;
-    private boolean isFlashing = false;
-    private boolean reachedDestination = false;
-    private boolean leaving = false;
-    private boolean repeat  = false;
-    private int order = 0;
-    private boolean isGirl = false;
+	static int counter = 0;
 
+	static int counter1 = 0;
 
-    public Customer(int id) {
-        super("levels/CustomerPathmap.xml", 5);
-        if (Greenfoot.getRandomNumber(2) == 1) {
-            setImage("customer/model/girlwalker.png");
-            isGirl = true;
-        } else {
-            setImage("customer/model/walker.png");
-        }
-        this.id = id;
-        currentWaitingTime = Greenfoot.getRandomNumber(500) + 1000;
-        currentDrinkingTime = Greenfoot.getRandomNumber(500) + 1250;
-        TOTAL_WAITINGTIME = currentWaitingTime;
-        TOTAL_DRINKINGTIME = currentDrinkingTime;
-    }
+	static boolean puked;
 
-    public void act() {
-        super.act();
-        moveAround();
-        if (getWorld() instanceof Level1) {
-            if (isFlashing) {
-                counter++;
-                if (counter % 25 == 0) {
-                    setImage("walkerSittingBack_glow.png");
-                }
-                if (counter % 50 == 0) {
-                    setImage("walkerSittingBack.png");
-                    counter = 0;
-                }
-            }
-        }
-        
-        if (seat.getTable().isDirty() && repeat == false) {
-            leaveToDoor(false);
-            repeat = true;
-        }
-    }
+	private final int id;
 
-    @Override
-    public void finishedMoveTo() {
-        reachedDestination = true;
-    }
+	private final int TOTAL_WAITINGTIME;
 
-    private void moveAround() {
+	private final int TOTAL_DRINKINGTIME;
 
-        if (isSitting()) {
-            if (isWaiting()) {
-                //Check if its the first level
+	private final int BEER_CUTOFF = 8;
 
-                if (getWorld() instanceof Level1) {
-                    Level1 world = (Level1) getWorld();
-                    if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
-                        setWaiting(false);
-                        if (world.isTutorialActive()) {
-                            isFlashing = false;
-                            setImage("walkerSittingBack.png");
-                            world.incrementTutorialStage();
-                        }
-                        return;
-                    }
+	private final int PRETZEL_CUTOFF = 12;
 
-                    if (!world.isTutorialActive()) {
-                        normalAct();
-                    }
-                }
-                else {
-                    normalAct();
-                }
-            }
-            else {
-                if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
-                    cs.setProgress(2);
-                }
-                currentDrinkingTime--;
-                if (currentDrinkingTime < TOTAL_DRINKINGTIME - TOTAL_DRINKINGTIME / 3) {
-                    cs.setProgress(1);
-                }
-                if (currentDrinkingTime < TOTAL_DRINKINGTIME - 2 * TOTAL_DRINKINGTIME / 3) {
-                    cs.setProgress(0);
-                }
-                if (currentDrinkingTime == 0) {
-                    Greenfoot.playSound("drunk-up.wav");
+	private boolean waiting = false;
 
-                    if (!puked && Greenfoot.getRandomNumber(10) == 5) {     // how frequent you want customers to throw up
-                        seat.getTable().puke();
-                        puked = true;
-                        Greenfoot.playSound("vomit.mp3");
-                    }
-                    leaveToDoor(false);
-                }
-            }
-        } else if (reachedDestination) {
-            if (leaving) {
-                LevelBase w = (LevelBase) getWorld();
-                w.removeCustomer(this);
-            } else {
-                tryToSitDown();
-            }
-        }
-    }
+	private int currentWaitingTime = 0;
 
-    private void normalAct() {
-        LevelBase world = (LevelBase) getWorld();
-        if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
-            setWaiting(false);
-            return;
-        }
-        else if(order < PRETZEL_CUTOFF && seat.getTable().takePretzel(cs.getMood())) {
-            setWaiting(false);
-            return;
-        }
-        currentWaitingTime--;
+	private int currentDrinkingTime = 0;
 
-        if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
-            cs.setMood(1);
-        }
-        if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
-            cs.setMood(0);
-        }
-        if (currentWaitingTime == 0) {
-            leaveToDoor(true);
-            counter1++;
-            if (counter1 == 1) {
-                world.getHeart3().getImage().setTransparency(100);
-            }
+	private boolean sitting = false;
 
-            if (counter1 == 2) {
-                world.getHeart2().getImage().setTransparency(100);
-            }
+	private Seat seat = null;
 
-            if (counter1 == 3) {
-                counter1 = 0;
-                world.getHeart2().getImage().setTransparency(255);
-                world.getHeart3().getImage().setTransparency(255);
+	private CustomerSmiley cs;
 
-                LevelBase newWorld;
+	private boolean isFlashing = false;
 
-                if(world instanceof Level2) {
-                    newWorld = new Level2(world.getTentState());
-                }
-                else if(world instanceof Level3) {
-                    newWorld = new Level3(world.getTentState());
-                }
-                else if(world instanceof Level4) {
-                    newWorld = new Level4(world.getTentState());
-                }
-                else if(world instanceof Level5) {
-                    newWorld = new Level5(world.getTentState());
-                }
-                else if(world instanceof Level6) {
-                    newWorld = new Level6(world.getTentState());
-                }
-                else if(world instanceof Level7) {
-                    newWorld = new Level7(world.getTentState());
-                }
-                else if(world instanceof Level8) {
-                    newWorld = new Level8(world.getTentState());
-                }
-                else {
-                    newWorld = new Level1();
-                }
-                NoLives dead = new NoLives(newWorld);
-                Greenfoot.setWorld(dead);
-            }
-        }
-    }
+	private boolean reachedDestination = false;
 
-    private void leaveToDoor(boolean angry) {
-        if (isSitting()) {
-            ((LevelBase) getWorld()).seatsTaken--;
+	private boolean leaving = false;
 
-            if (isWaiting()) {
-                if (order < BEER_CUTOFF) {
-                    seat.getTable().cancelOrder(Beer.class);
-                } else if (order < PRETZEL_CUTOFF) {
-                    seat.getTable().cancelOrder(Pretzel.class);
-                }
-            }
-        }
+	private boolean repeat = false;
 
-        seat.setTaken(false);
-        setSitting(false);
-        reachedDestination = false;
-        leaving = true;
-        if (angry) {
-            if (isGirl) {
-                setImage("customer/model/girlwalkerAngry.png");
-            } else {
-                setImage("customer/model/walkerAngry.png");
-                GreenfootSound sound = new GreenfootSound("angry.wav");
-                sound.play();
-            }
-        } else {
-            if (isGirl) {
-                setImage("customer/model/girlwalker.png");
-            } else {
-                setImage("customer/model/walker.png");
-            }
-        }
-        moveTo(350, 570);
-        LevelBase w = (LevelBase) getWorld();
-        w.removeObject(cs);
-    }
+	private int order = 0;
 
+	private boolean isGirl = false;
 
-    private boolean tryToSitDown() {
-        setSitting(true);
-        int posX;
-        int posY;
-        if (seat.isUpperRow()) {
-            posX = seat.getX();
-            posY = seat.getY() - 10;
-            if (isGirl) {
-                setImage("customer/model/girlwalkerSittingFront.png");
-            } else {
-                setImage("customer/model/walkerSittingFront.png");
-            }
-        } else {
-            posX = seat.getX();
-            posY = seat.getY() - 20;
-            if (isGirl) {
-                setImage("customer/model/girlwalkerSittingBack.png");
-            } else {
-                setImage("customer/model/walkerSittingBack.png");
-            }
-        }
-        setLocation(posX, posY);
+	public Customer(int id) {
+		super("levels/CustomerPathmap.xml", 5);
+		if (Greenfoot.getRandomNumber(2) == 1) {
+			setImage("customer/model/girlwalker.png");
+			isGirl = true;
+		} else {
+			setImage("customer/model/walker.png");
+		}
+		this.id = id;
+		currentWaitingTime = Greenfoot.getRandomNumber(500) + 1000;
+		currentDrinkingTime = Greenfoot.getRandomNumber(500) + 1250;
+		TOTAL_WAITINGTIME = currentWaitingTime;
+		TOTAL_DRINKINGTIME = currentDrinkingTime;
+	}
 
-        //Determine what the customer will order based on purchased upgrades
+	public void act() {
+		super.act();
+		moveAround();
+		if (getWorld() instanceof Level1) {
+			if (isFlashing) {
+				counter++;
+				if (counter % 25 == 0) {
+					setImage("walkerSittingBack_glow.png");
+				}
+				if (counter % 50 == 0) {
+					setImage("walkerSittingBack.png");
+					counter = 0;
+				}
+			}
+		}
 
-        int order = 0;
+		if (seat.getTable().isDirty() && repeat == false) {
+			leaveToDoor(false);
+			repeat = true;
+		}
+	}
 
-        if(!(getWorld() instanceof Level1)) {
-            LevelBase w = (LevelBase) getWorld();
-            order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions() * 5);
-        }
+	@Override
+	public void finishedMoveTo() {
+		reachedDestination = true;
+	}
 
+	private void moveAround() {
 
-        if (order < 8) {
-            cs = new CustomerSmiley(CustomerOrder.BEER, getX() + 10, getY() - 30);
-            seat.getTable().wantBeer();
-        }
-        if (order >= 8 && order < 12) {
-            cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX() + 10, getY() - 30);
-            seat.getTable().wantPretzel();
+		if (isSitting()) {
+			if (isWaiting()) {
+				//Check if its the first level
 
-        }
+				if (getWorld() instanceof Level1) {
+					Level1 world = (Level1)getWorld();
+					if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
+						setWaiting(false);
+						if (world.isTutorialActive()) {
+							isFlashing = false;
+							setImage("walkerSittingBack.png");
+							world.incrementTutorialStage();
+						}
+						return;
+					}
 
-        if (order >= 12) {
-            cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX() + 10, getY() - 30);
-            seat.getTable().wantSausage();
-        }
+					if (!world.isTutorialActive()) {
+						normalAct();
+					}
+				} else {
+					normalAct();
+				}
+			} else {
+				if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
+					cs.setProgress(2);
+				}
+				currentDrinkingTime--;
+				if (currentDrinkingTime < TOTAL_DRINKINGTIME - TOTAL_DRINKINGTIME / 3) {
+					cs.setProgress(1);
+				}
+				if (currentDrinkingTime < TOTAL_DRINKINGTIME - 2 * TOTAL_DRINKINGTIME / 3) {
+					cs.setProgress(0);
+				}
+				if (currentDrinkingTime == 0) {
+					Greenfoot.playSound("drunk-up.wav");
 
-        LevelBase w = (LevelBase) getWorld();
-        w.addObject(cs, this.getX() + 10, this.getY() - 30);
+					if (!puked && Greenfoot.getRandomNumber(10) == 5) {     // how frequent you want customers to throw up
+						seat.getTable().puke();
+						puked = true;
+						Greenfoot.playSound("vomit.mp3");
+					}
+					leaveToDoor(false);
+				}
+			}
+		} else if (reachedDestination) {
+			if (leaving) {
+				LevelBase w = (LevelBase)getWorld();
+				w.removeCustomer(this);
+			} else {
+				tryToSitDown();
+			}
+		}
+	}
 
-        setWaiting(true);
-        return true;
-    }
+	private void normalAct() {
+		LevelBase world = (LevelBase)getWorld();
+		if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
+			setWaiting(false);
+			return;
+		} else if (order < PRETZEL_CUTOFF && seat.getTable().takePretzel(cs.getMood())) {
+			setWaiting(false);
+			return;
+		}
+		currentWaitingTime--;
 
-    public void resetPatienceLevel() {
+		if (currentWaitingTime < TOTAL_WAITINGTIME / 2) {
+			cs.setMood(1);
+		}
+		if (currentWaitingTime < TOTAL_WAITINGTIME / 4) {
+			cs.setMood(0);
+		}
+		if (currentWaitingTime == 0) {
+			leaveToDoor(true);
+			counter1++;
+			if (counter1 == 1) {
+				world.getHeart3().getImage().setTransparency(100);
+			}
 
-        if(sitting) {
-            currentWaitingTime = TOTAL_WAITINGTIME;
-            cs.setMood(2);
-        }
+			if (counter1 == 2) {
+				world.getHeart2().getImage().setTransparency(100);
+			}
 
-    }
+			if (counter1 == 3) {
+				counter1 = 0;
+				world.getHeart2().getImage().setTransparency(255);
+				world.getHeart3().getImage().setTransparency(255);
 
-    public boolean isSitting() {
-        return sitting;
-    }
+				LevelBase newWorld;
 
-    public void setSitting(boolean flag) {
-        this.sitting = flag;
-    }
+				if (world instanceof Level2) {
+					newWorld = new Level2(world.getTentState());
+				} else if (world instanceof Level3) {
+					newWorld = new Level3(world.getTentState());
+				} else if (world instanceof Level4) {
+					newWorld = new Level4(world.getTentState());
+				} else if (world instanceof Level5) {
+					newWorld = new Level5(world.getTentState());
+				} else if (world instanceof Level6) {
+					newWorld = new Level6(world.getTentState());
+				} else if (world instanceof Level7) {
+					newWorld = new Level7(world.getTentState());
+				} else if (world instanceof Level8) {
+					newWorld = new Level8(world.getTentState());
+				} else {
+					newWorld = new Level1();
+				}
+				NoLives dead = new NoLives(newWorld);
+				Greenfoot.setWorld(dead);
+			}
+		}
+	}
 
-    public boolean isWaiting() {
-        return waiting;
-    }
+	private void leaveToDoor(boolean angry) {
+		if (isSitting()) {
+			((LevelBase)getWorld()).seatsTaken--;
 
-    public void setWaiting(boolean waiting) {
-        this.waiting = waiting;
-    }
+			if (isWaiting()) {
+				if (order < BEER_CUTOFF) {
+					seat.getTable().cancelOrder(Beer.class);
+				} else if (order < PRETZEL_CUTOFF) {
+					seat.getTable().cancelOrder(Pretzel.class);
+				}
+			}
+		}
 
-    public void flashTrue() {
-        isFlashing = true;
-    }
+		seat.setTaken(false);
+		setSitting(false);
+		reachedDestination = false;
+		leaving = true;
+		if (angry) {
+			if (isGirl) {
+				setImage("customer/model/girlwalkerAngry.png");
+			} else {
+				setImage("customer/model/walkerAngry.png");
+				GreenfootSound sound = new GreenfootSound("angry.wav");
+				sound.play();
+			}
+		} else {
+			if (isGirl) {
+				setImage("customer/model/girlwalker.png");
+			} else {
+				setImage("customer/model/walker.png");
+			}
+		}
+		moveTo(350, 570);
+		LevelBase w = (LevelBase)getWorld();
+		w.removeObject(cs);
+	}
 
-    public void flashFalse() {
-        isFlashing = false;
-    }
+	private boolean tryToSitDown() {
+		setSitting(true);
+		int posX;
+		int posY;
+		if (seat.isUpperRow()) {
+			posX = seat.getX();
+			posY = seat.getY() - 10;
+			if (isGirl) {
+				setImage("customer/model/girlwalkerSittingFront.png");
+			} else {
+				setImage("customer/model/walkerSittingFront.png");
+			}
+		} else {
+			posX = seat.getX();
+			posY = seat.getY() - 20;
+			if (isGirl) {
+				setImage("customer/model/girlwalkerSittingBack.png");
+			} else {
+				setImage("customer/model/walkerSittingBack.png");
+			}
+		}
+		setLocation(posX, posY);
 
-    public void setSeat(Seat seat) {
-        this.seat = seat;
-    }
+		//Determine what the customer will order based on purchased upgrades
+
+		int order = 0;
+
+		if (!(getWorld() instanceof Level1)) {
+			LevelBase w = (LevelBase)getWorld();
+			order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions() * 5);
+		}
+
+		if (order < 8) {
+			cs = new CustomerSmiley(CustomerOrder.BEER, getX() + 10, getY() - 30);
+			seat.getTable().wantBeer();
+		}
+		if (order >= 8 && order < 12) {
+			cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX() + 10, getY() - 30);
+			seat.getTable().wantPretzel();
+		}
+
+		if (order >= 12) {
+			cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX() + 10, getY() - 30);
+			seat.getTable().wantSausage();
+		}
+
+		LevelBase w = (LevelBase)getWorld();
+		w.addObject(cs, this.getX() + 10, this.getY() - 30);
+
+		setWaiting(true);
+		return true;
+	}
+
+	public void resetPatienceLevel() {
+
+		if (sitting) {
+			currentWaitingTime = TOTAL_WAITINGTIME;
+			cs.setMood(2);
+		}
+	}
+
+	public boolean isSitting() {
+		return sitting;
+	}
+
+	public void setSitting(boolean flag) {
+		this.sitting = flag;
+	}
+
+	public boolean isWaiting() {
+		return waiting;
+	}
+
+	public void setWaiting(boolean waiting) {
+		this.waiting = waiting;
+	}
+
+	public void flashTrue() {
+		isFlashing = true;
+	}
+
+	public void flashFalse() {
+		isFlashing = false;
+	}
+
+	public void setSeat(Seat seat) {
+		this.seat = seat;
+	}
 }
 

@@ -3,66 +3,67 @@ import greenfoot.Actor;
 import java.util.List;
 
 class MovableActor extends Actor {
-    private final int moveDelta;
-    private final Pathmap pathmap;
+	private final int moveDelta;
 
-    private List<int[]> moveToPath;
+	private final Pathmap pathmap;
 
-    MovableActor(String pathmap, int moveDelta) {
-        this.moveDelta = moveDelta;
-        this.pathmap = new Pathmap(pathmap);
-    }
+	private List<int[]> moveToPath;
 
-    public void act() {
-        move();
-    }
+	MovableActor(String pathmap, int moveDelta) {
+		this.moveDelta = moveDelta;
+		this.pathmap = new Pathmap(pathmap);
+	}
 
-    private void move() {
-        if (moveToPath == null || moveToPath.size() == 0) {
-            return;
-        }
+	public void act() {
+		move();
+	}
 
-        int x = getX();
-        int y = getY();
+	private void move() {
+		if (moveToPath == null || moveToPath.size() == 0) {
+			return;
+		}
 
-        int[] waypoint = moveToPath.get(0);
+		int x = getX();
+		int y = getY();
 
-        int distanceX = Math.abs(x - waypoint[0]);
-        int distanceY = Math.abs(y - waypoint[1]);
+		int[] waypoint = moveToPath.get(0);
 
-        double steps = Math.max(distanceX, distanceY) / moveDelta;
+		int distanceX = Math.abs(x - waypoint[0]);
+		int distanceY = Math.abs(y - waypoint[1]);
 
-        int moveX = (int) Math.round(distanceX / steps);
-        int moveY = (int) Math.round(distanceY / steps);
+		double steps = Math.max(distanceX, distanceY) / moveDelta;
 
-        if (distanceX <= moveDelta) {
-            x = waypoint[0];
-        } else {
-            x += (x < waypoint[0]) ? moveX : -moveX;
-        }
+		int moveX = (int)Math.round(distanceX / steps);
+		int moveY = (int)Math.round(distanceY / steps);
 
-        if (distanceY <= moveDelta) {
-            y = waypoint[1];
-        } else {
-            y += (y < waypoint[1]) ? moveY : -moveY;
-        }
+		if (distanceX <= moveDelta) {
+			x = waypoint[0];
+		} else {
+			x += (x < waypoint[0]) ? moveX : -moveX;
+		}
 
-        if (x == waypoint[0] && y == waypoint[1]) {
-            moveToPath.remove(0);
+		if (distanceY <= moveDelta) {
+			y = waypoint[1];
+		} else {
+			y += (y < waypoint[1]) ? moveY : -moveY;
+		}
 
-            if (moveToPath.size() == 0) {
-                finishedMoveTo();
-            }
-        }
+		if (x == waypoint[0] && y == waypoint[1]) {
+			moveToPath.remove(0);
 
-        setLocation(x, y);
-    }
+			if (moveToPath.size() == 0) {
+				finishedMoveTo();
+			}
+		}
 
-    void moveTo(int x, int y) {
-        this.moveToPath = pathmap.findPath(getX(), getY(), x, y);
-    }
+		setLocation(x, y);
+	}
 
-    void finishedMoveTo() {
+	void moveTo(int x, int y) {
+		this.moveToPath = pathmap.findPath(getX(), getY(), x, y);
+	}
 
-    }
+	void finishedMoveTo() {
+
+	}
 }

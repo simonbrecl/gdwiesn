@@ -7,20 +7,20 @@
 
 public class Level6 extends LevelBase {
 
-    /**
-     * Constructor for objects of class Level2.
-     */
+	/**
+	 * Constructor for objects of class Level2.
+	 */
 
-    public Level6(TentState state) {
-        super(11, 600, state, "levels/MyWorld.xml");
+	public Level6(TentState state) {
+		super(11, 600, state, "levels/MyWorld.xml");
 
-        setMinPerLevel(1);
-        setMaxPeople(26);
-        setMinPeople(6);
-        setInterval(5);
-    }
+		setMinPerLevel(1);
+		setMaxPeople(26);
+		setMinPeople(6);
+		setInterval(5);
+	}
 
-    public void act() {
-        super.act();
-    }
+	public void act() {
+		super.act();
+	}
 }
