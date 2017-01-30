@@ -13,6 +13,8 @@ public class TentState {
 
 	private int barLevel;
 
+	private int waitressLevel;
+
 	private int money;
 
 	private int day;
@@ -26,6 +28,7 @@ public class TentState {
 		barLevel = 1;
 		money = 0;
 		day = 1;
+		waitressLevel = 1;
 	}
 
 	void updateMoney(int m) {
@@ -92,6 +95,19 @@ public class TentState {
 		return false;
 	}
 
+	boolean upgradeWaitress() {
+		if (waitressLevel < 2) {
+			if (money < WaitressUpgrade.UPGRADE_COST) {
+				return false;
+			}
+			money -= WaitressUpgrade.UPGRADE_COST;
+			waitressLevel++;
+			return true;
+		}
+		return false;
+	}
+
+
 	public boolean upgradeSecurity() {
 		if (securityLevel < 1) {
 			securityLevel++;
@@ -139,13 +155,21 @@ public class TentState {
 		return securityLevel;
 	}
 
-	/* Get the level of the bar.
+	/* Get the level of the band.
 		0 - no band
 		1 - band only plays annoying music?
 		2 - band plays nice music and switches up the songs?
 	 */
 	int getBandLevel() {
 		return bandLevel;
+	}
+
+	/* Get the level of the waitress
+		0 - normal waitress
+		1 - waitress that walks really fast
+	 */
+	int getWaitressLevel() {
+		return waitressLevel;
 	}
 
 	/*

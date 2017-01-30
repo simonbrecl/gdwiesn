@@ -54,7 +54,7 @@ public class BeerButton extends Actor {
 				if (fillCounter < 40) {
 					this.setImage(new GreenfootImage("barrel-filling-beer.png"));
 				} else if (fillCounter < 80) {
-					this.setImage(new GreenfootImage("barrel-full-beer1.png"));
+					this.setImage(new GreenfootImage("barrel-full-beer.png"));
 				}
 			}
 			mouseOver = false;
@@ -90,7 +90,14 @@ public class BeerButton extends Actor {
 		}
 
 		if (filling) {
-			if (fillCounter == 40) {
+			if(fillCounter < 40) {
+				if (mouseOver) {
+					this.setImage(new GreenfootImage("barrel-empty-beer1.png"));
+				} else {
+					this.setImage(new GreenfootImage("barrel-empty-beer.png"));
+				}
+			}
+			else if (fillCounter == 40) {
 				if (mouseOver) {
 					this.setImage(new GreenfootImage("barrel-filling-beer1.png"));
 				} else {

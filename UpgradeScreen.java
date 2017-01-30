@@ -10,6 +10,8 @@ public class UpgradeScreen extends World {
 
 	Upgrademap upgrademap;
 
+	public boolean infoShowing = false;
+
 	public UpgradeScreen(TentState state) {
 		super(800, 600, 1);
 		tentState = state;
@@ -18,6 +20,12 @@ public class UpgradeScreen extends World {
 
 	private void prepare() {
 		upgrademap = new Upgrademap("levels/Upgrade-Screen.xml", this, tentState);
+
+		if(tentState.getDay() < 2) {
+			UpgradesInfoWindow window = new UpgradesInfoWindow();
+			addObject(window, 400, 300);
+			infoShowing = true;
+		}
 	}
 
 	public void act() {

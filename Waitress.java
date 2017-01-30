@@ -27,17 +27,33 @@ public class Waitress extends MovableActor {
 
 	private int itemCount = 0;
 
-	private int foodCount = 0;
+	private int pretzelCount = 0;
+
+	private int sausageCount = 0;
+
+	private int level = 1;
 
 	private boolean cleaning = false;
 
-	private GreenfootImage originalImage = new GreenfootImage("oktoberfest-waitress.png");
+	private GreenfootImage originalImage = new GreenfootImage("waitress.png");
 
-	private GreenfootImage newImage = new GreenfootImage("oktoberfest-waitress.png");
+	private GreenfootImage originalImageUpgraded = new GreenfootImage("waitress-upgraded.png");
 
-	public Waitress(String pathmap) {
-		super(pathmap, 5);
-		originalImage = getImage();
+	private GreenfootImage newImage = new GreenfootImage("waitress.png");
+
+
+	public Waitress(String pathmap, int level) {
+		super(pathmap, 5 * level);
+
+		/*if(level > 1) {
+			originalImageUpgraded = getImage();
+		}
+		else {
+			originalImage = getImage();
+		}*/
+
+
+		this.level = level;
 	}
 
 	/**
@@ -48,34 +64,36 @@ public class Waitress extends MovableActor {
 		super.act();
 
 		//Find more efficient way to do this later
-		this.setImage(originalImage);
+		if(level > 1) {
+			this.setImage(originalImageUpgraded);
+		}
+		else {
+			this.setImage(originalImage);
+		}
 
-        /*if(!getObjectsInRange(PICKUP_RADIUS, Bar.class).isEmpty()
-				|| !getObjectsInRange(PICKUP_RADIUS, Table.class).isEmpty()) {
-            drawBeer();
-            unloadBeer(); // check if waitress is touching a table with customers whilst she has beers
-            checkBeerIsPoured(); //see if there are any beers ready close to the waitress
-        }
-
-        if(!getObjectsInRange(PICKUP_RADIUS, Kitchen.class).isEmpty()
-                || !getObjectsInRange(PICKUP_RADIUS, Table.class).isEmpty()) {
-            drawPretzel();
-            unloadPretzel(); // check if waitress is touching a table with customers while she has pretzels
-            checkPretzelIsMade(); //see if there are any pretzels ready close to the waitress
-        } */
 		cleanTable();
 
-		newImage = new GreenfootImage("oktoberfest-waitress.png");
+		if(level > 1) {
+			newImage = new GreenfootImage("waitress-upgraded.png");
+		}
+		else {
+			newImage = new GreenfootImage("waitress.png");
+		}
+
 		unloadBeer(); // check if waitress is touching a table with customers whilst she has beers
 		checkBeerIsPoured(); //see if there are any beers ready close to the waitress
 
-		//drawPretzel();
+		//Check and draw pretzels
 		unloadPretzel(); // check if waitress is touching a table with customers while she has pretzels
 		checkPretzelIsMade(); //see if there are any pretzels ready close to the waitress
 
+		//Check and draw sausages
+		unloadSausage(); // check if waitress is touching a table with customers while she has sausages
+		checkSausageIsMade(); //see if there are any sausages close to the waitress
+
 		if (itemCount > 0) {
 			drawBeer();
-			drawPretzel();
+			drawFood();
 		}
 
 		this.setImage(newImage);
@@ -94,11 +112,23 @@ public class Waitress extends MovableActor {
 	}
 
 	private void unloadPretzel() {
-		if (foodCount > 0 && isTouching(Table.class)) {
+		if (pretzelCount > 0 && isTouching(Table.class)) {
 			Table table = (Table)getOneIntersectingObject(Table.class);
 
 			if (table.incrementPretzel()) {
-				foodCount--;
+				pretzelCount--;
+				itemCount--;
+				Greenfoot.playSound("put-on-table.wav");
+			}
+		}
+	}
+
+	private void unloadSausage() {
+		if (sausageCount > 0 && isTouching(Table.class)) {
+			Table table = (Table)getOneIntersectingObject(Table.class);
+
+			if (table.incrementSausage()) {
+				sausageCount--;
 				itemCount--;
 				Greenfoot.playSound("put-on-table.wav");
 			}
@@ -109,8 +139,8 @@ public class Waitress extends MovableActor {
 		if (!getObjectsInRange(PICKUP_RADIUS, Beer.class).isEmpty()) {
 			Beer beer = getObjectsInRange(PICKUP_RADIUS, Beer.class).get(0);
 			//Waitress can hold 6 beers or 3 beers and 1 food item
-			if ((beer.isPoured() && foodCount == 0 && beerCount < TWO_HAND_BEER_MAX)
-					|| (beer.isPoured() && foodCount == 1 && beerCount < ONE_HAND_BEER_MAX)) {
+			if ((beer.isPoured() && pretzelCount == 0 && sausageCount == 0&& beerCount < TWO_HAND_BEER_MAX)
+					|| (beer.isPoured() && (pretzelCount + sausageCount > 0) && beerCount < ONE_HAND_BEER_MAX)) {
 
 				beer.pickUp();
 				beerCount++;
@@ -128,30 +158,91 @@ public class Waitress extends MovableActor {
 	private void checkPretzelIsMade() {
 		if (!getObjectsInRange(PICKUP_RADIUS, Pretzel.class).isEmpty()) {
 			Pretzel pretzel = getObjectsInRange(PICKUP_RADIUS, Pretzel.class).get(0);
-			if ((pretzel.isMade() && beerCount == 0 && foodCount < TWO_HAND_FOOD_MAX)
-					|| (pretzel.isMade() && beerCount > 0 && beerCount <= ONE_HAND_BEER_MAX && foodCount < ONE_HAND_FOOD_MAX)) {
+			if ((pretzel.isMade() && beerCount == 0 && (pretzelCount + sausageCount) < TWO_HAND_FOOD_MAX)
+					|| (pretzel.isMade() && beerCount > 0 && beerCount <= ONE_HAND_BEER_MAX && (pretzelCount + sausageCount) < ONE_HAND_FOOD_MAX)) {
 				pretzel.pickUp();
-				foodCount++;
+				pretzelCount++;
 				itemCount++;
 			}
 		}
 	}
 
-	private void drawPretzel() {
+	private void checkSausageIsMade() {
+		if (!getObjectsInRange(PICKUP_RADIUS, Sausage.class).isEmpty()) {
+			Sausage sausage = getObjectsInRange(PICKUP_RADIUS, Sausage.class).get(0);
+			if ((sausage.isMade() && beerCount == 0 && (pretzelCount + sausageCount) < TWO_HAND_FOOD_MAX)
+					|| (sausage.isMade() && beerCount > 0 && beerCount <= ONE_HAND_BEER_MAX && (pretzelCount + sausageCount) < ONE_HAND_FOOD_MAX)) {
+				sausage.pickUp();
+				sausageCount++;
+				itemCount++;
+			}
+		}
+	}
+
+
+	private void drawFood() {
 		int x = 30;
 		int y = 0;
 
 		int offset = (int)Math.floor(FOOD_MAX / 2);
+		y = 45 - (int)Math.pow(0 - offset, 2);
 
-		if (foodCount != 0) {
-			for (int i = 0; i < foodCount; i++) {
+		//Probably some better way to do this with less complexity, but it's late and I don't care. This is CPE 357 anymore.
+		if(sausageCount == 2) {
+			newImage.drawImage(new GreenfootImage("plate-sausage.png"), x, y);
+			x -= 27;
+
+			y = 45 - (int)Math.pow(1 - offset, 2);
+			newImage.drawImage(new GreenfootImage("plate-sausage.png"), x, y);
+
+		}
+
+		else if(pretzelCount == 2) {
+			newImage.drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+			x -= 27;
+
+			y = 45 - (int)Math.pow(1 - offset, 2);
+			newImage.drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+		}
+
+		else if(pretzelCount == 1 && sausageCount == 1) {
+			newImage.drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+			x -= 27;
+
+			y = 45 - (int)Math.pow(1 - offset, 2);
+			newImage.drawImage(new GreenfootImage("plate-sausage.png"), x, y);
+		}
+		else if(pretzelCount == 1) {
+			newImage.drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+		}
+		else if(sausageCount == 1) {
+			newImage.drawImage(new GreenfootImage("plate-sausage.png"), x, y);
+		}
+
+
+
+
+		/*if (sausageCount != 0 || pretzelCount != 0) {
+			for (int i = 0; i < sausageCount + pretzelCount; i++) {
 				y = 45 - (int)Math.pow(i - offset, 2);
 
 				//getImage().drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
-				newImage.drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+				if(sausageCount > 1) {
+					newImage.drawImage(new GreenfootImage("plate-sausage.png"), x, y);
+				}
+				else if (sausageCount == 1 && i == 0) {
+					newImage.drawImage(new GreenfootImage("plate-sausage.png"), x, y);
+				}
+				else if(pretzelCount > 1) {
+					newImage.drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+				}
+				else if (sausageCount == 1 && i == 1) {
+					newImage.drawImage(new GreenfootImage("plate-sausage.png"), x, y);
+				}
+
 				x -= 27;
 			}
-		}
+		}*/
 	}
 
 	private void drawBeer() {

@@ -29,9 +29,9 @@ public class BandUpgrade extends Actor {
 
 	private GreenfootImage bandOverlay = new GreenfootImage("band-overlay.png");
 
-	private TextBox notEnoughMoneyBox = new TextBox(new Point(250, 110), text + moneyExtra, new Font("Helvetica", Font.PLAIN, 15));
+	private TextBox notEnoughMoneyBox = new TextBox(new Point(250, 130), text + moneyExtra, new Font("Helvetica", Font.PLAIN, 15));
 
-	private TextBox readyToBuyBox = new TextBox(new Point(250, 110), text + clickToBuy, new Font("Helvetica", Font.PLAIN, 15));
+	private TextBox readyToBuyBox = new TextBox(new Point(250, 130), text + clickToBuy, new Font("Helvetica", Font.PLAIN, 15));
 
 	private TextBox currentBox;
 
@@ -66,12 +66,13 @@ public class BandUpgrade extends Actor {
 
 	private void buyUpgrade() {
 
-		upgradeBought = true;
-		this.setImage(band);
+
 
 		if (world != null) {
 			boolean success = world.tentState.upgradeBand();
 			if (success) {
+				upgradeBought = true;
+				this.setImage(band);
 				world.upgrademap.money.updateMoney(world.tentState.getMoney());
 			}
 		}
@@ -80,41 +81,45 @@ public class BandUpgrade extends Actor {
 	public void act() {
 		MouseInfo mouseInfo = Greenfoot.getMouseInfo();
 
-		if (boxShowing) {
-			world.removeObject(currentBox);
-			boxShowing = false;
-		}
+		if(!world.infoShowing) {
+			if (boxShowing) {
+				world.removeObject(currentBox);
+				boxShowing = false;
+			}
 
-		if (!upgradeBought) {
-			this.setImage(bandOverlay);
+			if (!upgradeBought) {
+				this.setImage(bandOverlay);
 
-			if (mouseInfo != null) {
-				List objects = getWorld().getObjectsAt(mouseInfo.getX(), mouseInfo.getY(), BandUpgrade.class);
-				for (Object object : objects) {
-					if (object == this) {
-						this.setImage(band);
+				if (mouseInfo != null) {
+					List objects = getWorld().getObjectsAt(mouseInfo.getX(), mouseInfo.getY(), BandUpgrade.class);
+					for (Object object : objects) {
+						if (object == this) {
+							this.setImage(band);
+						}
+
+						if (world.getTentState().getMoney() < nextUpgradeCost) {
+							currentBox = notEnoughMoneyBox;
+						} else {
+							currentBox = readyToBuyBox;
+						}
+
+						world.addObject(currentBox, 380, 400);
+						boxShowing = true;
 					}
-
-					if (world.getTentState().getMoney() < nextUpgradeCost) {
-						currentBox = notEnoughMoneyBox;
-					} else {
-						currentBox = readyToBuyBox;
-					}
-
-					world.addObject(currentBox, 380, 400);
-					boxShowing = true;
-				}
-				// Buy upgrade
-				if (Greenfoot.mouseClicked(this)) {
-					if (world.getTentState().getMoney() >= nextUpgradeCost) {
-						if (!upgradeBought) {
-							buyUpgrade();
+					// Buy upgrade
+					if (Greenfoot.mouseClicked(this)) {
+						if (world.getTentState().getMoney() >= nextUpgradeCost) {
+							if (!upgradeBought) {
+								buyUpgrade();
+							}
 						}
 					}
 				}
+			} else {
+				this.setImage(band);
 			}
-		} else {
-			this.setImage(band);
 		}
+
+
 	}
 }

@@ -176,7 +176,7 @@ public class LevelBase extends World {
 
 			// Exclude other click-areas!
 			if (!(actor instanceof BeerButton) && !(actor instanceof SausageBoy) && !(actor instanceof PretzelMachine)
-					&& !(actor instanceof LeftBeerBarrel)) {
+					&& !(actor instanceof LeftBeerBarrel) && !(actor instanceof Grill)) {
 				levelmap.getWaitress().moveTo(mouseInfo.getX(), mouseInfo.getY());
 			}
 		}

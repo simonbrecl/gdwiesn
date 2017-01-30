@@ -13,15 +13,25 @@ public class Kitchen extends Actor {
 
 	private boolean mouseOver = false;
 
-	private int level = 1;
+	private int level;
 
-	public Kitchen() {
-		this.setImage("kitchen-counter1.png");
+	public Kitchen(int level) {
+		this.level = level;
+		if(level == 1) {
+			this.setImage("kitchen-counter1.png");
+		}
+		else {
+			this.setImage("kitchen-counter2.png");
+		}
+
 	}
 
 	@Override
 	protected void addedToWorld(World world) {
 		getWorld().addObject(new PretzelMachine(this), getX() - 150, getY() - 25);
+		if(level == 2) {
+			getWorld().addObject(new Grill(this), getX() + 150, getY() - 25);
+		}
 	}
 
 	public void act() {
@@ -38,7 +48,7 @@ public class Kitchen extends Actor {
 			if (level == 1) {
 				setImage("kitchen-counter1.png");
 			} else {
-				setImage("kitchen-upgrade2.png");
+				setImage("kitchen-counter2.png");
 			}
 
 			mouseOver = false;

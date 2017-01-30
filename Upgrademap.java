@@ -25,6 +25,8 @@ class Upgrademap {
 
 	KitchenUpgrade kitchen;
 
+	WaitressUpgrade waitress;
+
 	TentState tentState;
 
 	List<Table> tables = new ArrayList<>();
@@ -78,8 +80,14 @@ class Upgrademap {
 
 						break;
 
+					case "WaitressUpgrade":
+						waitress = new WaitressUpgrade(tentState.getWaitressLevel());
+						world.addObject(waitress, x, y);
+
+						break;
+
 					case "Table":
-						Table table = new Table(world, x, y, null);
+						Table table = new Table(world, x, y, null, 0);
 						tables.add(table);
 						world.addObject(table, x, y);
 

@@ -16,9 +16,11 @@ public class Customer extends MovableActor {
 
 	private final int TOTAL_DRINKINGTIME;
 
-	private final int BEER_CUTOFF = 8;
+	private final int BEER_CUTOFF = 9;
 
-	private final int PRETZEL_CUTOFF = 12;
+	private final int PRETZEL_CUTOFF = 13;
+
+	private final int SAUSAGE_CUTOFF = 15;
 
 	private boolean waiting = false;
 
@@ -40,7 +42,7 @@ public class Customer extends MovableActor {
 
 	private boolean repeat = false;
 
-	private int order = 0;
+	private int order;
 
 	private boolean isGirl = false;
 
@@ -112,7 +114,8 @@ public class Customer extends MovableActor {
 				} else {
 					normalAct();
 				}
-			} else {
+			}
+			else {
 				if (currentDrinkingTime == TOTAL_DRINKINGTIME) {
 					cs.setProgress(2);
 				}
@@ -151,13 +154,21 @@ public class Customer extends MovableActor {
 	private void normalAct() {
 		LevelBase world = (LevelBase)getWorld();
 
-		if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
-			setWaiting(false);
-			return;
-		} else if (order < PRETZEL_CUTOFF && seat.getTable().takePretzel(cs.getMood())) {
-			setWaiting(false);
-			return;
+		if(isSitting()) {
+			if (order < BEER_CUTOFF && seat.getTable().takeBeer(cs.getMood())) {
+				setWaiting(false);
+				return;
+			}
+			else if (order >= BEER_CUTOFF && order < PRETZEL_CUTOFF && seat.getTable().takePretzel(cs.getMood())) {
+				setWaiting(false);
+				return;
+			}
+			else if (order >= PRETZEL_CUTOFF && order < SAUSAGE_CUTOFF && seat.getTable().takeSausage(cs.getMood())) {
+				setWaiting(false);
+				return;
+			}
 		}
+
 
 		currentWaitingTime--;
 
@@ -222,6 +233,9 @@ public class Customer extends MovableActor {
 				} else if (order < PRETZEL_CUTOFF) {
 					seat.getTable().cancelOrder(Pretzel.class);
 				}
+				else if (order < SAUSAGE_CUTOFF) {
+					seat.getTable().cancelOrder(Sausage.class);
+				}
 			}
 		}
 
@@ -279,23 +293,24 @@ public class Customer extends MovableActor {
 
 		//Determine what the customer will order based on purchased upgrades
 
-		int order = 0;
+		order = 0;
 
 		if (!(getWorld() instanceof Level1)) {
 			LevelBase w = (LevelBase)getWorld();
 			order = Greenfoot.getRandomNumber(w.tent.getNumOrderOptions() * 5);
 		}
 
-		if (order < 8) {
+
+		if (order < BEER_CUTOFF) {
 			cs = new CustomerSmiley(CustomerOrder.BEER, getX() + 10, getY() - 30);
 			seat.getTable().wantBeer();
 		}
-		if (order >= 8 && order < 12) {
+		else if (order < PRETZEL_CUTOFF) {
 			cs = new CustomerSmiley(CustomerOrder.PRETZEL, getX() + 10, getY() - 30);
 			seat.getTable().wantPretzel();
 		}
 
-		if (order >= 12) {
+		else {
 			cs = new CustomerSmiley(CustomerOrder.SAUSAGE, getX() + 10, getY() - 30);
 			seat.getTable().wantSausage();
 		}
@@ -304,6 +319,7 @@ public class Customer extends MovableActor {
 		w.addObject(cs, this.getX() + 10, this.getY() - 30);
 
 		setWaiting(true);
+
 
 		return true;
 	}

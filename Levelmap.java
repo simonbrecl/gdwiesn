@@ -32,6 +32,8 @@ class Levelmap {
 
 	private List<Table> tables = new ArrayList<>();
 
+	private int tableNum = 1;
+
 	public Levelmap(String file, LevelBase level, TentState state) {
 		this.level = level;
 		tentState = state;
@@ -90,22 +92,23 @@ class Levelmap {
 						break;
 
 					case "Kitchen":
-						if (tentState.getKitchenLevel() == 1) {
-							kitchen = new Kitchen();
+						if (tentState.getKitchenLevel() >= 1) {
+							kitchen = new Kitchen(tentState.getKitchenLevel());
 							level.addObject(kitchen, x, y);
 						}
 
 						break;
 
 					case "Table":
-						Table table = new Table(level, x, y, this);
+						Table table = new Table(level, x, y, this, tableNum);
 						tables.add(table);
 						level.addObject(table, x, y);
+						tableNum++;
 
 						break;
 
 					case "Waitress":
-						waitress = new Waitress(file);
+						waitress = new Waitress(file, tentState.getWaitressLevel());
 						level.addObject(waitress, x, y);
 
 						break;

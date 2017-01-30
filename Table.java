@@ -36,14 +36,17 @@ public class Table extends Actor {
 
 	private boolean puke = false;
 
+	private int tableNum;
+
 	private GreenfootImage originalImage;
 
-	public Table(World world, int x, int y, Levelmap levelmap) {
+	public Table(World world, int x, int y, Levelmap levelmap, int num) {
 		this.levelmap = levelmap;
 
 		originalImage = getImage();
 
 		createSeats(world, x, y, true);
+		this.tableNum = num;
 	}
 
 	@Override
@@ -73,14 +76,18 @@ public class Table extends Actor {
 
 		if (beer > 0) {
 			updateBeerCount();
-			//updateWantBeerCount();
 		}
 
 		if (pretzel > 0) {
 			updatePretzelCount();
 		}
+
+		if (sausage > 0) {
+			updateSausageCount();
+		}
 	}
 
+	//Check if beer should be put on the table
 	synchronized boolean incrementBeer() {
 		if (wantBeer <= 0) {
 			return false;
@@ -103,6 +110,19 @@ public class Table extends Actor {
 		pretzel++;
 		wantPretzel--;
 		updatePretzelCount();
+
+		return true;
+	}
+
+	synchronized boolean incrementSausage() {
+		if (wantSausage <= 0) {
+
+			return false;
+		}
+
+		sausage++;
+		wantSausage--;
+		updateSausageCount();
 
 		return true;
 	}
@@ -131,7 +151,7 @@ public class Table extends Actor {
 		for (int i = 0; i < beer; i++) {
 			y = (i % 2 != 0) ? 30 : 0;
 
-			getImage().drawImage(new GreenfootImage("new-beer.png"), x, y);
+			//getImage().drawImage(new GreenfootImage("new-beer.png"), x, y);
 
 			if (i % 2 != 0) {
 				x += 37;
@@ -148,7 +168,7 @@ public class Table extends Actor {
 		for (int i = 0; i < pretzel; i++) {
 			y = (i % 2 != 0) ? 30 : 0;
 
-			getImage().drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
+			//getImage().drawImage(new GreenfootImage("plate-pretzel.png"), x, y);
 
 			if (i % 2 != 0) {
 				x += 37;
@@ -156,9 +176,23 @@ public class Table extends Actor {
 		}
 	}
 
-	private void updateWantBeerCount() {
-		getImage().drawImage(new GreenfootImage(String.valueOf(wantBeer), 20, Color.WHITE, Color.BLACK), 70, 20);
+	private void updateSausageCount() {
+		int x = 12;
+		int y = 0;
+
+		//setImage(new GreenfootImage(originalImage));
+
+		for (int i = 0; i < sausage; i++) {
+			y = (i % 2 != 0) ? 30 : 0;
+
+			//getImage().drawImage(new GreenfootImage("plate-sausage.png"), x, y);
+
+			if (i % 2 != 0) {
+				x += 37;
+			}
+		}
 	}
+
 
 	synchronized void wantBeer() {
 		wantBeer++;
@@ -170,7 +204,7 @@ public class Table extends Actor {
 	}
 
 	synchronized void wantSausage() {
-		wantPretzel++;
+		wantSausage++;
 	}
 
 	synchronized boolean takeBeer(int mood) {
@@ -199,11 +233,27 @@ public class Table extends Actor {
 		}
 	}
 
+	synchronized boolean takeSausage(int mood) {
+		if (sausage > 0) {
+			sausage--;
+			updateSausageCount();
+
+			pay(5, mood);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	synchronized void cancelOrder(Class<?> cls) {
 		if (cls == Beer.class) {
 			wantBeer--;
 		} else if (cls == Pretzel.class) {
 			wantPretzel--;
+		}
+		else if (cls == Sausage.class) {
+			wantSausage--;
 		}
 
 		//updateWantBeerCount();
@@ -270,5 +320,9 @@ public class Table extends Actor {
         }
         */
 	}
+	public int getTableNumber() {
+		return tableNum;
+	}
 }
+
 

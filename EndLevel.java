@@ -1,6 +1,7 @@
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
+import greenfoot.MouseInfo;
 
 import java.awt.*;
 
@@ -78,9 +79,17 @@ public class EndLevel extends World {
 	}
 
 	public void act() {
-		if (Greenfoot.mouseClicked(this)) {
-			UpgradeScreen screen = new UpgradeScreen(tentState);
-			Greenfoot.setWorld(screen);
+		MouseInfo mouse = Greenfoot.getMouseInfo();
+		if (Greenfoot.mouseClicked(this))
+		{
+			if (mouse.getX() >= 500 && mouse.getX() <= 800 &&
+					mouse.getY() >= 400 && mouse.getY() <= 600)
+			{
+				UpgradeScreen screen = new UpgradeScreen(tentState);
+				Greenfoot.setWorld(screen);
+
+			}
 		}
+
 	}
 }
