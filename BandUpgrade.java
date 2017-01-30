@@ -14,7 +14,7 @@ public class BandUpgrade extends Actor {
 	static final int BAND_COST = 300;
 
 	//Add text box here
-	private String text = "Click on the band to play \"Sweet Caroline\", which will reset every customer's patience level. Use when angry customers are about to leave to avoid losing a life." +
+	private String text = "Buy the band to play some ambient music for your customers. Click on the band to play \"Sweet Caroline\", which will reset every customer's patience level. Use when angry customers are about to leave to avoid losing a life." +
 			"\nCost: " + BAND_COST + "€";
 
 	private String clickToBuy = "\n\nClick to buy!";
@@ -29,9 +29,9 @@ public class BandUpgrade extends Actor {
 
 	private GreenfootImage bandOverlay = new GreenfootImage("band-overlay.png");
 
-	private TextBox notEnoughMoneyBox = new TextBox(new Point(250, 130), text + moneyExtra, new Font("Helvetica", Font.PLAIN, 15));
+	private TextBox notEnoughMoneyBox = new TextBox(new Point(280, 140), text + moneyExtra, new Font("Helvetica", Font.PLAIN, 15));
 
-	private TextBox readyToBuyBox = new TextBox(new Point(250, 130), text + clickToBuy, new Font("Helvetica", Font.PLAIN, 15));
+	private TextBox readyToBuyBox = new TextBox(new Point(280, 140), text + clickToBuy, new Font("Helvetica", Font.PLAIN, 15));
 
 	private TextBox currentBox;
 
@@ -103,7 +103,7 @@ public class BandUpgrade extends Actor {
 							currentBox = readyToBuyBox;
 						}
 
-						world.addObject(currentBox, 380, 400);
+						world.addObject(currentBox, 280, 450);
 						boxShowing = true;
 					}
 					// Buy upgrade

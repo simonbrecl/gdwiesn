@@ -44,8 +44,13 @@ public class Band extends Actor {
 			playSong();
 		}
 
+
+
 		//Increase the counter if the band has been activated recently
 		if (waiting) {
+			if(!song.isPlaying()) {
+				((LevelBase)getWorld()).music.play();
+			}
 			//Wait for roughly 30 seconds before enabling band again
 			if (counter >= 1800) {
 				counter = 0;
@@ -69,6 +74,7 @@ public class Band extends Actor {
 	}
 
 	private void playSong() {
+		((LevelBase)getWorld()).music.pause();
 		song.play();
 		waiting = true;
 

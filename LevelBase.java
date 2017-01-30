@@ -57,6 +57,9 @@ public class LevelBase extends World {
 
 	private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
+	public GreenfootSound music = new GreenfootSound("oktoberfest-music.mp3");
+
+
 	public LevelBase(int day, int goal, TentState state, String pathToLevelmap) {
 		super(800, 600, 1);
 		prepare();
@@ -86,6 +89,12 @@ public class LevelBase extends World {
 
 	public void started() {
 		ambientSound.playLoop();
+		if(tent.getBandLevel() > 0) {
+
+			music.playLoop();
+			music.setVolume(50);
+		}
+
 	}
 
 	public void stopped() {
