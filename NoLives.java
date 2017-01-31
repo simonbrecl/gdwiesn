@@ -1,4 +1,5 @@
 import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 import greenfoot.GreenfootSound;
 import greenfoot.MouseInfo;
 import greenfoot.World;
@@ -18,6 +19,7 @@ public class NoLives extends World {
 		GreenfootSound sound = new GreenfootSound("fail.wav");
 		sound.play();
 		this.previousLevel = previousLevel;
+		setBackground(new GreenfootImage("LivesLost.png"));
 	}
 
 	public void act() {
@@ -25,7 +27,7 @@ public class NoLives extends World {
 		if (Greenfoot.mouseClicked(null)) {
 			int x = mouse.getX();
 			int y = mouse.getY();
-			if (x > 231 && x < 532 && y > 375 && y < 442) {
+			if (x >= 200 && x <= 500 && y >= 400) {
 				Greenfoot.setWorld(previousLevel);
 			}
 		}

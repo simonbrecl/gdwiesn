@@ -15,6 +15,8 @@ public class Goal extends Actor {
 
 	private GreenfootImage board;
 
+	private boolean reached = false;
+
 	public Goal(int width, int height) {
 		int boardTransparency = 150;
 		board = new GreenfootImage(width, height);
@@ -48,5 +50,12 @@ public class Goal extends Actor {
 		sb = new GreenfootImage(board);
 		sb.drawImage(new GreenfootImage("Goal: " + goal + "€", 18, new Color(2, 149, 55), Color.white), 25, 5);
 		this.setImage(sb);
+		reached = true;
 	}
+
+	public boolean isGoalReached()
+	{
+		return reached;
+	}
+
 }

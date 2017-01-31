@@ -57,7 +57,7 @@ public class LevelBase extends World {
 
 	private GreenfootSound ambientSound = new GreenfootSound("bayerisches-bierzelt-atmosphre-mit-essen-und-trinken.mp3");
 
-	public GreenfootSound music = new GreenfootSound("oktoberfest-music.mp3");
+	public static GreenfootSound music = new GreenfootSound("oktoberfest-music.mp3");
 
 
 	public LevelBase(int day, int goal, TentState state, String pathToLevelmap) {
@@ -89,7 +89,7 @@ public class LevelBase extends World {
 
 	public void started() {
 		ambientSound.playLoop();
-		if(tent.getBandLevel() > 0) {
+		if(tent.getBandLevel() > 0 && !music.isPlaying()) {
 
 			music.playLoop();
 			music.setVolume(50);
@@ -99,6 +99,9 @@ public class LevelBase extends World {
 
 	public void stopped() {
 		ambientSound.stop();
+		if(music.isPlaying()) {
+			music.stop();
+		}
 		//Levelmap.clock.stopClock();
 		//levelTimer.stop();
 		stupidTimer = 0;
@@ -164,8 +167,9 @@ public class LevelBase extends World {
 				Ending ending = new Ending(levelmap.getMoney().getMoney(), tent);
 				Greenfoot.setWorld(ending);
 			} else {
-				EndLevel endLevel = new EndLevel(day, levelmap.getMoney().getMoney(), tent);
-				Greenfoot.setWorld(endLevel);
+					EndLevel endLevel = new EndLevel(day, goal, levelmap.getMoney().getMoney(), tent);
+					Greenfoot.setWorld(endLevel);
+
 			}
 		}
 	}
